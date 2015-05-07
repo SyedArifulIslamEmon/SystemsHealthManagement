@@ -1,0 +1,240 @@
+﻿@model Integra.Web.Models.AdicionarParticipantesTreinamentoViewModel
+@using Integra.Web.Helpers
+
+<div id="DivAddEditParticipantesTreinamentoViewModel">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Gerenciar Participantes</h4>
+        </div>
+        <div class="modal-body">
+            @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+            {
+                <div class="row-fluid">
+                    <div class="span12">
+
+                        <table id="gridTreinamentoPessoas" data-bind="dataTable: {
+    dataSource: Pessoas,
+    sPaginationType: 'bootstrap',
+    rowTemplate: 'gridTreinamentoPessoasTemplate',
+    iDisplayLength: 2,
+    gridId: 'gridTreinamentoPessoas',
+    autoWidth: true,
+    sDom: 'fptr',
+    columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'NomeDeUsuario' }
+	],
+    options: {
+        oLanguage: {
+            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+    }
+}
+}"
+                           class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th id="filterTable1"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+            }
+            <div class="row-fluid">
+                <div class="span12">
+                    <table id="gridTreinamentoParticipantes" data-bind="dataTable: {
+    dataSource: Participantes,
+    sPaginationType: 'bootstrap',
+    rowTemplate: 'gridTreinamentoParticipantesTemplate',
+    iDisplayLength: 2,
+    gridId: 'gridTreinamentoParticipantes',
+    autoWidth: true,
+    sDom: 'ptr',
+    columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'NomeDeUsuario' }
+	],
+    options: {
+        oLanguage: {
+            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+    }
+}
+}"
+                           class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                                {
+                                    <th id="filterTable2"></th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+            @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+            {
+                <button data-bind="click: Salvar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            }
+        </div>
+    </div>
+</div>
+
+<script id="gridTreinamentoPessoasTemplate" type="text/html">
+    <td data-bind="text: Nome"></td>
+    <td data-bind="text: NomeDeUsuario"></td>
+    @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+    {
+        <td id="resultTable1" style="text-align: center; width: 20px;">
+            <div class='hidden-phone visible-desktop btn-group'>
+                <button data-bind="click: Adicionar" class='btn btn-mini btn-success tooltip-info' data-rel="tooltip" title="Adicionar Membro" data-placement="left"><i class='icon-plus'></i></button>
+            </div>
+        </td>
+    }
+</script>
+
+<script id="gridTreinamentoParticipantesTemplate" type="text/html">
+    <td data-bind="text: Nome"></td>
+    <td data-bind="text: NomeDeUsuario"></td>
+    @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+    {
+        <td id="resultTable2" style="text-align: center; width: 20px;">
+            <div class='hidden-phone visible-desktop btn-group'>
+                <button data-bind="click: Remover" class='btn btn-mini btn-danger tooltip-info' data-rel="tooltip" title="Remover Membro" data-placement="left"><i class='icon-minus'></i></button>
+            </div>
+        </td>
+    }
+</script>
+
+
+<script type="text/javascript" language="javascript">
+    function AdicionarParticipanteTreinamentoFactory(parent) {
+        var view = new AdicionarParticipanteTreinamentoViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditParticipantesTreinamentoViewModel").get(0));
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    }
+	
+    function TreinamentoTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+
+        self.Codigo = data.Codigo;
+        self.Nome = ko.observable(data.Nome);
+        self.NomeDeUsuario = ko.observable(data.NomeDeUsuario);
+
+        self.Adicionar = function(participante) {
+            self.Parent.Adicionar(participante);            
+        };	    
+		
+        self.Remover = function(pessoa) {
+            self.Parent.Remover(pessoa);            
+        };
+    }
+
+    function AdicionarParticipanteTreinamentoViewModel(parent) {
+        var self = this;
+        self.Parent = parent;       
+
+        var allDataPessoas = @Html.Raw(Json.Encode(Model.Pessoas));
+		var mappedDataPessoas = jQuery.map(allDataPessoas, function (item) { return new TreinamentoTableView(item, self); });
+		self.Pessoas = ko.observableArray(mappedDataPessoas);
+
+		var allDataParticipantes = @Html.Raw(Json.Encode(Model.Participantes));
+		var mappedDataParticipantes = jQuery.map(allDataParticipantes, function (item) { return new TreinamentoTableView(item, self); });
+		self.Participantes = ko.observableArray(mappedDataParticipantes);
+		
+		arrumarLayoutPessoas(self.Pessoas().length);
+		arrumarLayoutParticipantes(self.Participantes().length);
+
+		self.CodigoDoTreinamento = @Html.Raw(Json.Encode(Model.CodigoDoTreinamento));
+
+		self.ObterCodigosDosParticipantes = function () {
+		    var participantes = new Object();
+		    participantes.codigosDosParticipantes = new Array();
+		    ko.utils.arrayForEach(self.Participantes(), function (participante) {
+		        participantes.codigosDosParticipantes.push(participante.Codigo);
+		    });
+		    participantes.codigoDoTreinamento = self.CodigoDoTreinamento;
+		    arrumarLayoutPessoas(self.Pessoas().length);
+		    arrumarLayoutParticipantes(self.Participantes().length);
+		    return participantes;
+		};
+
+		self.Adicionar = function (pessoa) {
+		    self.Pessoas(ko.utils.arrayFilter(self.Pessoas(), function (pessoaItem) {
+		        return pessoaItem.Codigo != pessoa.Codigo;
+		    }));
+		    self.Participantes.push(pessoa);
+		    arrumarLayoutPessoas(self.Pessoas().length);
+		    arrumarLayoutParticipantes(self.Participantes().length);
+		};
+		
+		self.Remover = function (participante) {
+		    self.Participantes(ko.utils.arrayFilter(self.Participantes(), function (participanteItem) {
+		        return participanteItem.Codigo != participante.Codigo;
+		    }));
+		    self.Pessoas.push(participante);
+		    arrumarLayoutPessoas(self.Pessoas().length);
+		    arrumarLayoutParticipantes(self.Participantes().length);
+		};
+
+		self.Salvar = function () {
+		    $.ajax({
+		        url: '@Url.Action("AddEditParticipantesTreinamento")',
+			    type: 'POST',
+			    data: JSON.stringify(self.ObterCodigosDosParticipantes(),self.CodigoDoTreinamento),
+			    dataType: 'json',
+			    contentType: 'application/json',
+			    success: function (resposta) {
+			        if (resposta.Sucesso) {
+			            arrumarLayoutPessoas(self.Pessoas().length);
+			            arrumarLayoutParticipantes(self.Participantes().length);
+			            self.Parent.FecharAdicionarParticipantesTreinamento();
+			            //alert("Equipe cadastrada com sucesso!");
+			        } else {
+			            //alert("Algum erro ocorreu durante o cadastro!");
+			        }
+			    }
+			});
+		};
+
+        self.Cancelar = function () {
+            self.Parent.FecharGerenciamentoParticipantesCancelar();
+        };
+    }
+	
+    function arrumarLayoutPessoas(indices) {		
+        if (indices > 0) {
+            $("#filterTable1").show();
+            $("#resultTable1").show();
+        }else {
+            $("#filterTable1").hide();
+            $("#resultTable1").hide();
+        }	
+    }
+    function arrumarLayoutParticipantes(indices) {
+        if (indices > 0) {
+            $("#filterTable2").show();
+            $("#resultTable2").show();
+        }else {
+            $("#filterTable2").hide();
+            $("#resultTable2").hide();
+        }		
+    }
+</script>

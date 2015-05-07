@@ -1,0 +1,114 @@
+﻿
+
+<div id="DivPageDadosParcialView">
+
+    <div id="divGrafico"></div>
+
+@*    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_chart" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar Excel</button>
+    </div>*@
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    $(document).ready(function () {
+        //var view = new relatorioViewModel();
+        //ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosParcialView").get(0));
+
+
+        //GerarScriptGrafico("div3", "Gerente x Tratamento", ["column"], ["Tratamento"], [item], [valor]);
+        //GerarScriptGrafico("divGrafico", "Gerente x Tratamento", ["line"], ["Tratamento"], ["'A','B'"], ["1,2"]);
+
+        //$(".ui-dialog-titlebar").hide();
+        //$(".ui-dialog-buttonpane").hide();
+    });
+
+    @*    function relatorioViewModel() {
+        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		
+        self.generate_excel = function () {
+            export_chart("RelatorioDados");
+        };
+
+    }*@
+
+    //function ServicosContratadosTableView(data, parent) {
+    //    var self = this;
+    //    self.Parent = parent;
+    //    self.Ifx = ko.observable(data.Ifx);
+    //    self.FaixaEtaria = ko.observable(data.FaixaEtaria);
+    //    self.Estado = ko.observable(data.Estado);
+    //    self.Cidade = ko.observable(data.Cidade);
+    //    self.Doenca = ko.observable(data.Doenca);
+    //    self.Medico = ko.observable(data.Medico);
+    //    self.Especialidade = ko.observable(data.Especialidade);
+    //    self.QtdeInfusoes = ko.observable(data.QtdeInfusoes);
+    //    self.QtdeEssencial = ko.observable(data.QtdeEssencial);
+    //    self.QtdeInicioTratamentos = ko.observable(data.QtdeInicioTratamentos);
+    //};
+
+    //function arrumarLayout(indices) {
+
+    //}
+
+    //function export_excel(tableid) {
+    //    var table = document.getElementById(tableid);
+    //    var html = table.outerHTML;
+    //    //var oTable = $('#'+tableid).dataTable();
+    //    //var html = oTable.fnGetData().html();
+    //    window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    //}
+
+    //function base64_encode (data) {
+    //    var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    //    var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+    //    if (!data) {
+    //        return data;
+    //    }
+
+    //    do {
+    //        o1 = data.charCodeAt(i++);
+    //        o2 = data.charCodeAt(i++);
+    //        o3 = data.charCodeAt(i++);
+    //        bits = o1 << 16 | o2 << 8 | o3;
+    //        h1 = bits >> 18 & 0x3f;
+    //        h2 = bits >> 12 & 0x3f;
+    //        h3 = bits >> 6 & 0x3f;
+    //        h4 = bits & 0x3f;
+    //        tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+    //    } while (i < data.length);
+    //    enc = tmp_arr.join('');
+    //    var r = data.length % 3;
+    //    return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    //}
+
+
+    //function export_chart(chart) {
+    //    var canvas = document.createElement("canvas");
+    //    if (typeof canvas.getContext == "undefined" || !canvas.getContext) {
+    //        alert("Navegador não suporta essa ação.");
+    //        return false;
+    //    }
+
+    //    try {
+    //        document.body.appendChild(canvas);
+    //        canvg(canvas, $("#" + chart).html());
+    //        var context = canvas.getContext("2d");
+    //        var rawImageData = canvas.toDataURL("image/png;base64");
+    //        rawImageData = rawImageData.replace("image/png", "image/octet-stream")
+    //        document.location.href = rawImageData;
+    //        document.body.removeChild(canvas);
+    //    }
+    //    catch (err) {
+    //        document.body.removeChild(canvas);
+    //        alert("Navegador não suporta essa ação.");
+    //    }
+
+    //    return true;
+    //}  
+
+</script>

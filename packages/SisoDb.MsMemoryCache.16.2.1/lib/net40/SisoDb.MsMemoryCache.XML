@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SisoDb.MsMemoryCache</name>
+    </assembly>
+    <members>
+        <member name="T:SisoDb.MsMemoryCache.MsMemCacheProvider">
+            <summary>
+            Cache provider implemented over <![CDATA[http://msdn.microsoft.com/en-us/library/dd780634.aspx]]>
+            </summary>
+        </member>
+    </members>
+</doc>

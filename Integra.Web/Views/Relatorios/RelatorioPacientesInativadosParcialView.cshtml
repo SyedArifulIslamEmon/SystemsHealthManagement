@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Integra.Dominio.RelatorioPacientesInativados>
+
+<script src="~/Content/globalize.culture.pt-BR.js"></script>
+
+<table id="demo">
+    <thead>
+        <tr>
+            <th>Detalhe Status</th>
+            <th>Doença</th>
+            <th>Periodo</th>
+            <th>Medico</th>
+            <th>Estado</th>
+            <th>Qtde Tratamentos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+           <tr>
+            <td>@item.DescDetalheStatus</td>
+            <td>@item.DescDoenca</td>
+            <td>@item.DescAnoMes</td>
+            <td>@item.DescMedico</td>
+            <td>@item.DescEstado</td>
+            <td>@item.QtdeTratamentos</td>
+        </tr> 
+        }       
+
+
+@*        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Crohnm</td>
+            <td>jan/2013</td>
+            <td>Dr Pedro</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Crohnm</td>
+            <td>jan/2013</td>
+            <td>Dr Pedro</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Down</td>
+            <td>jan/2013</td>
+            <td>Dr Pedro</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Down</td>
+            <td>jan/2013</td>
+            <td>Dr Pedro</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Down</td>
+            <td>jan/2013</td>
+            <td>Dr Paulo</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Down</td>
+            <td>jan/2013</td>
+            <td>Dr Pedro</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Falta de infusão</td>
+            <td>Doença de Down</td>
+            <td>jan/2013</td>
+            <td>Dr Cesar</td>
+            <td>SP</td>
+            <td>5</td>
+        </tr>*@
+
+    </tbody>
+</table>
+
+<script id="scriptInit" type="text/javascript">
+    $(document).ready(function () {
+        $("#demo").wijgrid({
+            culture: "pt-BR",
+            allowSorting: true,
+            showFooter: true,
+
+            columns: [
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    //groupInfo: {
+                    //    position: "header",
+                    //    outlineMode: "startCollapsed",
+                    //    headerText: "{1}:{0}",
+                    //}
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    //groupInfo: {
+                    //    position: "header",
+                    //    outlineMode: "startCollapsed",
+                    //    headerText: "{1}:{0}",
+                    //}
+                },
+                {
+                    sortDirection: "ascending",
+                    //rowMerge: "free",
+
+                    //groupInfo: {
+                    //    position: "header",
+                    //    outlineMode: "startCollapsed",
+                    //    headerText: "{1}:{0}",
+                    //}
+                },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" }
+            ]
+        });
+    });
+</script>

@@ -1,0 +1,186 @@
+﻿@model Integra.Web.Models.AdicionarAtaViewModel
+<div id="DivViewModelNovaAta" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+	<form data-bind="submit: Salvar, with: NovaAta()">
+		<div class="modal">
+			<div class="modal-header">
+				<h4><span id="TipoJanela"></span> Pauta</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row-fluid">
+					<div class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">Data Inicial</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" style="width: 100px;" data-bind="datepicker1: InicioDoPrazo, datepickerOptions: { showOn: 'button', buttonImage: '@Url.Content("~/Content/images/ico-calendar.png")    ' , buttonImageOnly: true }" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: InicioDoPrazo"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Data Final</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" style="width: 100px;" data-bind="    datepicker1: FinalDoPrazo, datepickerOptions: { showOn: 'button', buttonImage: '@Url.Content("~/Content/images/ico-calendar.png")    ' , buttonImageOnly: true }" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: FinalDoPrazo"></span>
+							</div>
+						</div>
+						<!-- ko if: FinalDoPrazo.isValid() -->
+						<div class="control-group">
+							<label class="control-label">Prazo</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<span data-bind="text: DiasDePrazo"></span>
+								</div>
+							</div>
+						</div>
+						<!-- /ko -->
+						<div class="control-group">
+							<label class="control-label">Assunto</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Assunto" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Assunto"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Ações/Decisões</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Anotacoes" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Anotacoes"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Responsável</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.Funcionarios, value: Responsavel, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Responsavel"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Situação</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.ListaDeStatusDaAta, value: Status, optionsText: 'Descricao', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Status"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: $parent.Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+				<button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+
+
+<script>
+	function NovaAta() {
+		var self = this;
+		self.Parent = parent;
+		self.Codigo = 0;
+		self.Anotacoes = ko.observable().extend({ required: true });
+		self.Assunto = ko.observable().extend({ required: true });
+		self.InicioDoPrazo = ko.observable().extend({ required: true });
+		self.FinalDoPrazo = ko.observable().extend({ required: true })
+			.extend({ validation: { validator: function (datafinal) {
+				return datafinal >= self.InicioDoPrazo(); },
+				message: 'A data final deve ser maior que a data inicial.' }});
+		self.Responsavel = ko.observable().extend({ required: true });
+		self.Status = ko.observable().extend({ required: true });
+		self.DiasDePrazo = ko.computed(function() {
+			var dias = null;
+			if(self.FinalDoPrazo() && self.InicioDoPrazo() && self.FinalDoPrazo.isValid()) {
+				dias = ((self.FinalDoPrazo() - self.InicioDoPrazo()) / (1000 * 60 * 60 * 24));
+				if(dias>1) {
+					dias = dias + " dias";
+				}else {
+					dias = dias + " dia";                    
+				}
+			}
+			return dias;
+		});
+		self.ToJs = function() {
+			var ataJs = new Object();
+			ataJs.Codigo = self.Codigo;
+			ataJs.CodigoDaReuniao = @Model.CodigoDaReuniao;
+			ataJs.CodigoDoResponsavel = self.Responsavel().Codigo;
+			ataJs.Assunto = self.Assunto();
+			ataJs.Status = self.Status().Codigo;
+			ataJs.InicioDoPrazo = self.InicioDoPrazo();
+			ataJs.FinalDoPrazo = self.FinalDoPrazo();
+			ataJs.Anotacoes = self.Anotacoes();
+			return JSON.stringify(ataJs);
+		};
+	}
+
+	function NovaAtaViewModel(parent) {
+		var self = this;
+		self.Parent = parent;
+		var novaAta = new NovaAta();
+		self.NovaAta = ko.validatedObservable(novaAta);
+		self.Funcionarios = ko.observable(@Html.Raw(Json.Encode(Model.Funcionarios)));
+		self.ListaDeStatusDaAta = ko.observable(@Html.Raw(Json.Encode(Model.ListaDeStatusDaAta)));
+		self.Salvar = function () {
+			if(self.NovaAta.isValid()) {
+				$.ajax({
+					url: '@Url.Action("SalvarNovaAta", "PainelDeControle")',
+					type: 'POST',
+					data: self.NovaAta().ToJs(),
+					dataType: 'json',
+					contentType: 'application/json',
+					success: function (resposta) {
+						if (resposta.Sucesso) {
+							self.Parent.ConcluirAdicaoDeNovaAta(resposta.Ata);
+						} else {
+							alert("Algum erro ocorreu durante o cadastro desta fatura!");
+						}
+					}
+				});
+			}else {
+				self.NovaAta.errors.showAllMessages(true);
+			}
+		};
+		self.Cancelar = function () {
+			self.Parent.CancelarAdicaoDeNovaAta();
+		};
+		self.Editar = function() {
+			$("#TipoJanela").text("Editar");
+			var ata = @Html.Raw(Json.Encode(Model.Ata));
+		    self.NovaAta().Codigo = ata.Codigo;
+			self.NovaAta().Responsavel(
+			  ko.utils.arrayFirst(self.Funcionarios(), function(funcionario) {
+				  return funcionario.Codigo == ata.Responsavel.Codigo;
+			  }));
+			self.NovaAta().Assunto(ata.Assunto);
+			self.NovaAta().Status(ko.utils.arrayFirst(self.ListaDeStatusDaAta(), function(status) {
+				return status.Codigo == ata.CodigoDoStatus;
+			}));
+			self.NovaAta().InicioDoPrazo(ko.utils.ToDate(ata.InicioDoPrazo));
+			self.NovaAta().FinalDoPrazo(ko.utils.ToDate(ata.FinalDoPrazo));
+			self.NovaAta().Anotacoes(ata.Anotacoes);
+		};
+	}
+
+	function NovaAtaFactory(parent) {
+		var view = new NovaAtaViewModel(parent);
+		ko.applyBindingsWithValidation(view, $("#DivViewModelNovaAta").get(0));
+		$("#TipoJanela").text("Adicionar");
+		@if (Model.Ata != null)
+		{
+			@Html.Raw("view.Editar();");
+		}
+	}
+</script>

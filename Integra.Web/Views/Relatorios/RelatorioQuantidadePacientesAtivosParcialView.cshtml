@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Integra.Dominio.RelatorioQuantidadePacientesAtivos>
+
+<script src="~/Content/globalize.culture.pt-BR.js"></script>
+
+<table id="demo">
+    <thead>
+        <tr>
+            <th>Data Cadastro</th>
+            <th>Médico</th>
+            <th>Estado Médico</th>
+            <th>Cidade Médico</th>
+            <th>Qtde PacientesAtivos</th>
+            <th>Qtde Contato</th>
+            <th>Contato Sem Localizador</th>
+            <th>Contato Com Localizador</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Data</td>
+                <td>@item.Medico</td>
+                <td>@item.EstadoMedico</td>
+                <td>@item.CidadeMedico</td>
+                <td>@item.QtdePacientesAtivos</td>
+                <td>@item.QtdeContato</td>
+                <td>@item.QtdeContatoSemLocalizador</td>
+                <td>@item.QtdeContatoComLocalizador</td>
+            </tr> 
+        }
+
+    </tbody>
+</table>
+
+<script id="scriptInit" type="text/javascript">
+    $(document).ready(function () {
+        $("#demo").wijgrid({
+            culture: "pt-BR",
+            allowSorting: true,
+            showFooter: true,
+
+            columns: [
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+                },
+
+                {
+                    sortDirection: "ascending",
+                },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" }
+            ]
+        });
+    });
+</script>

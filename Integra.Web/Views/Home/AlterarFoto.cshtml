@@ -1,0 +1,95 @@
+﻿<div id="DivViewModelAlterarFoto">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Alterar foto do perfil</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+                        <div class="control-group">
+                            <label class="control-label">Foto</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <!-- ko with: NovaFoto -->
+                                    <input type="file" data-bind="file: Arquivo" />
+                                    <span class="error-inline" data-bind="validationMessage: Arquivo"></span>
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button data-bind="click: RemoverFoto" class="bbtnn bbtnn-danger" value="Excluir Foto">Exluir Foto</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function NovaFoto() {
+        var self = this;
+        self.Arquivo = ko.observable().extend({ required: true });
+        self.ToFormData = function () {
+            var formData = new FormData();
+            formData.append('foto', self.Arquivo());
+            return formData;
+        };
+    }
+
+    function ViewModelAlterarFoto(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.NovaFoto = new NovaFoto();
+        self.NovaFoto = ko.validatedObservable(self.NovaFoto);
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AlterarFoto", "Home")',
+                type: 'POST',
+                data: self.NovaFoto().ToFormData(),
+                async: false,
+                success: function (retorno) {
+                    if (retorno.Sucesso) {
+                        self.Parent.FecharNovaFoto();
+                        window.location.reload();
+                    } else {
+                        //alert("Algum erro ocorreu!");
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        };
+
+        self.Salvar = function () {
+            if (self.NovaFoto.isValid()) {
+                self.Enviar();
+            } else {
+                self.NovaFoto.errors.showAllMessages(true);
+            }
+        };
+        
+        self.RemoverFoto = function () {
+            $.post('@Url.Action("RemoverFoto", "Home")', null, function(retorno) {
+                self.Parent.FecharNovaFoto(retorno.Url);
+                window.location.reload();
+            });
+        };
+
+        self.Cancelar = function () {
+            self.Parent.CancelarNovaFoto();
+        };
+    }
+
+    function AlterarFotoFactory(parent) {
+        var view = new ViewModelAlterarFoto(parent);
+        ko.applyBindings(view, $("#DivViewModelAlterarFoto").get(0));
+    }
+</script>

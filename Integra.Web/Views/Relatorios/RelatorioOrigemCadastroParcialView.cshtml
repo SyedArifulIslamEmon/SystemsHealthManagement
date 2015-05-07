@@ -1,0 +1,160 @@
+﻿@model List<System.Data.DataRow>
+
+
+<table id="DadosOrigemCadastro" class="table table-striped table-bordered table-hover">
+    <thead>
+        @if (Model != null)
+        { 
+            <tr>
+                <th></th>
+                @for (var cont = 1; cont < Model[0].Table.Columns.Count; cont++)
+                { 
+                    <th>@SetMonth(Model[0].Table.Columns[cont].Caption)</th>
+                }
+
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <th></th>
+                <th>Período</th>
+                <th>Total</th>
+                <th>%</th>
+            </tr>
+        }
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            for (var contR = 0; contR < Model.Count; contR++)
+            {
+            <tr>
+                @for (var contC = 0; contC < Model[0].Table.Columns.Count; contC++)
+                { 
+                    <td>@Model[contR][contC]</td>
+                }
+            </tr> 
+            }
+        }
+        else
+        {
+        }
+    </tbody>
+</table>
+
+<div class="form-actions">
+    <button class="bbtnn bbtnn-gray" onclick="export_excel('DadosOrigemCadastro')"><i class="icon-file"></i>Exportar</button>
+</div>
+
+@functions{
+    public string SetMonth(string periodo)
+    {
+        switch (periodo.Split('/')[0])
+        {
+            case "01":
+                {
+                    return "Jan/" + periodo.Split('/')[1];
+                }
+            case "02":
+                {
+                    return "Fev/" + periodo.Split('/')[1];
+                }
+            case "03":
+                {
+                    return "Mar/" + periodo.Split('/')[1];
+                }
+            case "04":
+                {
+                    return "Abr/" + periodo.Split('/')[1];
+                }
+            case "05":
+                {
+                    return "Mai/" + periodo.Split('/')[1];
+                }
+            case "06":
+                {
+                    return "Jun/" + periodo.Split('/')[1];
+                }
+            case "07":
+                {
+                    return "Jul/" + periodo.Split('/')[1];
+                }
+            case "08":
+                {
+                    return "Ago/" + periodo.Split('/')[1];
+                }
+            case "09":
+                {
+                    return "Set/" + periodo.Split('/')[1];
+                }
+            case "10":
+                {
+                    return "Out/" + periodo.Split('/')[1];
+                }
+            case "11":
+                {
+                    return "Nov/" + periodo.Split('/')[1];
+                }
+            case "12":
+                {
+                    return "Dez/" + periodo.Split('/')[1];
+                }
+            default:
+                return periodo;
+        }
+    }
+}
+
+<script type="text/javascript">
+
+    function export_excel(tableid) {
+        var html = '';
+        //var oTable = $('#' + tableid).dataTable().fnGetData();
+
+        html += "<html><table>";
+        html += "<tr>";
+        $('#' + tableid + ' thead th').each(function () { html += "<th style='text-align:left;vertical-align:middle;width:100%'>" + this.textContent + "</th>"; });
+        html += "</tr>";
+
+        html += $('#DadosOrigemCadastro tbody').html();
+        
+        //for (var count = 0; count <= oTable.length - 1; count++) {
+        //    html += "<tr>";
+        //    html += "<td style='text-align:left;vertical-align:middle;width:100%'>" + oTable[count].Descsituacao.toString() + "</td>";
+        //    html += "<td style='text-align:left;vertical-align:middle;width:100%'>" + oTable[count].Descfase.toString() + "</td>";
+        //    html += "<td style='text-align:left;vertical-align:middle;width:100%'>" + oTable[count].Descstatustratamento.toString() + "</td>";
+        //    html += "<td style='text-align:left;vertical-align:middle;width:100%'>" + oTable[count].Descdetalhestatus.toString() + "</td>";
+        //    html += "<td style='text-align:left;vertical-align:middle;width:100%'>" + oTable[count].Qtdetratamentos.toString() + "</td>";
+        //    html += "</tr>";
+        //}
+        html += "</table></html>";
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+
+    function base64_encode(data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+
+</script>

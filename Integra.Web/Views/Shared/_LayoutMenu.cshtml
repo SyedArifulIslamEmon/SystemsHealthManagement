@@ -1,0 +1,66 @@
+﻿@{
+    var moduloAtivo = ViewContext.RouteData.Values["controller"].ToString();
+    var stylePainelDeControle = new HtmlString("<div class='module-navbar-inner menu-painel-ativo'>");
+    var styleRelatorios = new HtmlString("<div class='module-navbar-inner menu-relatorios-gerenciais-ativo'>");
+    var styleDashboard = new HtmlString("<div class='module-navbar-inner menu-dashboard-ativo'>");
+    var styleClinica = new HtmlString("<div class='module-navbar-inner menu-gestao-clinicas-ativo'>");
+    var styleTratamento = new HtmlString("<div class='module-navbar-inner menu-gestao-tratamento-ativo'>");
+}
+
+<div class="module-nav">
+    <div class="module-navbar module-navbar-inverse">
+        @{
+            switch (moduloAtivo)
+            {
+                case "PainelDeControle":
+            @(stylePainelDeControle)
+                    break;
+                case "Conta":
+            @(stylePainelDeControle)
+                    break;
+                case "Relatorios":
+            @(styleRelatorios)
+                    break;
+                case "Dashboard": 
+            @(styleDashboard)
+                    break;
+                case "GestaoDeClinicas":        
+            @(styleClinica)
+                    break;
+                case "Tratamento":        
+            @(styleTratamento)
+                    break;
+            }
+        }
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            @{
+                switch (moduloAtivo)
+                {
+                    case "PainelDeControle":
+                @Html.Partial("_MenuPainelDeControle")
+                        break;
+                    case "Conta":
+                @Html.Partial("_MenuPainelDeControle")
+                        break;
+                    case "Relatorios":
+                @Html.Partial("_MenuRelatorios")
+                        break;
+                    case "Dashboard": 
+                @Html.Partial("_MenuDashboard")
+                        break;
+                    case "GestaoDeClinicas":        
+                @Html.Partial("_MenuClinica")
+                        break;
+                    case "Tratamento":        
+                @Html.Partial("_MenuTratamento")
+                        break;
+                } 
+            }
+        </div>
+    </div>
+</div>

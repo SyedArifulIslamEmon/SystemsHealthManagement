@@ -1,0 +1,149 @@
+﻿@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.RelatorioCadastrosMyFortic>
+@{Layout = null;  }
+
+<div id="DivPageDadosRelatorioParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridOrigemCadastroTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 25,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+                                                                        { 'name': 'Ordem' },
+                                                                        { 'name': 'Nome' },
+																		{ 'name': 'Total_Cadastros' },
+																		{ 'name': 'Total_Questionarios' },
+                                                                        { 'name': 'Total_SMS' },
+																		{ 'name': 'Cadastros' },
+																		{ 'name': 'Questionarios' },
+                                                                        { 'name': 'SMS' }
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '   
+                                                            }
+                                                        }                                                        
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="width: 0px!important;" data-bind="visible: false"></th>
+                <th style="text-align: left; width: 320px;"><b>Instituição</b></th>
+                <th style="text-align: left; width: 320px;"><b>Total Cadastros</b></th>
+                <th style="text-align: left; width: 320px;"><b>Total Questionários</b></th>
+                <th style="text-align: left; width: 200px;"><b>Total SMS</b></th>
+                <th style="text-align: left; width: 320px;"><b>Cadastros</b></th>
+                <th style="text-align: left; width: 200px;"><b>Questionários</b></th>
+                <th style="text-align: left; width: 320px;"><b>SMS</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+    </div>
+</div>
+
+<script id="gridOrigemCadastroTemplate" type="text/html">
+    <td data-bind="text: Ordem, visible: false" style="width: 0px!important;"></td>
+    <td data-bind="text: Nome" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Total_Cadastros" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Total_Questionarios" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Total_SMS" style="width: 0px!important;"></td>
+    <td data-bind="text: Cadastros" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Questionarios" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: SMS" style="width: 320px; text-align: left;"></td>
+</script>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosRelatorioParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+
+        var oTable = $('#RelatorioDados').dataTable();
+        if(oTable.fnGetData().length>0){
+            oTable.fnSetColumnVis(0, false);
+        }
+    });
+    
+    function relatorioViewModel() {        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		               
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Ordem = ko.observable(data.Ordem);        
+        self.Nome = ko.observable(data.Nome);
+        self.Total_Cadastros = ko.observable(data.Total_Cadastros);
+        self.Total_Questionarios = ko.observable(data.Total_Questionarios);   
+        self.Total_SMS = ko.observable(data.Total_SMS);      
+        self.Cadastros = ko.observable(data.Cadastros);  
+        self.Questionarios = ko.observable(data.Questionarios);
+        self.SMS = ko.observable(data.SMS);
+    };  
+
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+        $('#'+tableid+' thead th').each(function(){html += "<th>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+            html+="<td>"+oTable[count].Nome.toString().replace("–","-")+"</td>" ;
+            html+="<td>"+oTable[count].Total_Cadastros.toString()+"</td>";
+            html+="<td>"+oTable[count].Total_Questionarios.toString()+"</td>";
+            html+="<td>"+oTable[count].Total_SMS.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Cadastros.toString()+"</td>";
+            html+="<td>"+oTable[count].Questionarios.toString()+"</td>";
+            html+="<td>"+oTable[count].SMS.toString()+"</td>" ;
+            html+="</tr>";
+        }
+        html+="</table></html>"; 
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+    
+</script>

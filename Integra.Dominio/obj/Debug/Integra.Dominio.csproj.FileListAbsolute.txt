@@ -1,0 +1,5 @@
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio\bin\Debug\Integra.Dominio.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio\bin\Debug\Integra.Dominio.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio\obj\Debug\Integra.Dominio.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio\obj\Debug\Integra.Dominio.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio\obj\Debug\Integra.Dominio.csprojResolveAssemblyReference.cache

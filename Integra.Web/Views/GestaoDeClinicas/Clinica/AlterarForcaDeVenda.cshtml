@@ -1,0 +1,113 @@
+@model Integra.Web.Models.AdicionarClinicaViewModel
+
+<div id="divAlterarForcaDeVendoVIew">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Alterar Força de Vendas</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal">
+
+                        <div class="control-group">
+                            <label class="control-label">Representante</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: Representantes, value: Representante, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Representante"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Representante Regional</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: RepresentantesRegionais, value: RepresentanteRegional, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: RepresentanteRegional"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Gerente</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: Gerentes, value: Gerente, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Gerente"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<input id="TxtModel" type="hidden" value="@Html.Raw(Json.Encode(Model))"/>
+<script>
+    function AlterarForcaDeVendaViewModel(parent) {
+        var self = this;
+        var model = jQuery.parseJSON($("#TxtModel").val());
+        self.Parent = parent;
+        self.Gerentes = ko.observableArray(model.Gerentes);
+        self.RepresentantesRegionais = ko.observableArray(model.RepresentantesRegionais);
+        self.Representantes = ko.observableArray(model.Representantes);
+        self.Gerente = ko.observable();
+        self.RepresentanteRegional = ko.observable();
+        self.Representante = ko.observable();
+        
+        var representante = ko.utils.arrayFirst(self.Representantes(), function (rep) {
+            return rep.Codigo == model.CodigoDoRepresentante;
+        });
+        self.Representante(representante);
+        var representanteRegional = ko.utils.arrayFirst(self.RepresentantesRegionais(), function (rep) {
+            return rep.Codigo == model.CodigoDoRepresentanteRegional;
+        });
+        self.RepresentanteRegional(representanteRegional);
+        var gerente = ko.utils.arrayFirst(self.Gerentes(), function (ger) {
+            return ger.Codigo == model.CodigoDoGerente;
+        });
+        self.Gerente(gerente);
+
+        self.ObterNovStatus = function () {
+            var view = new Object();
+            view.Representante = self.Representante().Codigo;
+            view.RepresentanteRegional = self.RepresentanteRegional().Codigo;
+            view.Gerente = self.Gerente().Codigo;
+            view.Codigo = @Model.Codigo;
+            return JSON.stringify(view);
+        };
+
+        self.Retorno = function(resposta) {
+            if(resposta.Sucesso) {
+                self.Parent.FecharAlterarStatus();
+            }else {
+                alert("Ocorreu um erro ao enviar sua requisição, tente novamente!");
+            }
+        };
+        
+        self.Salvar = function() {
+            $.ajax({
+                url: '@Url.Action("AlterarForcaDeVenda")',
+                type: 'POST',
+                data: self.ObterNovStatus(),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: self.Retorno
+            });
+        };
+
+        self.Cancelar = function() {
+            self.Parent.FecharAlterarStatus();
+        };
+    }
+
+    function AlterarForcaDeVendaFactory(parent) {
+        var view = new AlterarForcaDeVendaViewModel(parent);
+        ko.applyBindings(view, $("#divAlterarForcaDeVendoVIew").get(0));
+    }
+</script>

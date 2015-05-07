@@ -1,0 +1,195 @@
+﻿@model Integra.Web.Models.AdicionarFaturaViewModel
+
+<div id="DivAddEditFaturaViewModel">
+	<form data-bind="submit: Salvar">
+		<div class="modal">
+			<div class="modal-header">
+				<h4><span id="TipoJanela"></span> Investimento</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row-fluid">
+					<div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }, with: Fatura">
+						<div class="control-group">
+							<label class="control-label">Data</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input style="width: 100px;" data-bind="datepicker1: Data, datepickerOptions: { showOn: 'button', buttonImage:'@Url.Content("~/Content/images/ico-calendar.png")    ', buttonImageOnly: true }" type="text" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Data"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Descrição</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Descricao" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Descricao"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Tipo</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.Tipos, value: Tipo, optionsText: 'Descricao', optionsvalue: 'Codigo'">
+									</select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Tipo"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Valor</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input data-bind="maskMoney: Valor" type="text" maxlength="13" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Valor"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Documento</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.TiposDeDocumento, optionsText: 'Descricao', optionsvalue: 'Codigo',  value: TipoDoDocumento">
+									</select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: TipoDoDocumento"></span>
+							</div>
+						</div>
+						<div class="control-group" data-bind="visible: EhNotaFiscal()">
+							<label class="control-label">Núm. Documento</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input data-bind="value: NumeroDoDocumento" type="text" maxlength="10" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: NumeroDoDocumento"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Previsto/Realizado</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.Status, value: Statu, optionsText: 'Descricao', optionsvalue: 'Codigo'"></select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Statu"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+				<button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	function NovaFaturaFactory(parent) {
+		var view = new NovaFaturaViewModel(parent);
+		ko.applyBindings(view, $("#DivAddEditFaturaViewModel").get(0));
+
+		$("#TipoJanela").text("Adicionar");
+		if (view.Info.Codigo > 0) {
+			view.Editar();
+			$("#TipoJanela").text("Editar");
+			view.Fatura.errors.showAllMessages(false);
+		}
+		
+		$(".ui-dialog-titlebar").hide();
+		$(".ui-dialog-buttonpane").hide();
+	}
+
+	function Fatura() {
+		var self = this;
+		self.Codigo = 0;
+		self.Descricao = ko.observable().extend({ required: true });
+		self.Valor = ko.observable().extend({ required: true });
+		self.NumeroDoDocumento = ko.observable();
+		self.Data = ko.observable().extend({ required: true });
+		self.Tipo = ko.observable().extend({ required: true });
+		self.TipoDoDocumento = ko.observable().extend({ required: true });
+		self.Statu = ko.observable().extend({ required: true });
+		self.ObterFatura = function () {
+			var fatura = new Object();
+			fatura.Codigo = self.Codigo;
+			fatura.Descricao = self.Descricao();
+			fatura.Valor = self.Valor();
+			fatura.NumeroDoDocumento = self.NumeroDoDocumento();
+			fatura.Data = self.Data();
+			fatura.Tipo = self.Tipo().Codigo;
+			fatura.Statu = self.Statu().Codigo;
+			fatura.TipoDoDocumento = self.TipoDoDocumento().Codigo;
+			return fatura;
+		};
+		self.EhNotaFiscal = ko.computed(function () {
+			if(self.TipoDoDocumento() != undefined && self.TipoDoDocumento().Codigo == 1) {
+				return true;
+			}else {
+				self.NumeroDoDocumento(null);             
+				return false;
+			}
+		});
+	}
+
+
+	function NovaFaturaViewModel(parent) {
+		var self = this;
+		self.Info = @Html.Raw(Json.Encode(Model));
+		self.Parent = parent;
+		var fatura = new Fatura();
+		self.Fatura = ko.validatedObservable(fatura);
+		self.Tipos = ko.observableArray(self.Info.TiposDaFatura);
+		self.TiposDeDocumento = ko.observableArray(self.Info.TiposDoDocumento);
+		self.Status = ko.observableArray(self.Info.StatusDaFatura);
+		self.Enviar = function () {
+			$.ajax({
+				url: '@Url.Action("AddEditFatura", "PainelDeControle")',
+				type: 'POST',
+				data: JSON.stringify(fatura.ObterFatura()),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (resposta) {
+					if (resposta.Sucesso) {
+						self.Parent.FecharCadastroDeFatura(resposta.Fatura);
+					} else {
+						//alert("Algum erro ocorreu durante o cadastro desta fatura!");
+					}
+				}
+			});
+		};
+
+		self.Cancelar = function() {
+			self.Parent.FecharCadastroDeFaturaCancelar();
+		};
+
+		self.Editar = function() {
+			self.Fatura().Descricao(self.Info.Descricao);
+			self.Fatura().Valor(self.Info.Valor);
+			self.Fatura().NumeroDoDocumento(self.Info.NumeroDoDocumento);
+			self.Fatura().Data(ko.utils.ToDate(self.Info.Data));
+			var a = ko.utils.arrayFirst(self.TiposDeDocumento(), function(tipoDoDoc) {
+				return tipoDoDoc.Codigo == self.Info.TipoDoDocumento;
+			});
+			self.Fatura().TipoDoDocumento(a);
+			a = ko.utils.arrayFirst(self.Tipos(), function(tipo) {
+				return tipo.Codigo == self.Info.Tipo;
+			});
+			self.Fatura().Tipo(a);
+			a = ko.utils.arrayFirst(self.Status(), function(statu) {
+				return statu.Codigo == self.Info.Statu;
+			});
+			self.Fatura().Statu(a);
+			self.Fatura().Codigo = self.Info.Codigo;
+		};
+
+		self.Salvar = function () {
+			if (self.Fatura.isValid()) {
+				self.Enviar();
+			} else {
+				self.Fatura.errors.showAllMessages(true);
+			}
+		};
+	}
+	
+</script>

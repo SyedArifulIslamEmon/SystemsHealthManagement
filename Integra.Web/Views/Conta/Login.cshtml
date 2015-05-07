@@ -1,0 +1,64 @@
+﻿@model Integra.Web.Models.LoginViewModel
+
+@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical :";
+    Layout = "~/Views/Shared/_LayoutMaster.empty.cshtml";
+}
+@Scripts.Render("~/js")
+@using (Html.BeginForm("Login", "Conta", FormMethod.Post, new { id = "FormLogin" }))
+{
+    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(it => it.ReturnUrl)
+        <div class="control-group">
+            <label class="control-label">Email</label>
+            <div class="controls">
+                @Html.TextBoxFor(m => m.NomeDeUsuario, new { @class = "input-block-level", type = "text", placeholder = "nome@example.com" })
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Senha</label>
+            <div class="controls">
+                @Html.TextBoxFor(m => m.Senha, new { @class = "input-block-level", type = "password", placeholder = "Senha" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn" value="Entrar" />
+                <a id="LinkRecuperarSenha" class="btn">Esqueci minha senha</a>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("RecuperarSenha", "Conta", FormMethod.Post, new { id = "FormRecuperarSenha" }))
+{
+    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+        <div class="control-group">
+            <label class="control-label">Email</label>
+            <div class="controls">
+                @Html.TextBoxFor(m => m.NomeDeUsuario, new { @class = "input-block-level", type = "text", placeholder = "nome@example.com" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn" value="Enviar senha para o email" />
+                <a id="BtnCancelar" class="btn">Cancelar</a>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#LinkRecuperarSenha").click(function () {
+            $("#FormLogin").hide();
+            $("#FormRecuperarSenha").show();
+        });
+        $("#BtnCancelar").click(function () {
+            $("#FormLogin").show();
+            $("#FormRecuperarSenha").hide();
+        });
+        $("#FormRecuperarSenha").hide();
+    });
+</script>

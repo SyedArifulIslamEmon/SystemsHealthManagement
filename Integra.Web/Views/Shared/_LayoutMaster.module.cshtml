@@ -1,0 +1,130 @@
+﻿@using System.Globalization
+@using Integra.Web.Helpers
+
+@{
+    var crmAuth = false;
+    var crmValue = "";
+    var crmNome = "";
+    var crmCode = "";
+    if (User.ToPessoa().Crm != null)
+    {
+        crmAuth = true;
+        crmValue = !string.IsNullOrEmpty(User.ToPessoa().Crm.Tipo.FlagCrm) ? User.ToPessoa().Crm.Tipo.FlagCrm.ToString(CultureInfo.InvariantCulture) : "";
+        crmNome = !string.IsNullOrEmpty(User.ToPessoa().Crm.NomeDoCRM) ? User.ToPessoa().Crm.NomeDoCRM.ToString(CultureInfo.InvariantCulture) : "";
+        crmCode = !string.IsNullOrEmpty(User.ToPessoa().Crm.NumeroDoCRM) ? User.ToPessoa().Crm.NumeroDoCRM.ToString(CultureInfo.InvariantCulture) : "";
+    }
+    else
+    {
+        crmAuth = false;
+        crmValue = "";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--[if lt IE 8]>
+    <script src="https://raw.github.com/douglascrockford/JSON-js/master/json2.js"></script>
+    <![endif]-->
+    @Styles.Render("~/content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/js")
+    @Scripts.Render("~/jsValidate")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/jsMasks")
+    @RenderSection("head", required: false)
+    @Html.Partial("_html5shiv")
+    @* favicons and touch icons go here *@
+</head>
+<body>
+    <div class="LayoutPage">
+        @Html.Partial("_LayoutHeader")
+        @Html.Partial("_LayoutMenu")
+        <div class="container-fluid">
+            @Html.Partial("_alerts")
+            @Html.Partial("_validationSummary")
+            @RenderBody()
+        </div>
+        @RenderSection("Scripts", required: false)
+    </div>
+
+</body>
+</html>
+
+<input type="hidden" id="crmAuth" value="@crmAuth"/>
+<input type="hidden" id="crmValue" value="@crmValue"/>
+<input type="hidden" id="crmNome" value="@crmNome"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        try {
+            if ('@ViewContext.RouteData.Values["Controller"].ToString()' == 'Relatorios');
+            {
+                if ('@crmAuth.ToString().ToUpper()' == 'true'.toUpperCase()) {
+                    if ('@crmValue.ToUpper()' == 'R'.toUpperCase()) {
+                        $('#P12').hide(); //Gerente
+                        $('#P12_REMOVE').hide();//Gerente
+                        $('#P13').hide();//Representante
+                        $('#P13_REMOVE').hide();//Representante
+                        $('#P13_TXT').val('@crmNome');
+                        $('#P13_TXT').prop('title', '@crmNome');
+
+                        $.ajax({
+                            url: '@Url.Action("SetParametroCrm", "Relatorios")',
+                            type: 'POST',
+                            data: { tipoFiltro: "P13", tipoCrm: '@crmValue', parametro: '@crmCode' },
+                            dataType: 'html',
+                            success: function (data) {
+                            }
+                        });
+                    }
+
+                    if ('@crmValue.ToUpper()' == 'G'.toUpperCase()) {
+                        $('#P12').hide();//Gerente
+                        $('#P12_REMOVE').hide();//Gerente
+                        $('#P12_TXT').val('@crmNome');
+                        $('#P12_TXT').prop('title', '@crmNome');
+
+                        $.ajax({
+                            url: '@Url.Action("SetParametroCrm", "Relatorios")',
+                            type: 'POST',
+                            data: { tipoFiltro: "P12", tipoCrm: '@crmValue', parametro: '@crmCode' },
+                            dataType: 'html',
+                            success: function (data) {
+                            }
+                        });
+
+                    }
+                }
+            }
+        } catch (e) {
+
+        }
+    });
+
+    //Adiciona o nome na caixa novamente.
+    $('#PT_REMOVE').ajaxComplete(function () {
+        if ('@ViewContext.RouteData.Values["Controller"].ToString()' == 'Relatorios');
+        {
+            if ('@crmAuth.ToString().ToUpper()' == 'true'.toUpperCase()) {
+                if ('@crmValue.ToUpper()' == 'R'.toUpperCase()) {
+                    $('#P13_TXT').val('@crmNome');
+                        $('#P13_TXT').prop('title', '@crmNome');
+                    }
+
+                    if ('@crmValue.ToUpper()' == 'G'.toUpperCase()) {
+                    $('#P12_TXT').val('@crmNome');
+                        $('#P12_TXT').prop('title', '@crmNome');
+                    }
+                }
+            }
+    });
+
+</script>

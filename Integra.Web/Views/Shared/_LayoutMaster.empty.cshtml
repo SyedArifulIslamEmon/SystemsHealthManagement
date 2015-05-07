@@ -1,0 +1,175 @@
+﻿@using Integra.Web.CustomMembership
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>@ViewBag.Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	@Styles.Render("~/content/css")
+	<style type="text/css">
+		.form-signin {
+			max-width: 300px;
+			padding: 19px 29px 29px;
+			margin: 0 auto 20px;
+			background-color: #fff;
+			border: 1px solid #e5e5e5;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		}
+
+			.form-signin .form-signin-heading,
+			.form-signin .checkbox {
+				margin-bottom: 10px;
+			}
+
+			.form-signin input[type="text"],
+			.form-signin input[type="password"] {
+				font-size: 16px;
+				height: auto;
+				margin-bottom: 15px;
+				padding: 7px 9px;
+			}
+	</style>
+
+	<style>
+		body, html {
+			min-width: 1024px;
+			margin: 0;
+			padding: 0;
+			font-family: arial, verdana, freesans, garuda, helvetica, sans-serif;
+		}
+
+		#page_overlay {
+			width: 100%;
+			z-index: 2;
+		}
+
+		#page_content {
+			font-size: 30px;
+			padding: 10px;
+			background-color: #000000;
+			color: #ffffff;
+			margin-top: 40px;
+			/* Display on top of slideshow */
+			z-index: 2;
+			position: relative; /* This is very important! */
+		}
+
+		img#bg {
+			/* Regras de preenchimento do fundo */
+			min-height: 100%;
+			min-width: 1024px;
+			/* Seleção de escala apropriada */
+			width: 100%;
+			height: auto;
+			/* Posicionamento da Imagem */
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 0;
+		}
+
+		#bg_grid {
+			position: fixed; /* This is very important! */
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background: url(../../Content/images/grid.png) repeat;
+			/* Display on top of background */
+			z-index: 1;
+		}
+
+		#bg_login {
+			position: absolute;
+			right: 0;
+			top: 140px;
+			width: 50%;
+			min-width: 400px;
+			height: 300px;
+			background-color: #ffffff;
+			z-index: 3;
+		}
+
+		#line_login {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 15px;
+			background-color: #62c3cf;
+			z-index: 4;
+		}
+
+		#logo_login {
+			position: absolute;
+			z-index: 6;
+			top: 40px;
+			left: 90px;
+		}
+
+		#container_login {
+			position: absolute;
+			z-index: 7;
+			top: 130px;
+			left: -60px;
+		}
+	</style>
+
+	@Scripts.Render("~/bundles/modernizr")
+	@RenderSection("head", required: false)
+	@Html.Partial("_html5shiv")
+	@* favicons and touch icons go here *@
+</head>
+<body>
+	<img id="bg" style="display: none" />
+
+	<div id="bg_grid">
+	</div>
+
+	<div id="bg_login">
+		<div id="logo_login">
+			<img src='@Url.Content("~/Content/images/LogoIntegra.png")' />
+		</div>
+		<div id="container_login">
+			<div>
+				@Html.Partial("_alerts")
+				@if (User.Identity is UsuarioIdentity)
+				{
+					var usuarioIdentity = User.Identity as UsuarioIdentity;
+					if (usuarioIdentity != null)
+					{
+					@usuarioIdentity.Pessoa.Nome
+					@Html.ActionLink("Logout", "Logout", "Conta")           
+					}
+				}
+				@RenderBody()
+			</div>
+		</div>
+		<div id="line_login"></div>
+	</div>
+	@Html.Partial("_LayoutFooter")
+	<!-- container -->
+	@Scripts.Render("~/js")
+	@Scripts.Render("~/jsValidate")
+	@RenderSection("Scripts", required: false)
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("img#bg").load(function () {
+				$("img#bg").fadeTo(1000, 1);
+			}
+			);
+			setTimeout(LoadImage, 100);
+		});
+
+		function LoadImage() {
+			$("img#bg").attr("src", '@Url.Content("~/Content/images/layout_login_background.jpg")');
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+﻿/* TABLE  
+----------------------------------------------------------*/
+/* third party elements customization */
+/* dataTables */
+.dataTables_length {
+    margin-left: 8px;
+}
+
+.dataTables_filter {
+    position: absolute;
+    float: left;
+    margin-right: 8px;
+    text-align: left;
+}
+
+.dataTables_info {
+    margin: 0 0 0 12px;
+    font-size: 14px;
+}
+
+.dataTables_paginate {
+    text-align: right;
+    font-size: 11px;
+}
+
+    .dataTables_paginate.pagination {
+        margin: 0px 12px 0;
+    }
+
+.dataTables_length select {
+    padding: 2px 3px;
+    width: 70px;
+    height: 25px;
+}
+
+.dataTables_filter input[type=text] {
+    width: 125px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.dataTables_wrapper label {
+    display: inline-block;
+    font-size: 13px;
+}
+
+.dataTables_wrapper input[type=text], .dataTables_wrapper select {
+    margin: 0px 4px;
+    margin-bottom: 0 !important;
+}
+
+.dataTables_wrapper .row-fluid:first-child {
+    padding: 12px 0 4px;
+    border-bottom: 1px solid #E2E2E2;
+    background-color: #EFF3F8;
+}
+
+.dataTables_wrapper .row-fluid:last-child {
+    padding: 12px 0 6px;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    background-color: #EFF3F8;
+}
+
+.dataTable {
+    margin-bottom: 0;
+}
+
+.dataTables_wrapper .row-fluid:first-child + .dataTable {
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
+.dataTable thead th[class*=sort] {
+    cursor: pointer;
+}
+
+    .dataTable thead th[class*=sort]:hover {
+    }
+
+    .dataTable thead th[class*=sort]:after {
+        position: relative;
+        display: inline-block;
+        float: right;
+        margin-right: 4px;
+        color: #555;
+        content: "\f0dc";
+        font-weight: normal;
+        font-size: 13px;
+        font-family: FontAwesome;
+    }
+
+.dataTable thead th[class*=sorting_] {
+    color: #307ECC;
+}
+
+.dataTable thead th.sorting_desc:after {
+    top: -6px;
+    content: "\f0dd";
+}
+
+.dataTable thead th.sorting_asc:after {
+    top: 4px;
+    content: "\f0de";
+}
+
+.dataTable thead th.sorting_disabled {
+    cursor: inherit;
+}
+
+    .dataTable thead th.sorting_disabled:after {
+        display: none;
+    }
+
+    /*
+.dataTables_filter {
+    margin-right: 8px;
+    text-align: right;
+}
+
+.dataTables_info {
+    margin: 0 0 0 12px;
+    font-size: 14px;
+}
+
+.dataTables_paginate {
+    text-align: right;
+}
+
+    .dataTables_paginate.pagination {
+        margin: 0px 12px 0;
+    }
+
+.dataTables_length select {
+    padding: 2px 3px;
+    width: 70px;
+    height: 25px;
+}
+
+.dataTables_filter input[type=text] {
+    width: 125px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.dataTables_wrapper label {
+    display: inline-block;
+    font-size: 13px;
+}
+
+.dataTables_wrapper input[type=text], .dataTables_wrapper select {
+    margin: 0px 4px;
+    margin-bottom: 0 !important;
+}
+
+.dataTables_wrapper .row-fluid:first-child {
+    padding: 12px 0 4px;
+    border-bottom: 1px solid #E2E2E2;
+    background-color: #EFF3F8;
+}
+
+.dataTables_wrapper .row-fluid:last-child {
+    padding: 12px 0 6px;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    background-color: #EFF3F8;
+}
+
+.dataTable {
+    margin-bottom: 0;
+}
+
+.dataTables_wrapper .row-fluid:first-child + .dataTable {
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
+.dataTable thead th[class*=sort] {
+    cursor: pointer;
+}
+
+    .dataTable thead th[class*=sort]:hover {
+    }
+
+    .dataTable thead th[class*=sort]:after {
+        position: relative;
+        display: inline-block;
+        float: right;
+        margin-right: 4px;
+        color: #555;
+        content: "\f0dc";
+        font-weight: normal;
+        font-size: 13px;
+        font-family: fontawesome-webfont;
+    }
+
+.dataTable thead th[class*=sorting_] {
+    color: #307ECC;
+}
+
+.dataTable thead th.sorting_desc:after {
+    top: -6px;
+    content: "\f0dd";
+}
+
+.dataTable thead th.sorting_asc:after {
+    top: 4px;
+    content: "\f0de";
+}
+
+.dataTable thead th.sorting_disabled {
+    cursor: inherit;
+}
+
+    .dataTable thead th.sorting_disabled:after {
+        display: none;
+    }
+        */

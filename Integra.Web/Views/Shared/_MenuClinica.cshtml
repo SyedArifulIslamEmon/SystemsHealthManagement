@@ -1,0 +1,33 @@
+﻿@Html.ActionLink("Gestão de Clínicas", "Index", "GestaoDeClinicas", new { }, new { @class = "brand", onclick = "javascript:return false;", style = "cursor:default;"})
+<div class="nav-collapse collapse">
+    <ul class="nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clínicas&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Consulta", "Clinica", "GestaoDeClinicas", new { }, new { })</li>
+                <li>@Html.ActionLink("Consulta - Documentos", "ConsultaDocumentos", "GestaoDeClinicas", new { }, new { })</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Faturamento&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Prévia", "Previa", "GestaoDeClinicas", new { }, new { })</li>
+                <li>@Html.ActionLink("Consulta", "Consulta", "GestaoDeClinicas", new { }, new { })</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nota Fiscal&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Receber", "Receber", "GestaoDeClinicas", new { }, new { })</li>
+                <li>@Html.ActionLink("Gestão", "Gestao", "GestaoDeClinicas", new { }, new { })</li>
+                <li>@Html.ActionLink("Devolução", "Devolucao", "GestaoDeClinicas", new { }, new { })</li>
+                <li>@Html.ActionLink("Notas a Receber", "NotasReceber", "GestaoDeClinicas", new { }, new { })</li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav pull-right">
+        <li><a href="@Url.Action("Index", "Home", new { })" class="brand">
+            <i class='icon-home'></i>Ínicio
+        </a></li>
+    </ul>
+</div>

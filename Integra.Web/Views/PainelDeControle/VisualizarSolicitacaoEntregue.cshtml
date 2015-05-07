@@ -1,0 +1,90 @@
+﻿<div id="DivSolicitacaoEntregaViewModel">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Aprovação de Entrega</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">Data da Aprovação</label>
+                        <div class="controls">
+                            <div class="row-fluid">
+                                <span>@Html.Label(DateTime.Now.ToString("dd/MMMM/yyyy"))</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Observações</label>
+                        <div class="controls">
+                            <div class="row-fluid">
+                                <textarea data-bind="value: Entrega().Observacao" rows="6"></textarea>
+                            </div>
+                            <span class="error-inline" data-bind="validationMessage:  Entrega().Observacao"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+            <button data-bind="click: Reprovar" class="bbtnn bbtnn-danger" value="Reprovar">Reprovar</button>
+            <button data-bind="click: Aprovar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Aprovar</button>
+        </div>
+    </div>
+</div>
+<script>
+    function SolicitacaoEntrega() {
+        var self = this;
+        self.Observacao = ko.observable();
+    }
+    
+    function SolicitacaoEntregaViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Entrega = new SolicitacaoEntrega();
+        self.Entrega = ko.validatedObservable(self.Entrega);
+        
+        self.Enviar = function(aceita) {
+            $.ajax({
+                url: '@Url.Action("SalvarEntregaDeSolicitacao", "PainelDeControle")',
+                type: 'POST',
+                data: JSON.stringify({ Observacao: self.Entrega().Observacao(), Aceita: aceita, Codigo: @Model.Codigo }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastro(resposta.Solicitacao);
+                    } else {
+                        alert("Algum erro ocorreu durante o procedimento de entrega da solicitação!");
+                    }
+                }
+            });
+        };
+        
+        self.Aprovar = function() {
+            if (self.Entrega.isValid()) {
+                self.Enviar(true);
+            }else{
+                self.Entrega.errors.showAllMessages(true);
+            }
+        };
+        
+        self.Reprovar = function () {
+            if (self.Entrega.isValid()) {
+                self.Enviar(false);
+            }else{
+                self.Entrega.errors.showAllMessages(true);
+            }
+        };
+        
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastro();
+        };
+    }
+
+    function VisualizarSolicitacaoFactory(parent) {
+        var view = new SolicitacaoEntregaViewModel(parent);
+        ko.applyBindings(view, $("#DivSolicitacaoEntregaViewModel").get(0));
+    }
+</script>

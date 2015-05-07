@@ -1,0 +1,154 @@
+﻿.page-equipe {
+    margin: 20px auto 0px auto;
+    width: 960px;
+    background-color: #fff;
+}
+
+.main-equipe {
+    margin: 12px 8px 8px 8px;
+    padding: 0px 12px;
+    min-height: 260px;
+    height: auto;
+}
+
+.leftCol-equipe {
+    margin: 12px 8px 8px 8px;
+    padding: 6px 0px;
+    min-height: 200px;
+    width: 200px;
+}
+
+.clear-equipe {
+    clear: both;
+    height: 30px;
+}
+
+.title-equipe {
+    display: block;
+    float: left;
+    width: auto;
+    text-align: left;
+}
+
+    .title-equipe p {
+        margin-top: 5px;
+        margin-left: 12px;
+        color: white;
+        font-size: 25px;
+        font-size: 33px;
+    }
+
+.tile-elem-equipe {
+    width: 200px;
+    height: 200px;
+}
+
+    .tile-elem-equipe:hover {
+        outline: 2px solid grey;
+    }
+
+.tile-description-equipe {
+    bottom: 0px;
+    margin-left: 10px;
+    padding-top: 5px;
+    width: 180px;
+    height: auto;
+    color: White;
+    font-size: 12px;
+}
+
+.tile-title-equipe {
+    position: relative;
+    top: -30px;
+    float: right;
+    margin-right: 10px;
+    color: White;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.bottom-bar-equipe {
+    width: auto;
+    height: 25px;
+    background-color: #000;
+}
+
+    .bottom-bar-equipe span {
+        cursor: pointer;
+    }
+
+.edit-panel-equipe {
+    position: absolute;
+    z-index: 2;
+    float: left;
+    margin-top: 0px;
+    width: 200px;
+    height: 50px;
+    border-bottom: 1px solid white;
+    background-color: #BFCBD6;
+    text-align: center;
+}
+
+    .edit-panel-equipe label {
+        margin-left: 6px;
+        color: #000;
+    }
+
+    .edit-panel-equipe select {
+        margin-top: 10px;
+        color: #000;
+    }
+
+    .edit-panel-equipe input {
+        width: 151px;
+    }
+
+    .edit-panel-equipe textarea {
+        margin-top: 3px;
+        margin-left: 6px;
+        width: 181px;
+        height: 61px;
+    }
+
+.btn-add-tile-equipe {
+    display: block;
+    width: 101px;
+    height: 34px;
+    background-color: #49AFCD;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    .btn-add-tile-equipe:hover {
+        outline: 2px solid #5a5a5a;
+    }
+
+    .btn-add-tile-equipe:active {
+        outline: none;
+    }
+
+.tile-area-equipe {
+    float: left;
+    margin-top: -9px;
+    margin-left: 25px;
+    width: 200px;
+}
+
+.tile-container-equipe {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.close-btn-equipe {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 180px;
+}
+
+.arrow-equipe {
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 161px;
+}

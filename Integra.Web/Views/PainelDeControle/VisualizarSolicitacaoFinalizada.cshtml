@@ -1,0 +1,14 @@
+﻿<div id="DivSolicitacaoFinalizadaViewModel">
+    
+</div>
+<script>
+    function SolicitacaoFinalizadaViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+    }
+    
+    function VisualizarSolicitacaoFactory(parent) {
+        var view = new SolicitacaoFinalizadaViewModel(parent);
+        ko.applyBindings(view, $("#DivSolicitacaoFinalizadaViewModel").get(0));
+    }
+</script>

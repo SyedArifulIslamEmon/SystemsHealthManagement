@@ -1,0 +1,153 @@
+﻿@model Integra.Web.Models.AdicionarServicoContratoViewModel
+
+<div id="DivAddEditServicosContratadosViewModel">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4><span id="TipoJanela"></span> Serviço</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }, with: ServicosContratados">
+                        <div class="control-group">
+                            <label class="control-label">Data da Contratação</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input style="width: 100px;" data-bind="datepicker1: DataContratacao, datepickerOptions: { showOn: 'button', buttonImage:'@Url.Content("~/Content/images/ico-calendar.png")', buttonImageOnly: true }" type="text" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: DataContratacao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Serviço</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Nome" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Nome"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Descrição</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Descricao" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Descricao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Quantidade</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="number" data-bind="value: Quantidade" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Quantidade"></span>
+                            </div>
+                        </div>
+                        <div class="control-group" style="vertical-align: top;">
+                            <label class="control-label">Observações</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <textarea data-bind="value: Observacoes" rows="3"></textarea>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Observacoes"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" type="submit" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function NovoServicoContratadoFactory(parent) {
+        var validationOptions = { insertMessages: false, decorateElement: true, messagesOnModified: false };
+        ko.validation.init(validationOptions);
+        var view = new NovoServicoContratoViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditServicosContratadosViewModel").get(0));
+
+        $("#TipoJanela").text("Adicionar");
+        if(view != undefined) {
+            if (view.Info.Codigo > 0) {
+                view.Editar();
+                $("#TipoJanela").text("Editar");
+            }
+            view.ServicosContratados.errors.showAllMessages(false);
+        }
+        
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    }
+    
+    function ServicosContratados() {
+        var self = this;
+        self.Codigo = 0;
+        self.DataContratacao = ko.observable().extend({ required: true });
+        self.Nome = ko.observable().extend({ required: true });
+        self.Descricao = ko.observable();
+        self.Quantidade = ko.observable().extend({ required: true, numeric:0 });
+        self.Observacoes = ko.observable();
+        self.ObterServicoContratado = function () {
+            var servicoContratado = new Object();
+            servicoContratado.Codigo = self.Codigo;
+            servicoContratado.DataContratacao = self.DataContratacao();
+            servicoContratado.Nome = self.Nome();
+            servicoContratado.Descricao = self.Descricao();
+            servicoContratado.Quantidade = self.Quantidade();
+            servicoContratado.Observacoes = self.Observacoes();
+            return servicoContratado;
+        };
+    }
+
+    function NovoServicoContratoViewModel(parent) {
+        var self = this;
+        self.Info = @Html.Raw(Json.Encode(Model));
+        self.Parent = parent;
+        var servicoContratado = new ServicosContratados();
+        self.ServicosContratados = ko.validatedObservable(servicoContratado);
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AddEditServicoContratado", "PainelDeControle")',
+                type: 'POST',
+                data: JSON.stringify(servicoContratado.ObterServicoContratado()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastroDeServicoContratado(resposta.ServicosContratados);
+                    } else {
+                        //alert("Algum erro ocorreu durante o cadastro deste Serviço!");
+                    }
+                }
+            });
+        };
+        
+        self.Cancelar = function() {
+            self.Parent.FecharCadastroDeServicoContratadoCancelar();
+        };
+        
+        self.Editar = function() {
+            self.ServicosContratados().Nome(self.Info.Nome);
+            self.ServicosContratados().Descricao(self.Info.Descricao);
+            self.ServicosContratados().Quantidade(self.Info.Quantidade);
+            self.ServicosContratados().Observacoes(self.Info.Observacoes);
+            self.ServicosContratados().DataContratacao(ko.utils.ToDate(self.Info.DataContratacao));
+            self.ServicosContratados().Codigo = self.Info.Codigo;
+        };
+
+        self.Salvar = function () {
+            if (self.ServicosContratados.isValid()) {
+                self.Enviar();
+            } else {
+                self.ServicosContratados.errors.showAllMessages(true);
+            }
+        };
+    }
+</script>
+

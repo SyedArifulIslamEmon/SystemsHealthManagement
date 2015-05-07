@@ -1,0 +1,492 @@
+﻿@using Integra.Web.Helpers
+@model Integra.Web.Models.AdicionarUsuarioViewModel
+@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical : Gestão de Usuários :";
+    Layout = "~/Views/Shared/_LayoutMaster.module.cshtml";
+}
+
+<input type="hidden" value="@Html.Raw(Json.Encode(Model))" id="model"/>
+<input type="hidden" value="@Html.Raw(Json.Encode(Model.Programas.Select(i => new { i.Codigo, i.Nome }).Distinct().OrderByDescending(i => i.Nome).ToArray()))" id="modelProgramas"/>
+
+<div class="container-fluid" id="main-container" style="padding-top: 10px;">
+    <div id="main-content" class="clearfix">
+        <div id="page-content" class="clearfix">
+            <div class="page-header position-relative">
+                <h3>Gestão de Usuários <small></small></h3>
+            </div>
+            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div id="DivViewModelNovoUsuario">
+                            <form data-bind="submit: Salvar">
+                                <div class="form-horizontal">
+                                    <div class="control-group">
+                                        <label class="control-label">Nome</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <input type="text" data-bind="value: Nome" />
+                                                <span id="lblPrograma" style="margin-left: 100px; color: red;" data-bind="text: ProgramasAtivos"></span>
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: Nome"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Telefone</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <input data-bind="maskInput: Telefone, maskConfig: '(99) 9999?9-9999'  " type="text" />
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: Telefone"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Grupo</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <select data-bind="enable: !Editando(), options: Grupos, value: GrupoSelecionado, optionsText: 'Descricao', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: GrupoSelecionado"></span>
+                                        </div>
+                                    </div>
+                                    <div data-bind="visible: GrupoSelecionado" class="control-group">
+                                        <label class="control-label">Perfil</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <select data-bind="options: PerfilsFiltrados, value: PerfilSelecionado, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                                @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                                                {
+                                                    <button data-bind="click: AdicionarPerfil" class='btn btn-mini btn-success tooltip-success' data-rel="tooltip" title="Adicionar Perfil" data-placement="left"><i class='icon-plus'></i></button>
+                                                    <button data-bind="click: EditarPerfil" class='btn btn-mini btn-info tooltip-info' data-rel="tooltip" title="Adicionar Perfil" data-placement="left"><i class='icon-edit'></i></button>
+                                                }
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: PerfilSelecionado"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Programa</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <select multiple="multiple" id="ddlProgramas" style="height: 260px" data-bind="options: Programas, selectedOptions: ProgramasSelecionados, optionsText: 'Nome', optionsValue: 'Codigo'" onchange="selecionarPrograma()"></select>
+                                                @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                                                {
+                                                    <button data-bind="click: AdicionarPrograma" class='btn btn-mini btn-success tooltip-success' data-rel="tooltip" title="Adicionar Programa" data-placement="left"><i class='icon-plus'></i></button>
+                                                }
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: ProgramasSelecionados"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Login</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <input type="text" data-bind="value: Login" />
+                                            </div>
+                                            <span class="error-inline" data-bind="validationMessage: Login"></span>
+                                        </div>
+                                    </div>
+                                    <div data-bind="if: EhGrupoCliente">
+                                        <div class="control-group" data-bind="if: EhGrupoCliente">
+                                            <label class="control-label">Departamento</label>
+                                            <div class="controls">
+                                                <div class="row-fluid">
+                                                    <select data-bind="options: Departamentos, value: Departamento, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                                </div>
+                                                <span class="error-inline" data-bind="validationMessage: Departamento"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group" data-bind="if: EhGrupoCliente">
+                                            <label class="control-label">Cargo</label>
+                                            <div class="controls">
+                                                <div class="row-fluid">
+                                                    <select data-bind="options: Cargos, value: Cargo, optionsText: 'Descricao', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                                </div>
+                                                <span class="error-inline" data-bind="validationMessage: Cargo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group" data-bind="if: EhGrupoCliente">
+                                            <label class="control-label">Descrição do cargo</label>
+                                            <div class="controls">
+                                                <div class="row-fluid">
+                                                    <input data-bind="value: DescricaoDoCargo" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group" data-bind="if: EhGrupoCliente">
+                                            <label class="control-label">Tipo do Acesso</label>
+                                            <div class="controls">
+                                                <div class="row-fluid">
+                                                    <select data-bind="options: TiposDeCrm, value: TipoDeCrmSelecionado, optionsText: 'Descricao', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                                </div>
+                                                <span class="error-inline" data-bind="validationMessage: TipoDeCrmSelecionado"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group" data-bind="if: EhGrupoCliente, visible: MostraNumCRM">
+                                            <label class="control-label">Credenciais do Acesso</label>
+                                            <div class="controls">
+                                                <div class="row-fluid">
+                                                    <input data-bind="value: CRM" type="text" readonly="readonly" />
+                                                    <button data-bind="click: SelecionarAcesso" class='btn btn-mini btn-info tooltip-info' data-rel="tooltip" title="Selecionar CRM" data-placement="left"><i class='icon-list'></i></button>
+                                                </div>
+                                                <span class="error-inline" data-bind="validationMessage: CRM"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Situação</label>
+                                        <div class="controls">
+                                            <div class="row-fluid">
+                                                <input data-bind="checked: StatusDoUsuario" type="checkbox" />
+                                                <span>Inativo</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+                                    <a href="@Url.Action("Index", "Conta", new { })" class="bbtnn bbtnn-grey">
+                                        <i class='icon-backward'></i>Voltar
+                                    </a>
+                                </div>
+                            </form>
+                            <div data-bind="dialog: { isOpen: CadastroDePerfilDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                <div data-bind="html: CadastroDePerfil"></div>
+                            </div>
+                            <div data-bind="dialog: { isOpen: CadastroDeProgramaDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                <div data-bind="html: CadastroDePrograma"></div>
+                            </div>
+                            <div data-bind="dialog: { isOpen: EdicaoDePerfilDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                <div data-bind="html: EdicaoDePerfil"></div>
+                            </div>
+
+                            <div data-bind="dialog: { isOpen: SelecaoAcessoDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                <div data-bind="html: SelecaoAcesso"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_LayoutFooter")
+
+<script>
+
+    function selecionarPrograma() {
+        var programas = '';
+        $('#ddlProgramas option:selected').each(function () { programas += this.text + ', '; });
+        $('#lblPrograma').text(programas.substring(0, programas.length - 2));
+    }
+
+    $(document).ready(function () {
+        $('#ddlProgramas option').each(function () { alert(''); });
+    });
+
+    function ViewModel() {
+        var self = this;
+        self.Model = jQuery.parseJSON($("#model").val());
+        self.ModelProgramas = jQuery.parseJSON($("#modelProgramas").val());
+        self.GrupoIntegra = ko.observable(self.Model.GrupoIntegra);
+        self.Perfils = ko.observableArray(self.Model.Perfils);
+        self.TiposDeCrm = ko.observableArray(self.Model.TiposDeCrm);
+        self.Grupos = ko.observableArray(self.Model.Grupos);
+        self.Cargos = ko.observableArray(self.Model.Cargos);
+        self.Departamentos = ko.observableArray(self.Model.Departamentos);
+        self.Programas = ko.observableArray(self.ModelProgramas);
+        self.Login = ko.observable().extend({ required: true, email: true });
+        self.PerfilSelecionado = ko.observable().extend({ required: true });
+        self.GrupoSelecionado = ko.observable().extend({ required: true });
+        self.Nome = ko.observable().extend({ required: true });
+        self.Cargo = ko.observable();
+        self.DescricaoDoCargo = ko.observable();
+        self.Departamento = ko.observable();
+        self.StatusDoUsuario = ko.observable(false);
+        self.Telefone = ko.observable();
+        self.TipoDeCrmSelecionado = ko.observable();
+        self.CRM = ko.observable();
+        self.CRMCodigo = ko.observable();
+        self.CadastroDePerfilDialog = ko.observable(false);
+        self.EdicaoDePerfilDialog = ko.observable(false);
+        self.SelecaoAcessoDialog = ko.observable(false);
+        self.CadastroDePerfil = ko.observable();
+        self.EdicaoDePerfil = ko.observable();
+        self.SelecaoAcesso = ko.observable();
+        self.CadastroDeProgramaDialog = ko.observable(false);
+        self.CadastroDePrograma = ko.observable();
+        self.ProgramasSelecionados = ko.observableArray([]).extend({ required: true });;
+        self.ProgramasAtivos = ko.observable();
+
+        self.Salvar = function () {
+            self.errors.showAllMessages(false);
+            if (self.isValid()) {
+                self.Enviar();
+            } else {
+                self.errors.showAllMessages(true);
+            }
+        };
+
+        self.Resetar = function () {
+            self.Nome(null);
+            self.GrupoSelecionado(null);
+            self.Login(null);
+            self.PerfilSelecionado(null);
+            self.ProgramasSelecionados(null);
+            self.StatusDoUsuario(false);
+            self.Telefone(null);
+            self.TipoDeCrmSelecionado(null);
+            self.DescricaoDoCargo(null);
+            self.Departamento(null);
+            self.Cargo(null);
+            self.CRM(null);
+            self.CRMCodigo(null);
+            self.NaoMostarMensagem();
+        };
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("NovoUsuario")',
+                type: 'POST',
+                data: JSON.stringify(self.GetUsuario()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (retorno) {
+                    if (retorno.Sucesso) {
+                        self.Resetar();
+                        window.location = '@Url.Action("Index")';
+                    } else {
+                        alert("Não foi possível efetuar o cadastro deste usuário!");
+                    }
+                }
+            });
+        };
+
+        self.Editar = function () {
+            self.ProgramaNome = '';
+            self.Nome(self.Model.Nome);
+            self.Login(self.Model.NomeDeUsuario);
+            self.DescricaoDoCargo(self.Model.DescricaoDoCargo);
+            self.Telefone(self.Model.Telefone);
+            self.StatusDoUsuario(self.Model.Status);
+            self.CRM(self.Model.NomeDoCrm);
+            self.CRMCodigo(self.Model.NumeroDoCrm);
+            self.GrupoSelecionado(ko.utils.arrayFirst(self.Grupos(), function (grupo) {
+                return grupo.Codigo == self.Model.GrupoSelecionado;
+            }));
+            self.PerfilSelecionado(ko.utils.arrayFirst(self.Perfils(), function (perfil) {
+                return perfil.Codigo == self.Model.PerfilSelecionado;
+            }));
+            self.Cargo(ko.utils.arrayFirst(self.Cargos(), function (cargo) {
+                return cargo.Codigo == self.Model.CodigoDoCargo;
+            }));
+
+            for (var i = 0; i < self.Model.CodigosDosProgramas.length; i++) {
+                var programaSelecionado = ko.utils.arrayFirst(self.Programas(), function (programa) {
+                    return programa.Codigo == self.Model.CodigosDosProgramas[i];
+                });
+                self.ProgramasSelecionados.push(programaSelecionado.Codigo);
+                self.ProgramaNome += programaSelecionado.Nome + ', ';
+                self.ProgramasAtivos(self.ProgramaNome.substring(0, self.ProgramaNome.length - 2));
+            }
+
+            self.Departamento(ko.utils.arrayFirst(self.Departamentos(), function (departamento) {
+                return departamento.Codigo == self.Model.CodigoDoDepartamento;
+            }));
+            self.TipoDeCrmSelecionado(ko.utils.arrayFirst(self.TiposDeCrm(), function (tipoDoCrm) {
+                return tipoDoCrm.Codigo == self.Model.TipoDeCrmSelecionado;
+            }));
+            self.CRM(self.Model.NomeDoCrm);
+            self.CRMCodigo(self.Model.NumeroDoCrm);
+        };
+
+        self.FecharCadastroDePerfil = function (novoPerfil) {
+            self.Perfils.push(novoPerfil);
+            self.CadastroDePerfilDialog(false);
+        };
+
+        self.FecharCadastroDePerfilCancelar = function () {
+            self.CadastroDePerfilDialog(false);
+            self.CadastroDePerfil(null);
+        };
+
+        self.FecharEdicaoDePerfilCancelar = function () {
+            self.EdicaoDePerfilDialog(false);
+            self.EdicaoDePerfil(null);
+        };
+
+        self.FecharSelecionarAcessoCancelar = function () {
+            self.SelecaoAcessoDialog(false);
+            self.SelecaoAcesso(null);
+        };
+
+        self.AdicionarPerfil = function () {
+            self.CadastroDePerfil(null);
+            $.get('@Url.Action("CadastroDePerfil", "Conta")', null, function (html) {
+                self.CadastroDePerfil(html);
+                new window.ViewPerfil(self);
+                self.CadastroDePerfilDialog(true);
+            });
+        };
+
+        self.EditarPerfil = function () {
+            try {
+                self.EdicaoDePerfil(null);
+                $.get('@Url.Action("EdicaoDePerfil", "Conta")', { id: self.PerfilSelecionado().Codigo, grupoID: self.GrupoSelecionado().Codigo, perfilNome: encodeURI(self.PerfilSelecionado().Nome) }, function (html) {
+                    self.EdicaoDePerfil(html);
+                    new window.ViewPerfil(self);
+                    self.EdicaoDePerfilDialog(true);
+                });
+            } catch (e) {
+                alert('Ocorreu algum problema.');
+                return;
+            }
+        };
+
+        self.SelecionarAcesso = function () {
+            try {
+                self.SelecaoAcesso(null);
+                $.get('@Url.Action("SelecionarAcesso", "Conta")', { id: self.TipoDeCrmSelecionado().Codigo }, function (html) {
+                    self.SelecaoAcesso(html);
+                    new window.SelecaoPerfilLoad(self);
+                    self.SelecaoAcessoDialog(true);
+                });
+            } catch (e) {
+                alert('Selecione um perfil para editar.');
+                return;
+            }
+        };
+
+
+        self.FecharCadastroDePrograma = function (novoPrograma) {
+            self.Programas.push(novoPrograma);
+            self.CadastroDeProgramaDialog(false);
+        };
+
+        self.FecharCadastroDeProgramaCancelar = function () {
+            self.CadastroDeProgramaDialog(false);
+            self.CadastroDePrograma(null);
+        };
+
+        self.AdicionarPrograma = function () {
+            self.CadastroDePrograma(null);
+            $.get('@Url.Action("CadastroDePrograma", "Conta")', null, function (html) {
+                self.CadastroDePrograma(html);
+                new window.ViewPrograma(self);
+                self.CadastroDeProgramaDialog(true);
+            });
+        };
+
+        self.GetUsuario = function () {
+            var usuario = new Object();
+            usuario.NomeDeUsuario = self.Login();
+            usuario.PerfilSelecionado = self.PerfilSelecionado().Codigo;
+            if (self.TipoDeCrmSelecionado() != undefined)
+                usuario.TipoDeCrmSelecionado = self.TipoDeCrmSelecionado().Codigo;
+            if (self.EhGrupoCliente()) {
+                //usuario.CodigoDoDepartamento = self.Departamento().Codigo;
+                //usuario.CodigoDoCargo = self.Cargo().Codigo;
+                //usuario.DescricaoDoCargo = self.DescricaoDoCargo();
+            } else {
+                usuario.CodigoDoDepartamento = 0;
+                usuario.CodigoDoCargo = 0;
+                usuario.DescricaoDoCargo = null;
+            }
+            usuario.Telefone = self.Telefone();
+
+            usuario.CodigosDosProgramas = self.ProgramasSelecionados();
+            usuario.GrupoSelecionado = self.GrupoSelecionado().Codigo;
+            //usuario.NumeroDoCrm = self.CRM();
+            usuario.NomeDoCrm = self.CRM();
+            usuario.NumeroDoCrm = self.CRMCodigo();
+            usuario.Nome = self.Nome();
+            usuario.Status = self.StatusDoUsuario();
+            usuario.Codigo = self.Model.Codigo;
+            return usuario;
+        };
+
+        self.NaoMostarMensagem = function () {
+            self.errors.showAllMessages(false);
+        };
+
+        self.PerfilSelecionado.subscribe(self.NaoMostarMensagem, self);
+        self.Cargo.subscribe(self.NaoMostarMensagem, self);
+        self.Departamento.subscribe(self.NaoMostarMensagem, self);
+        self.TipoDeCrmSelecionado.subscribe(self.NaoMostarMensagem, self);
+
+        self.EhGrupoIntegra = ko.computed(function () {
+            return self.GrupoSelecionado() && self.GrupoSelecionado() && self.GrupoSelecionado().Codigo == self.GrupoIntegra().Codigo;
+        });
+
+        self.EhGrupoCliente = ko.computed(function () {
+            return self.GrupoSelecionado() && self.GrupoSelecionado() && self.GrupoSelecionado().Codigo != self.GrupoIntegra().Codigo;
+        });
+        
+        self.MostraNumCRM = ko.computed(function () {
+            self.CRM(null);
+            self.CRMCodigo(null);
+            return self.TipoDeCrmSelecionado() && self.TipoDeCrmSelecionado() && self.TipoDeCrmSelecionado().Codigo != 1;
+        });
+
+        self.Editando = ko.computed(function () {
+            return self.Model.Codigo > 0;
+        });
+
+        self.PerfilsFiltrados = ko.computed(function () {
+            if (self.EhGrupoIntegra()) {
+                return ko.utils.arrayFilter(self.Perfils(), function (item) {
+                    return item.CodigoDoGrupo == self.GrupoIntegra().Codigo;
+                });
+            } else {
+                if (self.GrupoSelecionado() && self.GrupoSelecionado())
+                    return ko.utils.arrayFilter(self.Perfils(), function (item) {
+                        return item.CodigoDoGrupo != self.GrupoIntegra().Codigo;
+                    });
+            }
+            return Array();
+        });
+        self.Departamento.extend({
+            //required: {
+            //    onlyIf: function () {
+            //        return self.GrupoSelecionado() && self.GrupoSelecionado() && self.GrupoSelecionado().Codigo != self.GrupoIntegra().Codigo;
+            //    }
+            //}
+        });
+        self.Cargo.extend({
+            //required: {
+            //    onlyIf: function () {
+            //        return self.GrupoSelecionado() && self.GrupoSelecionado() && self.GrupoSelecionado().Codigo == self.GrupoIntegra().Codigo;
+            //    }
+            //}
+        });
+        self.TipoDeCrmSelecionado.extend({
+            required: {
+                onlyIf: function () {
+                    return self.GrupoSelecionado() && self.GrupoSelecionado() && self.GrupoSelecionado().Codigo != self.GrupoIntegra().Codigo;
+                }
+            }
+        });
+        self.CRM.extend({
+            required: {
+                onlyIf: function () {
+                    return (self.TipoDeCrmSelecionado() && self.TipoDeCrmSelecionado() && self.TipoDeCrmSelecionado().Codigo != 1);
+                }
+            }
+        });
+    };
+
+
+    $(document).ready(function () {
+        var validationOptions = { insertMessages: false, decorateElement: true, messagesOnModified: false };
+        var view = new ViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivViewModelNovoUsuario").get(0), validationOptions);
+        @if (Model.Codigo > 0)
+        {
+			@Html.Raw("view.Editar();")
+        }
+        view.errors.showAllMessages(false);
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    });
+</script>

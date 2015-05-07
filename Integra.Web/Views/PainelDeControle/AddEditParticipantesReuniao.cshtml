@@ -1,0 +1,229 @@
+﻿@model Integra.Web.Models.AdicionarParticipantesReuniaoViewModel
+
+
+<div id="DivAddEditParticipantesReuniaoViewModel">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Gerenciar Participantes</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12">
+                    <table id="gridPessoas" data-bind="dataTable: {
+    dataSource: Pessoas,
+    sPaginationType: 'bootstrap',
+    rowTemplate: 'gridPessoasTemplate',
+    iDisplayLength: 2,
+    gridId: 'gridPessoas',
+    autoWidth: true,
+    sDom: 'fptr',
+    columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'NomeDeUsuario' }
+	],
+    options: {
+        oLanguage: {
+            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+    }
+}
+}"
+                           class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th id="filterTableReunioesPessoas"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <script id="gridPessoasTemplate" type="text/html">
+                        <td data-bind="text: Nome"></td>
+                        <td data-bind="text: NomeDeUsuario"></td>
+                        <td id="resultTableReunioesPessoas" style="text-align: center; width: 20px;">
+                            <div class='hidden-phone visible-desktop btn-group'>
+                                <button data-bind="click: Adicionar" class='btn btn-mini btn-success tooltip-info' data-rel="tooltip" title="Adicionar Membro" data-placement="left"><i class='icon-plus'></i></button>
+                            </div>
+                        </td>
+                    </script>
+                </div>
+            </div>
+            <br />
+            <div class="row-fluid">
+                <div class="span12">
+                    <table id="gridParticipantes" data-bind="dataTable: {
+    dataSource: Participantes,
+    sPaginationType: 'bootstrap',
+    rowTemplate: 'gridParticipantesTemplate',
+    iDisplayLength: 2,
+    gridId: 'gridParticipantes',
+    autoWidth: true,
+    sDom: 'ptr',
+    columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'NomeDeUsuario' }
+	],
+    options: {
+        oLanguage: {
+            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+    }
+}
+}"
+                           class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th id="filterTableReunioesParticipantes"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <script id="gridParticipantesTemplate" type="text/html">
+                        <td data-bind="text: Nome"></td>
+                        <td data-bind="text: NomeDeUsuario"></td>
+                        <td id="resultTableReunioesParticipantes" style="text-align: center; width: 20px;">
+                            <div class='hidden-phone visible-desktop btn-group'>
+                                <button data-bind="click: Remover" class='btn btn-mini btn-danger tooltip-info' data-rel="tooltip" title="Remover Membro" data-placement="left"><i class='icon-minus'></i></button>
+                            </div>
+                        </td>
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+            <button data-bind="click: Salvar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" language="javascript">
+    function AdicionarParticipanteNaReuniaoFactory(parent) {
+        var view = new AdicionarParticipanteNaReuniaoViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditParticipantesReuniaoViewModel").get(0));
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    }
+	
+    function ParticipanteTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+
+        self.Codigo = data.Codigo;
+        self.Nome = ko.observable(data.Nome);
+        self.NomeDeUsuario = ko.observable(data.NomeDeUsuario);
+
+        self.Adicionar = function(participante) {
+            self.Parent.Adicionar(participante);            
+        };	    
+		
+        self.Remover = function(pessoa) {
+            self.Parent.Remover(pessoa);            
+        };
+    }
+
+    function AdicionarParticipanteNaReuniaoViewModel(parent) {
+        var self = this;
+        self.Parent = parent;       
+
+        var allDataPessoas = @Html.Raw(Json.Encode(Model.Pessoas));
+		var mappedDataPessoas = jQuery.map(allDataPessoas, function (item) { return new ParticipanteTableView(item, self); });
+		self.Pessoas = ko.observableArray(mappedDataPessoas);
+
+		var allDataParticipantes = @Html.Raw(Json.Encode(Model.Participantes));
+		var mappedDataParticipantes = jQuery.map(allDataParticipantes, function (item) { return new ParticipanteTableView(item, self); });
+		self.Participantes = ko.observableArray(mappedDataParticipantes);
+        
+		arrumarLayoutPessoas(self.Pessoas().length);
+		arrumarLayoutParticipantes(self.Participantes().length);
+
+		self.CodigoDaReuniao = @Html.Raw(Json.Encode(Model.CodigoDaReuniao));
+
+		self.ObterCodigosDosParticipantes = function () {
+		    var participantes = new Object();
+		    participantes.codigosDosParticipantes = new Array();
+		    ko.utils.arrayForEach(self.Participantes(), function (participante) {
+		        participantes.codigosDosParticipantes.push(participante.Codigo);
+		    });
+		    participantes.codigoDaReuniao = self.CodigoDaReuniao;
+		    return participantes;
+		};
+
+		self.Adicionar = function (pessoa) {
+		    self.Pessoas(ko.utils.arrayFilter(self.Pessoas(), function (pessoaItem) {
+		        return pessoaItem.Codigo != pessoa.Codigo;
+		    }));
+		    self.Participantes.push(pessoa);
+		    arrumarLayoutPessoas(self.Pessoas().length);
+		    arrumarLayoutParticipantes(self.Participantes().length);
+		};
+		
+		self.Remover = function (participante) {
+		    self.Participantes(ko.utils.arrayFilter(self.Participantes(), function (participanteItem) {
+		        return participanteItem.Codigo != participante.Codigo;
+		    }));
+		    self.Pessoas.push(participante);
+		    arrumarLayoutPessoas(self.Pessoas().length);
+		    arrumarLayoutParticipantes(self.Participantes().length);
+		};
+
+		self.Salvar = function () {
+		    $.ajax({
+		        url: '@Url.Action("AdicionarParticipantesNaReuniao")',
+			    type: 'POST',
+			    data: JSON.stringify(self.ObterCodigosDosParticipantes()),
+			    dataType: 'json',
+			    contentType: 'application/json',
+			    success: function (resposta) {
+			        if (resposta.Sucesso) {
+			            self.Parent.FecharAdicionarParticipantesNaReuniao();
+			            //alert("Equipe cadastrada com sucesso!");
+			            arrumarLayoutPessoas(self.Pessoas().length);
+			            arrumarLayoutParticipantes(self.Participantes().length);
+			        } else {
+			            //alert("Algum erro ocorreu durante o cadastro!");
+			        }
+			    }
+			});
+		};
+
+        self.Cancelar = function () {
+            self.Parent.FecharGerenciamentoParticipantesCancelar();
+            arrumarLayoutPessoas(self.Pessoas().length);
+            arrumarLayoutParticipantes(self.Participantes().length);
+        };
+    }
+
+    function arrumarLayoutPessoas(indice)
+    {
+        if (indice > 0) {
+            $("#filterTableReunioesPessoas").show();
+            $("#resultTableReunioesPessoas").show();
+        }else {
+            $("#filterTableReunioesPessoas").hide();
+            $("#resultTableReunioesPessoas").hide();
+        }
+    }
+
+    function arrumarLayoutParticipantes(indice)
+    {
+        if (indice > 0) {
+            $("#filterTableReunioesParticipantes").show();
+            $("#resultTableReunioesParticipantes").show();
+        }else {
+            $("#filterTableReunioesParticipantes").hide();
+            $("#resultTableReunioesParticipantes").hide();
+        }
+    }
+</script>

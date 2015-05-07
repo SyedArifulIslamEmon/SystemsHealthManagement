@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9EB0C946-924C-41FC-9CEF-54EE98B43E21}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Integra.ServicosDeAplicacao</RootNamespace>
+    <AssemblyName>Integra.ServicosDeAplicacao</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AprovacaoServicoDeAplicacao.cs" />
+    <Compile Include="ClinicaServicoDeAplicacao.cs" />
+    <Compile Include="EquipeServicoDeAplicacao.cs" />
+    <Compile Include="FaturamentoServicoDeAplicacao.cs" />
+    <Compile Include="FaturaServicoDeAplicacao.cs" />
+    <Compile Include="InfusaoServicoDeAplicacao.cs" />
+    <Compile Include="Mensagens\Aprovacao\AdicionarAprovacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Aprovacao\AdicionarAprovacaoResposta.cs" />
+    <Compile Include="Mensagens\Aprovacao\AprovarDocumentoReposta.cs" />
+    <Compile Include="Mensagens\Aprovacao\AprovarDocumentoRequisicao.cs" />
+    <Compile Include="Mensagens\Aprovacao\ExcluirAprovacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Aprovacao\ExcluirAprovacaoResposta.cs" />
+    <Compile Include="Mensagens\Aprovacao\ObterArquivoDaAprovacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Aprovacao\ObterArquivoDaAprovacaoResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AdicionarClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AdicionarClinicaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AdicionarDocumentoEmUmaClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AdicionarDocumentoEmUmaClinicaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarClinicaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarDocumentoStatusRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarDocumentoStatusResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarForcaDeVendaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarForcaDeVendaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarStatusRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AlterarStatusResposta.cs" />
+    <Compile Include="Mensagens\Clinica\AtualizarDataDeVencimentoRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\AtualizarDataDeVencimentoResposta.cs" />
+    <Compile Include="Mensagens\Clinica\ExcluirClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\ExcluirClinicaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\ExcluirDocumentoDaClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\ExcluirDocumentoDaClinicaResposta.cs" />
+    <Compile Include="Mensagens\Clinica\ObterDocumentoDaClinicaRequisicao.cs" />
+    <Compile Include="Mensagens\Clinica\ObterDocumentoDaClinicaResposta.cs" />
+    <Compile Include="Mensagens\Equipe\AdicionarMembrosNaEquipeRequisicao.cs" />
+    <Compile Include="Mensagens\Equipe\AdicionarMembrosNaEquipeResposta.cs" />
+    <Compile Include="Mensagens\EstornarNotaFiscalRequisicao.cs" />
+    <Compile Include="Mensagens\EstornarNotaFiscalResposta.cs" />
+    <Compile Include="Mensagens\Faturamento\AssociarInfusao.cs" />
+    <Compile Include="Mensagens\Faturamento\DevolverNotaRequisicao.cs" />
+    <Compile Include="Mensagens\Faturamento\DevolverNotaResposta.cs" />
+    <Compile Include="Mensagens\Faturamento\NovaNotaRequisicao.cs" />
+    <Compile Include="Mensagens\Faturamento\NovaNotaResposta.cs" />
+    <Compile Include="Mensagens\Faturamento\ObterArquivoDaNotaFiscalRequisicao.cs" />
+    <Compile Include="Mensagens\Faturamento\ObterArquivoDaNotaFiscalResposta.cs" />
+    <Compile Include="Mensagens\Faturamento\ObterComprovanteRequisicao.cs" />
+    <Compile Include="Mensagens\Faturamento\ObterComprovanteResposta.cs" />
+    <Compile Include="Mensagens\Faturamento\PagarNotaFiscalRequisicao.cs" />
+    <Compile Include="Mensagens\Faturamento\PagarNotaFiscalResposta.cs" />
+    <Compile Include="Mensagens\Infusao\AdicionarInfusaoRequisicao.cs" />
+    <Compile Include="Mensagens\Infusao\AdicionarInfusaoResposta.cs" />
+    <Compile Include="Mensagens\Infusao\CancelarInfusaoRequisicao.cs" />
+    <Compile Include="Mensagens\Infusao\CancelarInfusaoResposta.cs" />
+    <Compile Include="Mensagens\Ovidoria\AdicionarOuvidoriaRequisicao.cs" />
+    <Compile Include="Mensagens\Ovidoria\AdicionarOuvidoriaResposta.cs" />
+    <Compile Include="Mensagens\Perfil\EditarPerfilResposta.cs" />
+    <Compile Include="Mensagens\Pessoa\AlterarUmaPessoaRequisicao.cs" />
+    <Compile Include="Mensagens\Pessoa\AlterarUmaPessoaResposta.cs" />
+    <Compile Include="Mensagens\Pessoa\ObterFotoRequisicao.cs" />
+    <Compile Include="Mensagens\Pessoa\ObterFotoResposta.cs" />
+    <Compile Include="Mensagens\Pessoa\RemoverFotoRequisicao.cs" />
+    <Compile Include="Mensagens\Pessoa\RemoverFotoResposta.cs" />
+    <Compile Include="Mensagens\Programa\AdicionarProgramaRequisicao.cs" />
+    <Compile Include="Mensagens\Programa\AdicionarPeogramaResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAnexoEmUmaAtaRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAnexoEmUmaAtaResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAnexoEmUmareuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAnexoEmUmaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAtaEmUmaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarAtaEmUmaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarParticipantesNaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarParticipantesNaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AlterarAtaEmUmaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AlterarAtaEmUmaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AlterarReuniaoReposta.cs" />
+    <Compile Include="Mensagens\Reuniao\AlterarReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAnexoDaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAnexoDaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAnexoDeUmaAtaRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAnexoDeUmaAtaResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAtaDaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirAtaDaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ExcluirReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\ObterAnexoDaReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ObterAnexoDaReuniaoResposta.cs" />
+    <Compile Include="Mensagens\Reuniao\ObterAnexoDeUmaAtaRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\ObterAnexoDeUmaAtaResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\AbrirUmaSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\AbrirUmaSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\ExcluirSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\ExcluirSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\ObterUmProtocoloRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\ObterUmProtocoloResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarAnalizeDeUmaSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarAnalizeDeUmaSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarAprovacaoDeUmaSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarAprovacaoDeUmaSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarEntregaDeUmaSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarEntregaDeUmaSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarProcessoDeUmaSolicitacaoRequisicao.cs" />
+    <Compile Include="Mensagens\Solicitacao\RealizarProcessoDeUmaSolicitacaoResposta.cs" />
+    <Compile Include="Mensagens\Tratamento\AdicionarTratamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Tratamento\AdicionarTratamentoResposta.cs" />
+    <Compile Include="Mensagens\Tratamento\AprovarTratamentoReposta.cs" />
+    <Compile Include="Mensagens\Tratamento\AprovarTratamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Tratamento\ExcluirTratamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Tratamento\ExcluirTratamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarAnexoEmTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarAnexoEmTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarParticipantesNoTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarParticipantesNoTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\AdicionarTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\AlterarTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\AlterarTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirAnexoDoTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirAnexoDoTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirAnexoTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirAnexoTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\ExcluirTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Fatura\AdicionarFaturaRequisicao.cs" />
+    <Compile Include="Mensagens\Fatura\AdicionarFaturaResposta.cs" />
+    <Compile Include="Mensagens\Fatura\AlterarFaturaRequisicao.cs" />
+    <Compile Include="Mensagens\Fatura\AlterarFaturaResposta.cs" />
+    <Compile Include="Mensagens\Fatura\ExcluirFaturaResposta.cs" />
+    <Compile Include="Mensagens\Fatura\ExcluirFaturaRequisicao.cs" />
+    <Compile Include="Mensagens\Perfil\AdicionarPerfilRequisicao.cs" />
+    <Compile Include="Mensagens\Perfil\AdicionarPerfilResposta.cs" />
+    <Compile Include="Mensagens\RespostaBase.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarReuniaoRequisicao.cs" />
+    <Compile Include="Mensagens\Reuniao\AdicionarReuniaoResposta.cs" />
+    <Compile Include="Mensagens\ServicosContratados\AdicionarServicosContratadosRequisicao.cs" />
+    <Compile Include="Mensagens\ServicosContratados\AdicionarServicosContratadosResposta.cs" />
+    <Compile Include="Mensagens\ServicosContratados\AlterarServicosContratadosRequisicao.cs" />
+    <Compile Include="Mensagens\ServicosContratados\AlterarServicosContratadosResposta.cs" />
+    <Compile Include="Mensagens\ServicosContratados\ExcluirServicosContratadosRequisicao.cs" />
+    <Compile Include="Mensagens\ServicosContratados\ExcluirServicosContratadosResposta.cs" />
+    <Compile Include="Mensagens\Treinamento\ObterAnexoDoTreinamentoRequisicao.cs" />
+    <Compile Include="Mensagens\Treinamento\ObterAnexoDoTreinamentoResposta.cs" />
+    <Compile Include="Mensagens\Usuario\AdicionarUmaPessoaRequisicao.cs" />
+    <Compile Include="Mensagens\Usuario\AdicionarUmaPessoaResposta.cs" />
+    <Compile Include="Mensagens\Usuario\AlterarSenhaRequisicao.cs" />
+    <Compile Include="Mensagens\Usuario\AlterarSenhaResposta.cs" />
+    <Compile Include="Mensagens\Usuario\RecuperarSenhaRequisicao.cs" />
+    <Compile Include="Mensagens\Usuario\RecuperarSenhaResposta.cs" />
+    <Compile Include="Mensagens\Usuario\TrocarFotoRequisicao.cs" />
+    <Compile Include="Mensagens\Usuario\TrocarFotoResposta.cs" />
+    <Compile Include="OuvidoriaServicoDeAplicacao.cs" />
+    <Compile Include="PerfilServicoDeAplicacao.cs" />
+    <Compile Include="ProgramaServicoDeAplicacao.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PessoaServicoDeAplicacao.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReuniaoServicoDeAplicacao.cs" />
+    <Compile Include="ServicosContratadosServicoDeAplicacao.cs" />
+    <Compile Include="SolicitacaoServicoDeAplicacao.cs" />
+    <Compile Include="TratamentoServicoDeAplicacao.cs" />
+    <Compile Include="TreinamentoServicoDeAplicacao.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Integra.Dominio\Integra.Dominio.csproj">
+      <Project>{0d5f30bb-c43d-422b-8ae5-4b0b38a3b50b}</Project>
+      <Name>Integra.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Integra.Infra\Integra.Infra.csproj">
+      <Project>{c3a55370-ade6-481c-b5cd-a7e622787604}</Project>
+      <Name>Integra.Infra</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_nophoto.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

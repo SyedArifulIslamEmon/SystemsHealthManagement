@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Integra.Dominio</RootNamespace>
+    <AssemblyName>Integra.Dominio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AberturaDeSolicitacao.cs" />
+    <Compile Include="AnaliseDeSolicitacao.cs" />
+    <Compile Include="Aprovacao.cs" />
+    <Compile Include="AprovacaoDeSolicitacao.cs" />
+    <Compile Include="Arquivo.cs" />
+    <Compile Include="Ata.cs" />
+    <Compile Include="Base\EntidadeBase.cs" />
+    <Compile Include="Base\RegraDeNegocio\RegraDeNegocioBase.cs" />
+    <Compile Include="Base\RegraDeNegocio\RegraException.cs" />
+    <Compile Include="Base\Repositorio\IRepositorio.cs" />
+    <Compile Include="Base\StringValueAttribute.cs" />
+    <Compile Include="Base\StringValueAttributeExtention.cs" />
+    <Compile Include="Base\SystemTime.cs" />
+    <Compile Include="Base\UoW\IRaizDeAgregacao.cs" />
+    <Compile Include="Base\UoW\IUnitOfWork.cs" />
+    <Compile Include="Base\UoW\IUnitOfWorkRepository.cs" />
+    <Compile Include="Base\UoW\UnitOfWork.cs" />
+    <Compile Include="Cargo.cs" />
+    <Compile Include="Cliente.cs" />
+    <Compile Include="Clinica.cs" />
+    <Compile Include="ClinicaDocumentos.cs" />
+    <Compile Include="CRM.cs" />
+    <Compile Include="Departamento.cs" />
+    <Compile Include="EntregaDaSolicitacao.cs" />
+    <Compile Include="Equipe.cs" />
+    <Compile Include="Estorno.cs" />
+    <Compile Include="Fatura.cs" />
+    <Compile Include="FiltroRelatorio.cs" />
+    <Compile Include="Funcionario.cs" />
+    <Compile Include="Gerente.cs" />
+    <Compile Include="Grupo.cs" />
+    <Compile Include="Infusao.cs" />
+    <Compile Include="Modulo.cs" />
+    <Compile Include="NotaFiscal.cs" />
+    <Compile Include="Pagamento.cs" />
+    <Compile Include="Perfil.cs" />
+    <Compile Include="Pessoa.cs" />
+    <Compile Include="ProcessoDaSolicitacao.cs" />
+    <Compile Include="Programa.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegrasDeNegocio\Ata\RegraDeNegocioAtaRequerUmResponsavel.cs" />
+    <Compile Include="RegrasDeNegocio\Ata\RegrasDeNegocioAta.cs" />
+    <Compile Include="RegrasDeNegocio\Clinica\RegraDeNegocioClinicaDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Clinica\RegrasDeNegocioClinica.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioPessoaEmailJahExiste.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoDeveEstarComSituacaoEntrege.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoSomenteClientePodeAceitarEntrega.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoSomenteFuncionarioPodeDarProcesso.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoSomenteUmFuncionaroPodeAnalisar.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoSomenteUmClientePodeAprovar.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegrasDeNegocioSolicitacao.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoDeveEstarComSituacaoEmProcesso.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoDeveEstarComSituacaoParaAprovacao.cs" />
+    <Compile Include="RegrasDeNegocio\Solicitacao\RegraDeNegocioSolicitacaoDeveEstarComSituacaoEmAnalise.cs" />
+    <Compile Include="RegrasDeNegocio\Tratamento\RegraDeNegocioTratamentoDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Tratamento\RegrasDeNegocioTratamento.cs" />
+    <Compile Include="RegrasDeNegocio\Treinamento\RegraDeNegocioTreinamentoDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Treinamento\RegrasDeNegocioTreinamento.cs" />
+    <Compile Include="RegrasDeNegocio\Crm\RegraDeNegocioCrmRequerUmNumeroValido.cs" />
+    <Compile Include="RegrasDeNegocio\Crm\RegrasDeNegocioCrm.cs" />
+    <Compile Include="RegrasDeNegocio\Crm\RegraDeNegocioCrmRequerUmTipoDeCrm.cs" />
+    <Compile Include="RegrasDeNegocio\Equipe\RegraDeNegocioEquipeDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Equipe\RegraDeNegocioEquipeFuncionarioJaPErtenceAEstaEquipe.cs" />
+    <Compile Include="RegrasDeNegocio\Equipe\RegraDeNegocioEquipeProgramaJaTemUmaEquipe.cs" />
+    <Compile Include="RegrasDeNegocio\Equipe\RegrasDeNegocioEquipe.cs" />
+    <Compile Include="RegrasDeNegocio\Fatura\RegraDeNegocioFaturaDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Fatura\RegrasDeNegocioFatura.cs" />
+    <Compile Include="RegrasDeNegocio\Grupo\RegraDeNegocioGrupoDeveConterUmaDescricaoValida.cs" />
+    <Compile Include="RegrasDeNegocio\Grupo\RegrasDeNegocioGrupo.cs" />
+    <Compile Include="RegrasDeNegocio\Perfil\RegraDeNegocioPerfilDeveConterUmGrupo.cs" />
+    <Compile Include="RegrasDeNegocio\Perfil\RegrasDeNegocioPerfil.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioClienteNaoDeveInformarUmCrmVazio.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioFuncionarioDeveTerUmCargo.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioFuncionarioDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioPessoaDevePertencerAoGrupoIntegraParaTerUmDepartamento.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegraDeNegocioPessoaDoGrupoIntegraDeveTerUmDepartamento.cs" />
+    <Compile Include="RegrasDeNegocio\Pessoa\RegrasDeNegocioPessoa.cs" />
+    <Compile Include="RegrasDeNegocio\Reuniao\RegraDeNegocioReuniaoRequerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\Reuniao\RegrasDeNegocioReuniao.cs" />
+    <Compile Include="RegrasDeNegocio\ServicosContratados\RegrasDeNegocioServicosContratados.cs" />
+    <Compile Include="RegrasDeNegocio\ServicosContratados\RegrasDeNegocioServicosContratadosDeveTerUmPrograma.cs" />
+    <Compile Include="RegrasDeNegocio\TipoDeCrm\RegraDeNegocioTipoDeCrmDeveConterUmaDescricao.cs" />
+    <Compile Include="RegrasDeNegocio\TipoDeCrm\RegrasDeNegocioTipoDeCrm.cs" />
+    <Compile Include="RegrasDeNegocio\Usuario\RegraDeNegocioUsuarioDeveConterUmaSenhaValida.cs" />
+    <Compile Include="RegrasDeNegocio\Usuario\RegraDeNegocioUsuarioDeveConterUmPerfil.cs" />
+    <Compile Include="RegrasDeNegocio\Usuario\RegraDeNegocioUsuarioONomeDeUsuarioDeveSerUmEmailValido.cs" />
+    <Compile Include="RegrasDeNegocio\Usuario\RegrasDeNegocioUsuario.cs" />
+    <Compile Include="Relatorio.cs" />
+    <Compile Include="RelatorioCadastrosMyFortic.cs" />
+    <Compile Include="RelatorioCuidadorProMemoria.cs" />
+    <Compile Include="RelatorioDesempenhoAcesso.cs" />
+    <Compile Include="RelatorioDiagnosticoTratamento.cs" />
+    <Compile Include="RelatorioEfetividadeAcesso.cs" />
+    <Compile Include="RelatorioentregaAmostrasZoteon.cs" />
+    <Compile Include="RelatorioentregaAmostrasZoteonTotal.cs" />
+    <Compile Include="RelatorioEspecialidadeMedica.cs" />
+    <Compile Include="RelatorioEvoCadastroSemana.cs" />
+    <Compile Include="RelatorioEvolucaoMyFortic.cs" />
+    <Compile Include="RelatorioEvoPacCadastro.cs" />
+    <Compile Include="RelatorioInfusoesAplicacao.cs" />
+    <Compile Include="RelatorioListagemPacientes.cs" />
+    <Compile Include="RelatorioNiveldeAdesao.cs" />
+    <Compile Include="RelatorioOmnitropeFicha.cs" />
+    <Compile Include="RelatorioOmnitropeGeral.cs" />
+    <Compile Include="RelatorioOmnitropeVisita.cs" />
+    <Compile Include="RelatorioOrigemCadastro.cs" />
+    <Compile Include="RelatorioPacientesAtivos.cs" />
+    <Compile Include="RelatorioPacientesInativados.cs" />
+    <Compile Include="RelatorioQuantidadePacientesAtivos.cs" />
+    <Compile Include="RelatorioRankingCadastro.cs" />
+    <Compile Include="RelatorioRitalinaporFase.cs" />
+    <Compile Include="Repositorios\GrupoRepositorio.cs" />
+    <Compile Include="Repositorios\IAprovacaoRepositorio.cs" />
+    <Compile Include="Repositorios\ICargoRepositorio.cs" />
+    <Compile Include="Repositorios\IClienteRepositorio.cs" />
+    <Compile Include="Repositorios\IClinicaDocumentoRepositorio.cs" />
+    <Compile Include="Repositorios\IClinicaRepositorio.cs" />
+    <Compile Include="Repositorios\IDepartamentoRepositorio.cs" />
+    <Compile Include="Repositorios\IEquipeRepositorio.cs" />
+    <Compile Include="Repositorios\IFaturaRepositorio.cs" />
+    <Compile Include="Repositorios\IGerenteRepositorio.cs" />
+    <Compile Include="Repositorios\IInfusaoRepositorio.cs" />
+    <Compile Include="Repositorios\IModuloRepositorio.cs" />
+    <Compile Include="Repositorios\INotaFiscalRepositorio.cs" />
+    <Compile Include="Repositorios\IPerfilRepositorio.cs" />
+    <Compile Include="Repositorios\IFuncionarioRepositorio.cs" />
+    <Compile Include="Repositorios\IPessoaRepositorio.cs" />
+    <Compile Include="Repositorios\IProgramaRepositorio.cs" />
+    <Compile Include="Repositorios\IRepresentanteRegionalRepositorio.cs" />
+    <Compile Include="Repositorios\IRepresentanteRepositorio.cs" />
+    <Compile Include="Repositorios\IReuniaoRepositorio.cs" />
+    <Compile Include="Repositorios\IServicosContratadosRepositorio.cs" />
+    <Compile Include="Repositorios\ISolicitacaoRepositorio.cs" />
+    <Compile Include="Repositorios\ITipoDaSolicitacaoRepositorio.cs" />
+    <Compile Include="Repositorios\ITipoDeCrmRepositorio.cs" />
+    <Compile Include="Repositorios\ITratamentoRepositorio.cs" />
+    <Compile Include="Repositorios\ITreinamentoRepositorio.cs" />
+    <Compile Include="Repositorios\IUsuarioRepositorio.cs" />
+    <Compile Include="Representante.cs" />
+    <Compile Include="RepresentanteRegional.cs" />
+    <Compile Include="Reuniao.cs" />
+    <Compile Include="ServicosContratados.cs" />
+    <Compile Include="Servicos\ClienteServico.cs" />
+    <Compile Include="Servicos\ClinicaServico.cs" />
+    <Compile Include="Servicos\EquipeServico.cs" />
+    <Compile Include="Servicos\FuncionarioServico.cs" />
+    <Compile Include="Servicos\InfusaoServico.cs" />
+    <Compile Include="Servicos\PerfilServico.cs" />
+    <Compile Include="Servicos\FaturaServico.cs" />
+    <Compile Include="Servicos\ProgramaServico.cs" />
+    <Compile Include="Servicos\ReuniaoServico.cs" />
+    <Compile Include="Servicos\ServicosContratadosServico.cs" />
+    <Compile Include="Servicos\TratamentoServico.cs" />
+    <Compile Include="Servicos\SolicitacaoServico.cs" />
+    <Compile Include="Servicos\TreinamentoServico.cs" />
+    <Compile Include="Solicitacao.cs" />
+    <Compile Include="TipoDaSolicitacao.cs" />
+    <Compile Include="TipoDeCrm.cs" />
+    <Compile Include="Tratamento.cs" />
+    <Compile Include="Treinamento.cs" />
+    <Compile Include="Usuario.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

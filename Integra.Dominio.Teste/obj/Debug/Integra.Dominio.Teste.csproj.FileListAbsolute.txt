@@ -1,0 +1,12 @@
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Integra.Dominio.Teste.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Integra.Dominio.Teste.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Integra.Dominio.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Moq.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\nunit.framework.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Integra.Dominio.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Moq.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\Moq.xml
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\bin\Debug\nunit.framework.xml
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\obj\Debug\Integra.Dominio.Teste.csprojResolveAssemblyReference.cache
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\obj\Debug\Integra.Dominio.Teste.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.Dominio.Teste\obj\Debug\Integra.Dominio.Teste.pdb

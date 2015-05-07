@@ -1,0 +1,417 @@
+﻿@model IList<Integra.Web.Models.TratamentoViewModel>
+@using Integra.Web.Helpers
+
+@{
+	ViewBag.Title = ": Painel de Controle Íntegra Medical : Gestão de Ínicio de Tratamento :";
+	Layout = "~/Views/Shared/_LayoutMaster.module.cshtml";
+}
+
+@Scripts.Render("~/dataTables")
+
+<div class="container-fluid" id="main-container" style="padding-top: 10px;">
+	<div id="main-content" class="clearfix">
+		<div id="page-content" class="clearfix">
+			<div class="page-header position-relative">
+				<h3>Gestão de Ínicio de Tratamento <small></small></h3>
+			</div>
+			<div class="row-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<div id="DivPageTratamentosViewModel">
+							<table id="gridTratamentos" data-bind="dataTable:{
+	dataSource: Tratamentos,
+	rowTemplate: 'gridTratamentosTemplate',
+	sPaginationType: 'bootstrap',
+	iDisplayLength: 10,
+	gridId: 'gridTratamentos',
+	autoWidth: false,
+	sDom: 'fptr',
+	columns:
+	[
+		{ 'name': 'DataSolicitacao' },
+		{ 'name': 'Ifx' },
+		{ 'name': 'Medico' },
+		{ 'name': 'Status' },
+		{ 'name': 'DataStatus' },
+		{ 'name': 'Responsavel' }
+	],
+	options: {
+		oLanguage: {
+			sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+	}
+}
+}"
+								   class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Data</th>
+										<th>IFX</th>
+										<th>Médico</th>
+										<th>Status</th>
+										<th>Data Status</th>
+										<th>Responsável</th>
+										@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+										{ 
+											<th id="filterTableTratamentos"></th>
+										}
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+							{
+									<div class="form-actions" data-bind="visible:true">
+								
+										<button data-bind="click: AdicionarNovoTratamento" class="bbtnn bbtnn-info"><i class="icon-ok icon-white"></i>Adicionar</button>
+								
+									</div>
+							}
+							<div style="display: none;" data-bind="dialog: { isOpen: NovoTratamentoDialog, modal: true, title: '', width: '0px', height: '0px' }">
+								<div data-bind="html: NovoTratamentoHtml"></div>
+							</div>
+							<div style="display: none;" data-bind="dialog: {isOpen: AprovarTratamentoDialog, modal: true, title:'', width:'0px', height:'0px' }">
+								<div class="modal">
+									<div class="modal-header">
+										<h4>Aprovar Ínicio de Tratamento</h4>
+									</div>
+									<div class="modal-body">
+										<div data-bind="with: TratamentoSendoAprovado">
+											<p><span>Deseja aprovar esta Solicitação?</span></p>
+											<p>
+												Observações
+												<textarea rows="3" style="width: 90%;" id="ObservacoesAprovacao"></textarea>
+												<span class="error-inline" data-bind="validationMessage: ObservacoesAprovacao"></span>
+											</p>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button data-bind="click: AprovarTratamentoCancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+										<button data-bind="click: AprovarTratamentoNao" class="bbtnn bbtnn-danger" value="Não"><i class="icon-remove"></i>Não</button>
+										<button data-bind="click: AprovarTratamentoSim" class="bbtnn bbtnn-success" value="Sim"><i class="icon-ok"></i>Sim</button>
+									</div>
+								</div>
+							</div>
+
+							<div style="display: none;" data-bind="dialog: {isOpen: ResumoTratamentoDialog, modal: true, title:'', width:'0px', height:'0px' }">
+								<div class="modal">
+									<div class="modal-header">
+										<h4>Visão Geral</h4>
+									</div>
+									<div class="modal-body">
+										<div data-bind="with: TratamentoSendoResumido">
+											<div class="row-fluid">
+												<div class="form-horizontal">
+													<div class="control-group">
+														<label class="control-label">Data Solicitação</label>
+														<div class="controls">
+															<div class="row-fluid">
+																<label data-bind="date: DataSolicitacao"></label>
+															</div>
+														</div>
+													</div>
+													<div class="control-group">
+														<label class="control-label">IFX</label>
+														<div class="controls">
+															<div class="row-fluid">
+																<label data-bind="text: Ifx"></label>
+															</div>
+														</div>
+													</div>
+													<div class="control-group">
+														<label class="control-label">Médico</label>
+														<div class="controls">
+															<div class="row-fluid">
+																<label data-bind="text: Medico"></label>
+															</div>
+														</div>
+													</div>
+													<div class="control-group">
+														<label class="control-label">Representante</label>
+														<div class="controls">
+															<div class="row-fluid">
+																<label data-bind="text: Representante"></label>
+															</div>
+														</div>
+													</div>
+													<div class="control-group">
+														<label class="control-label">Motivo Solicitação</label>
+														<div class="controls">
+															<div class="row-fluid">
+																<label data-bind="text: MotivoSolicitacao"></label>
+															</div>
+														</div>
+													</div>
+													<div class="hr hr8 hr-double hr-dotted"></div>
+													<div class="row-fluid">
+														<div class="control-group">
+															<label class="control-label">Data Status</label>
+															<div class="controls">
+																<div class="row-fluid">
+																	<label data-bind="date: DataStatus"></label>
+																</div>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Observações</label>
+															<div class="controls">
+																<div class="row-fluid">
+																	<label data-bind="text: Observacoes"></label>
+																</div>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Situação</label>
+															<div class="controls">
+																<div class="row-fluid">
+																	<label><span class="" data-bind="text: Status"></span></label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button data-bind="click: ResumoTratamentoFechar" class="bbtnn bbtnn-gray" value="Fechar">Fechar</button>
+									</div>
+								</div>
+							</div>
+
+							<div style="display: none;" data-bind="dialog: {isOpen: ExcluirTratamentoDialog, modal: true, title:'', width:'0px', height:'0px' }">
+								<div class="modal">
+									<div class="modal-header">
+										<h4>Remover Tratamento</h4>
+									</div>
+									<div class="modal-body">
+										<div data-bind="with: TratamentoSendoExcluido">
+											Você deseja remover este Tratamento?
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button data-bind="click: ExcluirTratamentoCancelar" class="bbtnn bbtnn-gray" value="Não">Não</button>
+										<button data-bind="click: ExcluirTratamentoConfirmar" class="bbtnn bbtnn-danger" value="Sim"><i class="icon-ok"></i>Sim</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@Html.Partial("_LayoutFooter")
+
+<script id="gridTratamentosTemplate" type="text/html">
+	<td data-bind="date: DataSolicitacao" style="text-align: center; width: 130px;"></td>
+	<td data-bind="text: Ifx"></td>
+	<td data-bind="text: Medico"></td>
+	<td class='hidden-480' style="text-align: center; width: 100px;"><span class="" data-bind="text: Status, attr: { 'class': applyCssStyle}"></span></td>
+	<td data-bind="date: DataStatus" style="text-align: center; width: 130px;"></td>
+	<td data-bind="text: Responsavel"></td>
+
+	<td id="resultTableTratamentos" style="text-align: center; width: 20px;">
+		<div class='hidden-phone visible-desktop btn-group'>
+			<button data-bind="visible: FoiAprovadoTratamento, click: AprovarTratamento" class='btn btn-mini btn-success tooltip-success' data-rel="tooltip" title="Aprovar" data-placement="left"><i class='icon-ok'></i></button>
+			<button data-bind="click: ResumoTratamento" class='btn btn-mini btn-grey tooltip-info' data-rel="tooltip" title="Visão Geral" data-placement="left"><i class='icon-list-alt'></i></button>
+			@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+   {
+				<button data-bind="click: ExcluirTratamento, visible:false" class='btn btn-mini btn-danger tooltip-info' data-rel="tooltip" title="Excluir" data-placement="left"><i class='icon-trash'></i></button>
+   }
+		</div>
+	</td>
+
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var view = new TratamentoView();
+		ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageTratamentosViewModel").get(0));
+		
+		$(".ui-dialog-titlebar").hide();
+		$(".ui-dialog-buttonpane").hide();
+	});
+	
+	function TratamentoTableView(data, parent) {
+		var self = this;
+		self.Parent = parent;
+
+		self.Codigo = data.Codigo;
+		self.DataSolicitacao = ko.observable(data.DataSolicitacao);
+		self.Ifx = ko.observable(data.Ifx);
+		self.Medico = ko.observable(data.Medico);
+		self.Representante = ko.observable(data.Representante);
+		self.MotivoSolicitacao = ko.observable(data.MotivoSolicitacao);
+		
+		self.DataStatus = ko.observable(data.DataStatus);
+		self.Status = ko.observable(data.Status);
+		self.Observacoes = ko.observable(data.Observacoes);
+		self.Responsavel = ko.observable(data.Responsavel);
+
+		self.FoiAprovadoTratamento = ko.computed(function() {
+			return self.Status() == "Aberto";
+		});
+
+		self.AprovarTratamento = function() {
+			self.Parent.AprovarTratamento(self);
+		};
+
+		self.ExcluirTratamento = function() {
+			self.Parent.ExcluirTratamento(self);
+		};
+
+		self.ResumoTratamento = function() {
+			self.Parent.ExibirResumoTratamento(self);
+		};
+		
+		self.applyCssStyle = ko.computed(function () {
+			if (self.Status() == "Negado")
+				return "label label-warning";
+			else if (self.Status() == "Autorizado")
+				return "label label-success";
+			else
+				return "label label-info";
+		});
+	}
+
+	function TratamentoView() {
+		var self = this;
+		
+		self.NovoTratamentoDialog = ko.observable(false);
+		self.NovoTratamentoHtml = ko.observable(null);
+
+		self.ExcluirTratamentoDialog = ko.observable(false);
+		self.TratamentoSendoExcluido = ko.observable(null);
+
+		self.AprovarTratamentoDialog = ko.observable(false);
+		self.TratamentoSendoAprovado = ko.observable(null);
+		
+		self.ResumoTratamentoDialog = ko.observable(false);
+		self.TratamentoSendoResumido = ko.observable(null);
+
+		var allData = @Html.Raw(Json.Encode(Model));
+		var mappedData = jQuery.map(allData, function (item) { return new TratamentoTableView(item, self); });
+		self.Tratamentos = ko.observableArray(mappedData);
+		arrumarLayout(self.Tratamentos().length);
+
+		//----------------------------------------------
+		// ----------------- INICIO ADICIONAR
+		//----------------------------------------------
+		self.AdicionarNovoTratamento = function() {
+			self.NovoTratamentoHtml(null);
+			$.get('@Url.Action("AddEditTratamento")', null, function (html) {
+				self.NovoTratamentoHtml(html);
+				new window.NovoTratamentoFactory(self);
+				self.NovoTratamentoDialog(true);
+				arrumarLayout(self.Tratamentos().length);
+			});
+		};
+		
+		self.FecharCadastroDeTratamento = function(tratamento) {
+			self.NovoTratamentoHtml(null);
+			if(tratamento!=null) {
+				self.Tratamentos.push(new TratamentoTableView(tratamento, self));
+			}
+			self.NovoTratamentoDialog(false);
+			arrumarLayout(self.Tratamentos().length);
+		};
+
+		self.CancelarCadastroDeTratamento = function() {
+			self.NovoTratamentoHtml(null);
+			self.NovoTratamentoDialog(false);
+			arrumarLayout(self.Tratamentos().length);
+		};
+		// ----------------- FIM ADICIONAR
+		//----------------------------------------------
+		// ----------------- INICIO APROVAR
+		self.AprovarTratamento = function(tratamento) {
+			self.AprovarTratamentoDialog(true);
+			self.TratamentoSendoAprovado(tratamento);
+		};
+
+		self.AprovarTratamentoCancelar = function() {
+			self.AprovarTratamentoDialog(false);
+			self.TratamentoSendoAprovado(null);
+		};
+
+		self.AprovarTratamentoSim = function() {
+			self.EnviarAprovacaoTratamento(true);
+		};
+		
+		self.AprovarTratamentoNao = function() {
+			self.EnviarAprovacaoTratamento(false);
+		};
+
+		self.EnviarAprovacaoTratamento = function(aprovado) {
+			var observacoesAprovacao = $("#ObservacoesAprovacao").val();
+			$.post('@Url.Action("AprovarTratamento")', { codigoDoTratamento : self.TratamentoSendoAprovado().Codigo, aprovado: aprovado, observacoes: observacoesAprovacao }, function(retorno) {
+				if(retorno.Sucesso) {
+					var tratamentos = self.Tratamentos;
+					tratamentos(ko.utils.arrayFilter(tratamentos(), function(tratamento) {
+						return tratamento.Codigo != retorno.Tratamento.Codigo;
+					}));
+					tratamentos.push(new TratamentoTableView(retorno.Tratamento, self));
+					
+					self.AprovarTratamentoDialog(false);
+					self.TratamentoSendoAprovado(null);
+				}else {
+					alert("Algum Erro ocorreu durante a aprovação deste Tratamento!");
+				}
+			});
+		};
+		// ----------------- FIM APROVAR
+		//----------------------------------------------
+		// ----------------- INICIO EXCLUIR
+		self.ExcluirTratamento = function(tratamento) {
+			self.ExcluirTratamentoDialog(true);
+			self.TratamentoSendoExcluido(tratamento);
+		};
+
+		self.ExcluirTratamentoCancelar = function() {
+			self.ExcluirTratamentoDialog(false);
+			self.TratamentoSendoExcluido(null);
+		};
+
+		self.ExcluirTratamentoConfirmar = function() {
+			$.post('@Url.Action("ExcluirTratamento", "Tratamento")', { codigo: self.TratamentoSendoExcluido().Codigo }, function(resposta) {
+				if (resposta.Sucesso) {
+					self.Tratamentos(
+						ko.utils.arrayFilter(self.Tratamentos(), function(ser) {
+							return ser.Codigo != self.TratamentoSendoExcluido().Codigo;
+						}));
+					self.TratamentoSendoExcluido(null);
+					self.ExcluirTratamentoDialog(false);
+					arrumarLayout(self.Tratamentos().length);
+				} else {
+					alert("Algum Erro ocorreu durante a exclução deste Tratamento!");
+				}
+			});
+		};
+		// ----------------- FIM EXCLUIR
+		//----------------------------------------------
+		// ----------------- INICIO RESUMO
+		self.ExibirResumoTratamento = function(tratamento) {
+			self.ResumoTratamentoDialog(true);
+			self.TratamentoSendoResumido(tratamento);
+		};
+
+		self.ResumoTratamentoFechar = function() {
+			self.ResumoTratamentoDialog(false);
+			self.TratamentoSendoResumido(null);
+		};
+		// ----------------- FIM RESUMO
+		//----------------------------------------------
+	}
+	
+	function arrumarLayout(indices) {
+		if(indices>0) {
+			$("#filterTableTratamentos").show();
+			$("#resultTableTratamentos").show();
+		}else {
+			$("#filterTableTratamentos").hide();
+			$("#resultTableTratamentos").hide();
+		}
+	}
+</script>

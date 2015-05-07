@@ -1,0 +1,169 @@
+﻿@model Integra.Web.Models.SolicitacaoViewModel
+<div id="DivSolicitacaoAprovacaoViewModel">
+    <form data-bind="submit: Salvar, validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Análise</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal">
+                        <!-- ko with: SolicitacaoAprovacao -->
+                        <div class="control-group">
+                            <label class="control-label">Data da Análise</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span>@Html.Label(DateTime.Now.ToString("dd/MMMM/yyyy"))</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">SLA de Análise</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span>@{
+                                        var a = Model.DataDeAbertura.AddDays(Model.DiasSLA).Date.Subtract(DateTime.Now.Date).TotalDays;
+                                        if (a >= 1)
+                                        {
+                                        @Html.Raw("Realizada com antecedência")
+                                        }
+                                        else
+                                        {
+                                        @(a < 0 ? Html.Raw("Realizada com atraso") : Html.Raw("Realizada no prazo"))
+                                        }
+                                    }</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Atividade a ser realizada</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input data-bind="value: Atividade" type="text" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Atividade"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Análise</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <textarea data-bind="value: Analise" rows="2"></textarea>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Analise"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Investimento</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input data-bind="maskMoney: Custo" type="text" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Custo"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Dias para entrega</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input data-bind="maskMoney: DiasParaEntrega, maskOptions: { precisao: 0, prefixo: '' }" type="text" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: DiasParaEntrega"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Necessita Aprovação do Cliente?</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input data-bind="checked: AprovacaoDoCliente" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function SolicitacaoAprovacao() {
+        var self = this;
+        self.Custo = ko.observable();
+        self.DiasParaEntrega = ko.observable();
+        self.Atividade = ko.observable().extend({ required: true });
+        self.AprovacaoDoCliente = ko.observable(false);
+        self.Analise = ko.observable().extend({ required: true });
+        self.DiasParaEntrega.extend({
+            validation: {
+                validator: function () {
+                    return (self.DiasParaEntrega() != undefined && self.DiasParaEntrega() > 0);
+                },
+                message: "Informe a quantidade de dias para entrega."
+            }
+        });
+        self.Custo.extend({
+            validation: {
+                validator: function () {
+                    return (self.Custo() != undefined);
+                },
+                message: "Informe um custo para a solicitação."
+            }
+        });
+        self.ToJson = function() {
+            var aprovacao = new Object();
+            aprovacao.Codigo = @Model.Codigo;
+            aprovacao.Custo = self.Custo();
+            aprovacao.DiasParaEntrega = self.DiasParaEntrega();
+            aprovacao.Atividade = self.Atividade();
+            aprovacao.Analise = self.Analise();
+            aprovacao.AprovacaoDoCliente = self.AprovacaoDoCliente();
+            return JSON.stringify(aprovacao);
+        };
+    }
+
+    function SolicitacaoAprovacaoView(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.SolicitacaoAprovacao = new SolicitacaoAprovacao(self);
+        self.SolicitacaoAprovacao = ko.validatedObservable(self.SolicitacaoAprovacao);
+
+        self.Enviar = function() {
+            $.ajax({
+                url: '@Url.Action("SalvarAnaliseDeSolicitacao", "PainelDeControle")',
+                type: 'POST',
+                data: self.SolicitacaoAprovacao().ToJson(),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastro(resposta.Solicitacao);
+                    } else {
+                        alert("Algum erro ocorreu durante o cadastro desta solicitação!");
+                    }
+                }
+            });
+        };
+        
+        self.Salvar = function () {
+            if (self.SolicitacaoAprovacao.isValid()) {
+                self.Enviar();
+            }else{
+                self.SolicitacaoAprovacao.errors.showAllMessages(true);
+            }
+        };
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastro();
+        };
+    }
+
+    function VisualizarSolicitacaoFactory(parent) {
+        var view = new SolicitacaoAprovacaoView(parent);
+        ko.applyBindings(view, $("#DivSolicitacaoAprovacaoViewModel").get(0));
+    }
+</script>

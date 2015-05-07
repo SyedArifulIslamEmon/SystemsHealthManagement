@@ -1,0 +1,2570 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SisoDb</name>
+    </assembly>
+    <members>
+        <member name="T:SisoDb.ICacheProvider">
+            <summary>
+            Defines a Cache provider that can be hooked in to
+            a <see cref="T:SisoDb.ISisoDatabase"/>.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ICacheProvider.Clear">
+            <summary>
+            Clears all <see cref="T:SisoDb.ICache"/> instances associated with
+            this provider.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ICacheProvider.Handles(System.Type)">
+            <summary>
+            Indicates if the <paramref name="type"/> is
+            supported or not by the cache provider.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICacheProvider.EnableFor(System.Type)">
+            <summary>
+            Enables caching for a certain structure type.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:SisoDb.ICacheProvider.DisableFor(System.Type)">
+            <summary>
+            Disables and removes caching for a certain structure type.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="P:SisoDb.ICacheProvider.Item(System.Type)">
+            <summary>
+            If <see cref="M:SisoDb.ICacheProvider.Handles(System.Type)"/> returns true for <paramref name="type"/>
+            then this property should always return an instance of <see cref="T:SisoDb.ICache"/>.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SisoDb.ICacheProvider.AutoEnable">
+            <summary>
+            Gets or Sets a value, determining if a cache should be
+            created automatically for a type, when the cache is
+            consumed for the first time.
+            </summary>
+        </member>
+        <member name="M:SisoDb.Caching.CacheProviderBase.OnCreate(System.Type)">
+            <summary>
+            This is called in conjunction with <![CDATA[http://msdn.microsoft.com/en-us/library/ee378677.aspx]]>,
+            hence, do not make it expensive. If, then implement <see cref="T:SisoDb.ICacheProvider"/> and make one from
+            scratch, or override <see cref="M:SisoDb.Caching.CacheProviderBase.EnableFor(System.Type)"/> and <see cref="P:SisoDb.Caching.CacheProviderBase.Item(System.Type)"/>.
+            </summary>
+            <param name="structureType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SisoDb.Caching.CacheProviderExtensions">
+            <summary>
+            Helpers that helps you interact with the Db-Cache, with regards to
+            keeping it up-to-date.
+            </summary>
+        </member>
+        <member name="M:SisoDb.Configurations.DbConfiguration.UseAutoIds">
+            <summary>
+            If an Id exists it will be left untouched, otherwise a new ID will be generated.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Configurations.DbConfiguration.PreserveIds">
+            <summary>
+            GUID and String Ids should have been assigned. Identities will be generated for you.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Configurations.DbConfiguration.UseManualIds">
+            <summary>
+            No Ids will be generated. You are responsible for doing it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Any``1">
+            <summary>
+            Returns bool indicating if the specified structure <typeparamref name="T"/>,
+            has any items at all.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Any(System.Type)">
+            <summary>
+            Returns bool indicating if the specified structure <paramref name="structureType" />,
+            has any items at all.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Any``1(SisoDb.IQuery)">
+            <summary>
+            Returns bool indicating if the specified structure <typeparamref name="T"/>,
+            has any items matching the where expression in <see cref="P:SisoDb.IQuery.Where"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Any(System.Type,SisoDb.IQuery)">
+            <summary>
+            Returns bool indicating if the specified structure <paramref name="structureType"/>,
+            has any items matching the where expression in <see cref="P:SisoDb.IQuery.Where"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="query"></param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Count``1">
+            <summary>
+            Issues a simple count for how many structures there
+            are in the specified structure <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Count(System.Type)">
+            <summary>
+            Issues a simple count for how many structures there
+            are in the specified structure <paramref name="structureType"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Count``1(SisoDb.IQuery)">
+            <summary>
+            Issues a simple count for how many structures there are
+            in the specified structure <typeparamref name="T"/>,
+            matching the where expression in <see cref="P:SisoDb.IQuery.Where"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Count(System.Type,SisoDb.IQuery)">
+            <summary>
+            Issues a simple count for how many structures there are
+            in the specified structure <paramref name="structureType"/>,
+            matching the where expression in <see cref="P:SisoDb.IQuery.Where"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="query"></param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Exists``1(System.Object)">
+            <summary>
+            Returns value indicating of structure exists or not.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Exists(System.Type,System.Object)">
+            <summary>
+            Returns value indicating of structure exists or not.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Query``1(SisoDb.IQuery)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>IEnumerable of <typeparamref name="T"/>.</returns>
+            <remarks>The query is defered and is executed when you start yield the result.</remarks>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.Query(SisoDb.IQuery,System.Type)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            </summary>
+            <param name="query"></param>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns>IEnumerable of object, representing <paramref name="structureType"/>.</returns>
+            <remarks>The query is defered and is executed when you start yield the result.</remarks>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.QueryAs``2(SisoDb.IQuery)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            Returns structures for the defined structure <typeparamref name="T"/>
+            deserialized as <typeparamref name="TResult"/>. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TResult">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="query"></param>
+            <returns>IEnumerable of <typeparamref name="TResult"/>.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.QueryAs(SisoDb.IQuery,System.Type,System.Type)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            Returns structures for the defined structure <paramref name="structureType"/>
+            deserialized as <paramref name="resultType"/>. 
+            </summary>
+            <param name="query"></param>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="resultType">Determines the type you want your structure deserialized to and returned as.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.QueryAsJson``1(SisoDb.IQuery)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <returns>IEnumerable Json representation of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:SisoDb.IQueryEngine.QueryAsJson(SisoDb.IQuery,System.Type)">
+            <summary>
+            Lets you perform a Query by passing an <see cref="T:SisoDb.IQuery"/>.
+            </summary>
+            <param name="query"></param>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns>IEnumerable Json representation of <paramref name="structureType"/>.</returns>
+        </member>
+        <member name="T:SisoDb.IAdvanced">
+            <summary>
+            Used to execute some more advances query operations against the database.
+            </summary>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NonQuery(System.String,SisoDb.Dac.IDacParameter[])">
+            <summary>
+            Lets you run Non Query SQL against the Db.
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+        </member>
+        <member name="M:SisoDb.IAdvanced.UpsertNamedQuery``1(System.String,System.Action{SisoDb.Querying.IQueryBuilder{``0}})">
+            <summary>
+            Lets you upsert a named query (stored procedure).
+            If one allready exists, it will be dropped first.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <param name="spec"></param>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQuery``1(SisoDb.INamedQuery)">
+            <summary>
+            Lets you invoke a stored procedures that returns Json,
+            which will get deserialized to <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="T"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQuery``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Lets you invoke a stored procedures that returns Json,
+            which will get deserialized to <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="name">Name of the Stored procedure</param>
+            <param name="predicate">Used to populate the arguments of the underlying <see cref="T:SisoDb.INamedQuery"/>.</param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="T"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQueryAs``2(SisoDb.INamedQuery)">
+            <summary>
+            Lets you invoke a stored procedures that returns Json,
+            which will get deserialized to <typeparamref name="TOut"/>.
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="query"></param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="TOut"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQueryAs``2(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Lets you invoke a stored procedures that returns Json,
+            which will get deserialized to <typeparamref name="TOut"/>.
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="name">Name of the Stored procedure</param>
+            <param name="predicate">Used to populate the arguments of the underlying <see cref="T:SisoDb.INamedQuery"/>.</param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="TOut"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQueryAsJson``1(SisoDb.INamedQuery)">
+            <summary>
+            Lets you invoke a stored procedures that returns Json.
+            This is the most effective return type, since the Json is stored in the database,
+            no deserialization will take place. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Json representation of structures (<typeparamref name="T"/>)
+            or empty IEnumerable of <see cref="T:System.String"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.NamedQueryAsJson``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Lets you invoke a stored procedures that returns Json.
+            This is the most effective return type, since the Json is stored in the database,
+            no deserialization will take place. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="name">Name of the Stored procedure</param>
+            <param name="predicate">Used to populate the arguments of the underlying <see cref="T:SisoDb.INamedQuery"/>.</param>
+            <returns>Json representation of structures (<typeparamref name="T"/>)
+            or empty IEnumerable of <see cref="T:System.String"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.RawQuery``1(SisoDb.IRawQuery)">
+            <summary>
+            Lets you invoke a raw query, e.g using SQL, that returns Json,
+            which will get deserialized to <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="T"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.RawQueryAs``2(SisoDb.IRawQuery)">
+            <summary>
+            Lets you invoke a raw query, e.g using SQL, that returns Json,
+            which will get deserialized to <typeparamref name="TOut"/>.
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="query"></param>
+            <returns>Empty or populated IEnumerable of <typeparamref name="TOut"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="M:SisoDb.IAdvanced.RawQueryAsJson``1(SisoDb.IRawQuery)">
+            <summary>
+            Lets you invoke a raw query, e.g using SQL, that returns Json.
+            This is the most effective return type, since the Json is stored in the database,
+            no deserialization will take place. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="query"></param>
+            <returns>Json representation of structures (<typeparamref name="T"/>)
+            or empty IEnumerable of <see cref="T:System.String"/>.</returns>
+            <remarks>Does not consume the cache provider.</remarks>
+        </member>
+        <member name="P:SisoDb.IDbSettings.MaxInsertManyBatchSize">
+            <summary>
+            Controls the maximum size of each batch used for inserting many structures.
+            </summary>
+        </member>
+        <member name="P:SisoDb.IDbSettings.MaxUpdateManyBatchSize">
+            <summary>
+            Controls the maximum size of each batch used for updating many structures.
+            </summary>
+        </member>
+        <member name="P:SisoDb.IDbSettings.AllowDynamicSchemaCreation">
+            <summary>
+            DEFAULT IS: True.
+            Controls if upserting of structureset schemas should be allowed or not.
+            If (true), then ONCE per <see cref="T:SisoDb.ISisoDatabase"/>, table-schemas are created on the fly.
+            If (false), then the structureset allready has to be created before.
+            This is useful when you have deployed and settled upon your design. If you then set it to (false),
+            you will get a small performance boost, since it will not check if tables exists nor will it create
+            any new once on the fly the first time you use a certain structure.
+            </summary>
+        </member>
+        <member name="P:SisoDb.IDbSettings.AllowDynamicSchemaUpdates">
+            <summary>
+            DEFAULT IS: True.
+            Controls if a synchronization between your code model and query-index tables
+            should be performed (true) or not (false).
+            If (true), then ONCE per <see cref="T:SisoDb.ISisoDatabase"/>, schemas are synhronized on the fly. Hence
+            a compare between your code model, e.g c-sharp class Person and
+            the keys (memberpaths) in each query index table for Person is synchronized.
+            </summary>
+        </member>
+        <member name="T:SisoDb.EnsureThat.Resources.ExceptionMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsEmptyCollection">
+            <summary>
+              Looks up a localized string similar to Empty collection is not allowed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsEmptyGuid">
+            <summary>
+              Looks up a localized string similar to Empty Guid is not allowed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotClass">
+            <summary>
+              Looks up a localized string similar to The param was expected to be a class, but was type of: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotClass_WasNull">
+            <summary>
+              Looks up a localized string similar to The param was expected to be a class, but was NULL..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotFalse">
+            <summary>
+              Looks up a localized string similar to Expected an expression that evaluates to false..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotGt">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is not greater than limit &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotGte">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is not greater than or equal to limit &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotInRange_ToHigh">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is &gt; max &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotInRange_ToLong">
+            <summary>
+              Looks up a localized string similar to The string is too long. Must be between &apos;{0}&apos; and  &apos;{1}&apos;. Must be between &apos;{0}&apos; and &apos;{1}&apos; but was &apos;{2}&apos; characters long..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotInRange_ToLow">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is &lt; min &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotInRange_ToShort">
+            <summary>
+              Looks up a localized string similar to The string is not long enough. Must be between &apos;{0}&apos; and &apos;{1}&apos; but was &apos;{2}&apos; characters long..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotLt">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is not lower than limit &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotLte">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; is not lower than or equal to limit &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotNull">
+            <summary>
+              Looks up a localized string similar to Value can not be null..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotNullOrEmpty">
+            <summary>
+              Looks up a localized string similar to The string can&apos;t be null or empty..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotNullOrWhiteSpace">
+            <summary>
+              Looks up a localized string similar to The string can&apos;t be left empty, null or consist of only whitespaces..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotOfType">
+            <summary>
+              Looks up a localized string similar to The param is not of expected type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_IsNotTrue">
+            <summary>
+              Looks up a localized string similar to Expected an expression that evaluates to true..
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.EnsureExtensions_NoMatch">
+            <summary>
+              Looks up a localized string similar to value &apos;{0}&apos; does not match &apos;{1}&apos;.
+            </summary>
+        </member>
+        <member name="P:SisoDb.EnsureThat.Resources.ExceptionMessages.ExpressionUtils_GetRightMostMember_NoMemberFound">
+            <summary>
+              Looks up a localized string similar to No MemberExpression found in expression: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="T:SisoDb.ICache">
+            <summary>
+            A cache for a certain type of <see cref="T:SisoDb.Structures.IStructure"/> identified
+            by <see cref="P:SisoDb.Structures.Schemas.IStructureSchema.Name"/>.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ICache.Clear">
+            <summary>
+            Clears the cache. Both structures and queries.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ICache.ClearQueries">
+            <summary>
+            Will clear the cached queries, not structures.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ICache.Any">
+            <summary>
+            Returns bool indicating if the Cache is empty or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.Count">
+            <summary>
+            Returns number indicating how many items the cache holds.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.HasQuery(System.String)">
+            <summary>
+            Returns bool indicating if the cache has a cached result of the query.
+            </summary>
+            <param name="queryChecksum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.Exists(SisoDb.Structures.IStructureId)">
+            <summary>
+            Returns bool indicating if there is a structure for
+            the passed structure id in the cache.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.GetAll``1">
+            <summary>
+            Yields all items contained in the cache.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.Query``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Queries the cache.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.GetById``1(SisoDb.Structures.IStructureId)">
+            <summary>
+            Returns either null or the structure matching the
+            sent id.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.GetByIds``1(SisoDb.Structures.IStructureId[])">
+            <summary>
+            Returns a cached result set for all, none or subset of the passed ids.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.GetByQuery``1(System.String)">
+            <summary>
+            Returns items associated with a previously cached query result.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryChecksum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.Put``1(SisoDb.Structures.IStructureId,``0)">
+            <summary>
+            Called when an insert or update is performed against the <see cref="T:SisoDb.ISisoDatabase"/>.
+            Should be used to update the cache.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <param name="structure"></param>
+            <returns></returns>
+            <remarks>Note! The structure being sent in should be returned by the cache.</remarks>
+        </member>
+        <member name="M:SisoDb.ICache.Put``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{SisoDb.Structures.IStructureId,``0}})">
+            <summary>
+            Called when an insert or update is performed against the <see cref="T:SisoDb.ISisoDatabase"/>.
+            Should be used to update the cache.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <returns></returns>
+            <remarks>Note! The structures being sent in should be returned by the cache.</remarks>
+        </member>
+        <member name="M:SisoDb.ICache.Put``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{SisoDb.Structures.IStructureId,``0}})">
+            <summary>
+            Caches items for a certain query.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryChecksum"></param>
+            <param name="items"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ICache.Remove(SisoDb.Structures.IStructureId)">
+            <summary>
+            Called when a structure is being deleted from the <see cref="T:SisoDb.ISisoDatabase"/>.
+            Should be used to update the cache.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:SisoDb.ICache.Remove(System.Collections.Generic.ISet{SisoDb.Structures.IStructureId})">
+            <summary>
+            Called when multiple structures are being deleted from the <see cref="T:SisoDb.ISisoDatabase"/>.
+            Should be used to update the cache.
+            </summary>
+            <param name="ids"></param>
+        </member>
+        <member name="P:SisoDb.ICache.StructureType">
+            <summary>
+            The Structure Type that this cache manages.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnCommitted">
+            <summary>
+            Called when a session is disposed and committed.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnRolledback">
+            <summary>
+            Called when a session is rolled back and disposed due to an failure.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnInserted">
+            <summary>
+            Called when an item has been inserted.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnUpdated">
+            <summary>
+            Called when an item has been updated.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnDeleted">
+            <summary>
+            Called when delete has been performed on an id.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISessionEvents.OnDeletedByQuery">
+            <summary>
+            Called when delete has been performed by a query.
+            </summary>
+        </member>
+        <member name="T:SisoDb.ISessionExecutionContext">
+            <summary>
+            All operations within <see cref="T:SisoDb.DbSession"/> needs to be
+            wrapped in a try, so that exceptions can be catched and
+            the session could be marked as failed, so that automatic
+            commits or rollbacks can be performed.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.Reset">
+            <summary>
+            Drops all structure sets and removes entries from SisoDb system tables.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.RenameStructure(System.String,System.String)">
+            <summary>
+            Renames a structure.
+            </summary>
+            <param name="from">The old name, e.g Person</param>
+            <param name="to">The new name, e.g People</param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.RegenerateQueryIndexesFor``1">
+            <summary>
+            Regenerates key-values used for querying.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.RegenerateQueryIndexesFor``2">
+            <summary>
+            Regenerates key-values used for querying.
+            </summary>
+            <typeparam name="TContract"></typeparam>
+            <typeparam name="TImpl"></typeparam>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.Migrate``2(System.Func{``0,``1,SisoDb.Maintenance.MigrationStatuses})">
+            <summary>
+            Lets you migrate all structures from <typeparamref name="TFrom"/> to <typeparamref name="TTo"/>.
+            You can also control if a certain structure should be dumped by returning <see cref="F:SisoDb.Maintenance.MigrationStatuses.Trash"/>.
+            </summary>
+            <typeparam name="TFrom"></typeparam>
+            <typeparam name="TTo"></typeparam>
+            <param name="modifier"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.Migrate``2(SisoDb.Migration{``0,``1})">
+            <summary>
+            Lets you migrate all structures from <typeparamref name="TFrom"/> to <typeparamref name="TTo"/>.
+            You can also control if a certain structure should be dumped by returning <see cref="F:SisoDb.Maintenance.MigrationStatuses.Trash"/>.
+            </summary>
+            <typeparam name="TFrom"></typeparam>
+            <typeparam name="TTo"></typeparam>
+            <param name="migration"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabaseMaintenance.Migrate``3(SisoDb.Migration{``0,``1,``2})">
+            <summary>
+            Lets you migrate all structures from <typeparamref name="TFrom"/> to <typeparamref name="TTo"/>.
+            Useful when targetting the same table and you only have one class for the model, hence <typeparamref name="TFrom"/>
+            and <typeparamref name="TTo"/> are the same. Then you can use a custom map type (anonymous or static) as <typeparamref name="TFromTemplate"/>.
+            You can also control if a certain structure should be dumped by returning <see cref="F:SisoDb.Maintenance.MigrationStatuses.Trash"/>.
+            </summary>
+            <typeparam name="TFrom"></typeparam>
+            <typeparam name="TFromTemplate"></typeparam>
+            <typeparam name="TTo"></typeparam>
+            <param name="migration"></param>
+        </member>
+        <member name="T:SisoDb.ISingleOperationSession">
+            <summary>
+            Lets you perform Inserts, Updates, Deletes and Queries against the <see cref="T:SisoDb.ISisoDatabase"/>.
+            This API should only be used if you perform a single call against the Db. If you make more than
+            one subsequent call right after each other, YOU SHOULD USE <see cref="M:SisoDb.ISisoDatabase.BeginSession"/>
+            INSTEAD.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Query``1">
+            <summary>
+            Lets you perform a Query defining things like
+            <see cref="M:SisoDb.ISisoQueryable`1.Take(System.Int32)"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.Where(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}}[])"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.OrderBy(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.Page(System.Int32,System.Int32)"/>
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns></returns>
+            <remarks>Does not consume any <see cref="T:SisoDb.ICacheProvider"/>.</remarks>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetIds``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the StructureIds for <typeparamref name="T"/> as <typeparamref name="TId"/> withoout
+            having to deserialize the structure. Hence this is more effective then getting the structure
+            and then extracting the id.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TId"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetIds``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the StructureIds for <typeparamref name="T"/> as <see cref="T:System.Object"/> withoout
+            having to deserialize the structure. Hence this is more effective then getting the structure
+            and then extracting the id.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Used to find one single instance or NULL or <typeparamref name="T"/>. The benefits over <see cref="M:SisoDb.ISingleOperationSession.Query``1"/>,
+            is that <see cref="M:SisoDb.ISingleOperationSession.GetByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})"/> consumes any present <see cref="T:SisoDb.ICacheProvider"/>, which <see cref="M:SisoDb.ISingleOperationSession.Query``1"/> does not.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetById``1(System.Object)">
+            <summary>
+            Returns one single structure identified by an id.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+            <returns>Structure for (<typeparamref name="T"/>) or NULL.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetById(System.Type,System.Object)">
+            <summary>
+            Returns one single structure identified by an id.
+            </summary>
+            <param name="structureType"></param>
+            <param name="id"></param>
+            <returns>Structure for (<paramref name="structureType"/>) matching <paramref name="id"/> or NULL.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdAs``2(System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id. 
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="id"></param>
+            <returns>Structure (<typeparamref name="TOut"/>) or NULL.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdAsJson``1(System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id, as Json. This is the most
+            effective return type, since the Json
+            is stored in the database, no deserialization
+            will take place.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+            <returns>Json representation of (<typeparamref name="T"/>) or Null</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdAsJson(System.Type,System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id, as Json. This is the most
+            effective return type, since the Json
+            is stored in the database, no deserialization
+            will take place.  
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="id"></param>
+            <returns>Json representation of (<paramref name="structureType"/>) or Null</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIds``1(System.Object[])">
+            <summary>
+            Returns all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIds(System.Type,System.Object[])">
+            <summary>
+            Returns all structures for the defined structure type <paramref name="structureType"/>
+            that matches passed ids.
+            </summary>
+            <param name="structureType"></param>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdsAs``2(System.Object[])">
+            <summary>
+            Returns all structures for the defined structure <typeparamref name="TContract"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable of <typeparamref name="TOut"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdsAsJson``1(System.Object[])">
+            <summary>
+            Returns Json representation for all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable Json representation of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.GetByIdsAsJson(System.Type,System.Object[])">
+            <summary>
+            Returns Json representation for all structures for the defined structure <paramref name="structureType"/>
+            matching passed ids.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable Json representation of <paramref name="structureType"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Insert``1(``0)">
+            <summary>
+            Inserts a single structure using the <typeparamref name="T"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Insert(System.Type,System.Object)">
+            <summary>
+            Inserts a single structure using the <paramref name="structureType"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <param name="structureType"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertAs``1(System.Object)">
+            <summary>
+            Inserts a single structure using the <typeparamref name="T"/> as
+            the contract for the structure being inserted. As item, you can pass
+            any type that has partial or full match of the contract, without extending it.
+            E.g An anonymous type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertAs(System.Type,System.Object)">
+            <summary>
+            Inserts a single structure using the <paramref name="structureType"/> as
+            the contract for the structure being inserted. As item, you can pass
+            any type that has partial or full match of the contract, without extending it.
+            E.g An anonymous type.
+            </summary>
+            <param name="structureType"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertJson``1(System.String)">
+            <summary>
+            Inserts Json strcutures using the <typeparamref name="T"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structure will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns>The Json for the item being inserted, but after insert so that the Id is included.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertJson(System.Type,System.String)">
+            <summary>
+            Inserts Json strcutures using the <paramref name="structureType"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structure will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <param name="structureType"></param>
+            <param name="json"></param>
+            <returns>The Json for the item being inserted, but after insert so that the Id is included.</returns>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertMany``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts multiple structures using the <typeparamref name="T"/> as
+            the contract for the structures being inserted. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="items"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertMany(System.Type,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Inserts multiple structures using the <paramref name="structureType"/> as
+            the contract for the structures being inserted.
+            </summary>
+            <param name="structureType"></param>
+            <param name="items"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertManyJson``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Inserts multiple Json strcutures using the <typeparamref name="T"/> as
+            the contract for the structures being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structures will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.InsertManyJson(System.Type,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Inserts multiple Json strcutures using the <paramref name="structureType"/> as
+            the contract for the structures being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structures will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <param name="structureType"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Update``1(``0)">
+            <summary>
+            Updates the sent structure. If it
+            does not exist, an <see cref="T:SisoDb.SisoDbException"/> will be
+            thrown.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Update(System.Type,System.Object)">
+            <summary>
+            Updates the sent structure. If it
+            does not exist, an <see cref="T:SisoDb.SisoDbException"/> will be
+            thrown.
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Update``1(System.Object,System.Action{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Uses sent id to locate a structure and then calls sent <paramref name="modifier"/>
+            to apply the changes. Will also place an rowlock, which makes it highly
+            useful in a concurrent environment like in an event denormalizer.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <param name="modifier"></param>
+            <param name="proceed">True to continue with update;False to abort</param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.UpdateMany``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{``0})">
+            <summary>
+            Traverses every structure in the set and lets you apply changes to each yielded structure.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <param name="modifier"></param>
+            <remarks>Does not support Concurrency tokens</remarks>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Clear``1">
+            <summary>
+            Clears all stored structures of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.Clear(System.Type)">
+            <summary>
+            Clears all stored structures of type specified by <paramref name="structureType"/>.
+            </summary>
+            <param name="structureType"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteAllExceptIds``1(System.Object[])">
+            <summary>
+            Deletes all items except items having an id present in <paramref name="ids"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids for the structures to keep.</param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteAllExceptIds(System.Type,System.Object[])">
+            <summary>
+            Deletes all items except items having an id present in <paramref name="ids"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="ids"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteById``1(System.Object)">
+            <summary>
+            Deletes structure by id.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteById(System.Type,System.Object)">
+            <summary>
+            Deletes structure by id.
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="id"></param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteByIds``1(System.Object[])">
+            <summary>
+            Deletes all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to delete.</param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteByIds(System.Type,System.Object[])">
+            <summary>
+            Deletes all structures for the defined structure <paramref name="structureType"/>
+            matching passed ids.
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="ids">Ids used for matching the structures to delete.</param>
+        </member>
+        <member name="M:SisoDb.ISingleOperationSession.DeleteByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Deletes one or more structures matchings the sent
+            predicate.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="predicate"></param>
+        </member>
+        <member name="T:SisoDb.Dac.Profiling.IWrappedConnection">
+            <summary>
+            This exists because SqlBulkCopy depends on SqlConnection and that class is sealed
+            so we can't derive from it to add profiling
+            </summary>
+        </member>
+        <member name="T:SisoDb.Dac.Profiling.IWrappedTransaction">
+            <summary>
+            This exists because SqlBulkCopy depends on SqlTransaction and that class is sealed
+            so we can't derive from it to add profiling
+            </summary>
+        </member>
+        <member name="T:SisoDb.Annotations.UniqueModes">
+            <summary>
+            Defines how the <see cref="T:SisoDb.Annotations.UniqueAttribute"/> should
+            be applied as a constraint in the model.
+            </summary>
+        </member>
+        <member name="F:SisoDb.Annotations.UniqueModes.PerType">
+            <summary>
+            Unique per type, e.g OrderNo
+            </summary>
+        </member>
+        <member name="F:SisoDb.Annotations.UniqueModes.PerInstance">
+            <summary>
+            Unique per instance, e.g. ProductNo in the Order.
+            </summary>
+        </member>
+        <member name="T:SisoDb.NCore.Cryptography.Crc32Algorithm">
+            <summary>
+            <![CDATA[http://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net]]>
+            </summary>
+        </member>
+        <member name="T:SisoDb.NCore.Resources.ExceptionMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.ExpressionEvaluation_DontKnowHowToEvalExpression">
+            <summary>
+              Looks up a localized string similar to Don&apos;t know how to evaluate the expression type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.ExpressionEvaluation_DontKnowHowToEvalUnaryExpression">
+            <summary>
+              Looks up a localized string similar to Don&apos;t know how to evaluate the unary expression of node type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.StringConverter_AsString_TypeOfValueIsNotSupported">
+            <summary>
+              Looks up a localized string similar to The value being retrieved is not of supported type. It must either be a string or the type needs to implement IConvertible or if Nullable&lt;T&gt;, then T needs to implement it..
+            </summary>
+        </member>
+        <member name="P:SisoDb.NCore.Resources.ExceptionMessages.TypeExtensions_ExtractEnumerableGenericType">
+            <summary>
+              Looks up a localized string similar to When extracting generic element type from enumerables, a maximum of two generic arguments are supported, which then are supposed to belong to KeyValuePair&lt;TKey, TValue&gt;..
+            </summary>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.Serialize``1(``0)">
+            <summary>
+            Serializes sent <typeparamref name="T"/> to JSON.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.SerializeMany``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Serializes many <typeparamref name="T"/> to stream of JSON.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.Deserialize``1(System.String)">
+            <summary>
+            Deserializes sent JSON as <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.Deserialize(System.String,System.Type)">
+            <summary>
+            Deserializes sent JSON as <paramref name="structureType"/>.
+            </summary>
+            <param name="json"></param>
+            <param name="structureType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.DeserializeMany``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Deserializes sent JSON to yielded stream of <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Serialization.ISisoSerializer.DeserializeMany(System.Collections.Generic.IEnumerable{System.String},System.Type)">
+            <summary>
+            Deserializes sent JSON to yielded stream of <paramref name="structureType"/>.
+            </summary>
+            <param name="sourceData"></param>
+            <param name="structureType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SisoDb.Serialization.SisoSerializerProxy">
+            <summary>
+            Extend this class and hook it in on your <see cref="T:SisoDb.ISisoDatabase"/>.
+            It alows you to intercept serialized and deserialized values.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Structures.IdGenerators.SequentialGuidStructureIdGenerator">
+            <summary>
+            Uses native UuidCreateSequential in rpcrt4.dll, which does not
+            work in WindowsXP and Azure. Use <see cref="T:SisoDb.Structures.IdGenerators.CombGuidStructureIdGenerator"/> or
+            <see cref="T:SisoDb.Structures.IdGenerators.GuidStructureIdGenerator"/> instead.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Structures.IStructureBuilder">
+            <summary>
+            Builds <see cref="T:SisoDb.Structures.IStructure"/> instances from sent Items.
+            </summary>
+        </member>
+        <member name="M:SisoDb.Structures.IStructureBuilder.CreateStructure``1(``0,SisoDb.Structures.Schemas.IStructureSchema)">
+            <summary>
+            Creates a single <see cref="T:SisoDb.Structures.IStructure"/> for sent <typeparamref name="T"/> item.
+            The item will be assigned a new Sequential Guid Id as StructureId.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+            <param name="structureSchema"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Structures.IStructureBuilder.CreateStructures``1(``0[],SisoDb.Structures.Schemas.IStructureSchema)">
+            <summary>
+            Yields each item as an <see cref="T:SisoDb.Structures.IStructure"/>.
+            All items will be assigned a new Sequential Guid Id as StructureId.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="structureSchema"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilder.IndexesFactory">
+            <summary>
+            Creates the indexes for the <see cref="T:SisoDb.Structures.IStructure"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilder.StructureSerializer">
+            <summary>
+            Serilizer used to populate <see cref="P:SisoDb.Structures.IStructure.Data"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilder.StructureIdGenerator">
+            <summary>
+            Responsible for generating <see cref="T:SisoDb.Structures.IStructureId"/>.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Structures.Schemas.IStructureTypeReflecter">
+            <summary>
+            Responsible for identifying the Properties that should be used as
+            StructureId, TimeStamp, ConcurrencyToken and plain indexes for a
+            certain structure type.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Structures.SequentialGuid">
+            <summary>
+            <![CDATA[http://www.shirmanov.com/2010/05/generating-newsequentialid-compatible.html]]>
+            </summary>
+        </member>
+        <member name="T:SisoDb.Querying.Sql.ISqlExpressionBuilder">
+            <summary>
+            Converts <see cref="T:SisoDb.Querying.Lambdas.IParsedLambda"/> representing 
+            Wheres, Sortings, Paging etc. to an <see cref="T:SisoDb.Querying.Sql.ISqlExpression"/>.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Querying.Sql.ISqlWhereCriteriaBuilder">
+            <summary>
+            Builds the Where part of the SQL queries.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Resources.ExceptionMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.AutoSchemaBuilder_MissingIdMember">
+            <summary>
+              Looks up a localized string similar to The Item of type &apos;{0}&apos; has no Id member specified. A Guid or Int property named &apos;Id&apos; was expected..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.AutoSchemaBuilder_MissingIdMember1">
+            <summary>
+              Looks up a localized string similar to The Item of type &apos;{0}&apos; has no Id member specified. A Guid or Int property named &apos;Id&apos; was expected..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.AutoSchemaBuilder_MissingIndexableMembers">
+            <summary>
+              Looks up a localized string similar to The Item of type &apos;{0}&apos; has no members that are indexable. There&apos;s no point in storing items that has nothing to index..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.AutoSchemaBuilder_MissingIndexableMembers1">
+            <summary>
+              Looks up a localized string similar to The Item of type &apos;{0}&apos; has no members that are indexable. There&apos;s no point in treating items that has nothing to index..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.AutoSchemaBuilder_UnsupportedIdAccessorType">
+            <summary>
+              Looks up a localized string similar to The id property: &apos;{0}&apos;; is not of suported type. Only Guid and Int is accepted..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.CacheProvider_Clear_failed">
+            <summary>
+              Looks up a localized string similar to Could not clear all structure set cache entries. See contained exceptions for more info..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConcurrencyException">
+            <summary>
+              Looks up a localized string similar to Can not update structure, since it has a Concurrency token member, with a value not equal to the one in store..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConcurrencyTokenAccessor_Invalid_Type">
+            <summary>
+              Looks up a localized string similar to The type of the Concurrency token member &apos;{0}&apos; should be a Guid, Int, or Long..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConcurrencyTokenAccessor_InvalidLevel">
+            <summary>
+              Looks up a localized string similar to Concurrency token member &apos;{0}&apos; must lie on the root object..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConcurrencyTokenIsOfWrongType">
+            <summary>
+              Looks up a localized string similar to The ConcurrencyToken member should be either: Guid, Int or Long..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConnectionInfo_CouldNotFormatDbConnectionString">
+            <summary>
+              Looks up a localized string similar to Could not parse sent connection string. If connection string name is passed. Ensure it has match in config-file. Inspect inner exception for more details..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConnectionInfo_CouldNotFormatServerConnectionString">
+            <summary>
+              Looks up a localized string similar to Could not parse sent server connection string. If connection string name is passed. Ensure it has match in config-file. Inspect inner exception for more details..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConnectionInfo_CouldNotLocateConnectionString">
+            <summary>
+              Looks up a localized string similar to Could not locate a connection string. If connection string name is passed. Ensure it has match in config-file..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ConnectionInfo_MissingName">
+            <summary>
+              Looks up a localized string similar to The name of the database could not be extracted from the connection-info..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbClient_ObjectAllreadyDisposed">
+            <summary>
+              Looks up a localized string similar to The DbClient instance has allready been disposed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbDataTypeTranslator_UnsupportedType">
+            <summary>
+              Looks up a localized string similar to Don&apos;t know how to translate the type &apos;{0}&apos; to a DbType. Send us a pull request..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbOp_NotSupportedByAzure">
+            <summary>
+              Looks up a localized string similar to Db-operations is not supported by Azure..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbQueryChecksumGenerator_UnsupportedDacParam">
+            <summary>
+              Looks up a localized string similar to Params that currently are allowed in cached queries, are: Simple params and Arrays. Geography params is not supported..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbQueryGenerator_MissingWhere">
+            <summary>
+              Looks up a localized string similar to The query needs a Where-clause..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbQueryGenerator_OnlyWhereExpressionsAreAllowed">
+            <summary>
+              Looks up a localized string similar to The query only alows WHERE expressions. Take, Paging and Sorting etc is not allowed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DbSchemaNamingPolicy_StructureNamePrefix_IsToLong">
+            <summary>
+              Looks up a localized string similar to The StructureNamePrefix is to long. Max len is {0} chars..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DefaultUniquesChecksumGenerator_UnsupportedDataType">
+            <summary>
+              Looks up a localized string similar to You have marked a member &apos;{0}&apos; as unique. That member is being classified as Text. Text&apos;s are for large contents. Use a member that gets classified as string instead..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DynamicLambdaBuilder_Build_Error">
+            <summary>
+              Looks up a localized string similar to Could not generate lambda expression from sent string.\r\nCompiler info: {0}..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DynamicLambdaBuilder_Build_TypeFullNameMissing">
+            <summary>
+              Looks up a localized string similar to The type &apos;{0}&apos; can not be used when building LambdaExpression from string, since no FullName could be extracted..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.DynamicLambdaBuilder_InvalidExpressionFormat">
+            <summary>
+              Looks up a localized string similar to Expression does not seem to be a lambda expression. It should start with e.g &apos;i =&gt; &apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ExpressionEvaluator_EvaluateMemberExpression_NotSupported">
+            <summary>
+              Looks up a localized string similar to Direct memberaccess of node: &apos;{0}&apos;; with with membertype: &apos;{1}&apos;; is not supported!.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.GetCommand_SortingsAllreadyInitialized">
+            <summary>
+              Looks up a localized string similar to The Sortings has allready been initialized..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Getter_Unsupported_type">
+            <summary>
+              Looks up a localized string similar to The type &apos;{0}&apos; is unsupported and a getter for the StructureId accessor can not be created..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.IdAccessor_GetIdValue_InvalidLevel">
+            <summary>
+              Looks up a localized string similar to Id values must lie on the root object..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.IdAccessor_InvalidLevel">
+            <summary>
+              Looks up a localized string similar to Id members must lie on the root object..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.IdAccessor_UnsupportedPropertyType">
+            <summary>
+              Looks up a localized string similar to The Property.PropertyType &apos;{0}&apos; is not supported by the IdAccessor..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.IdAccessor_UnsupportedPropertyType1">
+            <summary>
+              Looks up a localized string similar to The Property.PropertyType &apos;{0}&apos; is not supported by the IdAccessor. Supported types are: Guid, Nullable-Guid, Int32, Nullable-Int32, Int64 and Nullable-Int64..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.IncludeExpressionDoesNotTargetMember">
+            <summary>
+              Looks up a localized string similar to The include expression &apos;{0}&apos; does not target a member in the structure..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Index_IsMissingName">
+            <summary>
+              Looks up a localized string similar to An Index-instance must be provided with a name..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.LambdaOperator_IsOrIsNot_NotSupported">
+            <summary>
+              Looks up a localized string similar to The operator type &apos;{0}&apos; can not be converted to &apos;IsNotNullOperatpr&apos; or &apos;NullOperator&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.LambdaOperator_OperatorTypeIsNotSupported">
+            <summary>
+              Looks up a localized string similar to Operator &apos;{0}&apos; is not supported!.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.LambdaParser_UnsupportedMethodCall">
+             <summary>
+               Looks up a localized string similar to Could not evaluate the method call: &apos;{0}&apos;.
+            Specific supported method exists as extensionmethods and are prefixed with &apos;Qx&apos;. Import namespace &apos;SisoDb.Querying&apos; to enable them..
+             </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.LambdaParser_VisitUnary_InvalidConvert">
+            <summary>
+              Looks up a localized string similar to Conversion of values in expression is only allowed for nullable valuetypes..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.LambdaParser_VisitUnary_NotSupported">
+            <summary>
+              Looks up a localized string similar to The unary operator &apos;{0}&apos; is not supported..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.OrderByExpressionDoesNotTargetMember">
+            <summary>
+              Looks up a localized string similar to The order by expression &apos;{0}&apos; does not target a member in the structure..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.OrderByParser_UnsupportedMethodForSortingDirection">
+            <summary>
+              Looks up a localized string similar to The only supported methods for marking sortings are Asc() and Desc()..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.PagingMissesOrderBy">
+            <summary>
+              Looks up a localized string similar to You need to provide an OrderBy construct when using Paging..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Property_Ctor_UniqueOnNonSimpleType">
+            <summary>
+              Looks up a localized string similar to You cant apply Unique on a member that is not of a simple type e.g. (int, string, bool) etc..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.QxIsExactly_NotSupportedForTexts">
+            <summary>
+              Looks up a localized string similar to Member node: &apos;{0}&apos;; Exact match of strings is only supported for String members and NOT Text members..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.ReadOnceQueryable_YieldingNotSupported">
+            <summary>
+              Looks up a localized string similar to ReadOnceQueryable doesn&apos;t support yielding result. Use matching ToList method instead..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Session_AllreadyDisposed">
+            <summary>
+              Looks up a localized string similar to Session with id: &apos;{0}&apos;; against db: &apos;{1}&apos;; has allready been disposed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Session_AlreadyFailed">
+            <summary>
+              Looks up a localized string similar to Session with Id: &apos;{0}&apos;; against db &apos;{1}&apos;; is in a failed state and can/should not be used anymore..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Setter_Unsupported_type">
+            <summary>
+              Looks up a localized string similar to The type &apos;{0}&apos; is unsupported and a setter for the StructureId accessor can not be created..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SisoDbFactory_UnknownStorageProvider">
+            <summary>
+              Looks up a localized string similar to The provided StorageProvider &apos;{0}&apos; is not supported..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SisoDbNotSupportedByProviderException">
+            <summary>
+              Looks up a localized string similar to The provider: &apos;{0}&apos; does not support operation: {1}..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlCe4_ToLongIndividualStringValue">
+            <summary>
+              Looks up a localized string similar to The SQLCE4 does not support individual string values longer than 4000chars..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlCe4ConnectionManager_ReleaseAllDbConnections">
+            <summary>
+              Looks up a localized string similar to Exceptions occured while releasing SqlCe4Connections from the pool..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlDatabase_InitializeExisting_DbDoesNotExist">
+            <summary>
+              Looks up a localized string similar to The database &apos;{0}&apos; doesn&apos;t exist..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlDbIndexesSchemaBuilder_GenerateSql">
+            <summary>
+              Looks up a localized string similar to Could not locate SQL for generating Structure-table for StructureId type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlDbStructureSchemaBuilder_GenerateSql">
+            <summary>
+              Looks up a localized string similar to Could not locate SQL for generating Structure-table for StructureId type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlDbUniquesSchemaBuilder_GenerateSql">
+            <summary>
+              Looks up a localized string similar to Could not locate SQL for generating Structure-table for StructureId type: &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.SqlServerTableParams_ToLongString">
+            <summary>
+              Looks up a localized string similar to Max length of &apos;{0}&apos; exceeded with string value &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Structure_DuplicateUniques">
+            <summary>
+              Looks up a localized string similar to Duplicate Unique-index found for &apos;{0}&apos;.\r\nStructureId: &apos;{1}&apos;;Name: &apos;{2}&apos;;Value: &apos;{3}&apos;;.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.Structure_DuplicateUniques1">
+            <summary>
+              Looks up a localized string similar to Duplicate Unique-index found for &apos;{0}&apos;.\r\nStructureId: &apos;{1}&apos;;Name: &apos;{2}&apos;;Value: &apos;{3}&apos;;.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureBuilders_CreateForInsert">
+            <summary>
+              Looks up a localized string similar to Could not create StructureBuilder for Inserts and Id-type &apos;{0}&apos; for Schema &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureId_CompareTo_DifferentIdTypes">
+            <summary>
+              Looks up a localized string similar to Can not compare StructureId&apos;s of different IdTypes..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureId_ConvertFrom">
+            <summary>
+              Looks up a localized string similar to Can not convert type &apos;{0}&apos; to a StructureId..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureId_Create_FromString_WithSpecificId">
+            <summary>
+              Looks up a localized string similar to The sent string value &apos;{0}&apos; can not be converted to Id-type &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureId_CreateByIdType">
+            <summary>
+              Looks up a localized string similar to The value with type &apos;{0}&apos; can not be used to create a StructureId of type &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureId_InvalidType">
+            <summary>
+              Looks up a localized string similar to The type &apos;{0}&apos; is not supported for StructureId. Supported types are: Guid, Nullable-Guid, Int32, Nullable-Int32, Int64 and Nullable-Int64..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIdFactory_MissingGuidValue">
+            <summary>
+              Looks up a localized string similar to When using Guids the Id-property of the entity must be assigned before structure is created..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIdFactory_MissingIdentityValue">
+            <summary>
+              Looks up a localized string similar to When using Identities the Id-property of the entity must be assigned before structure is created..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIdFactory_UnSupportedIdentityType">
+            <summary>
+              Looks up a localized string similar to The identity type: &apos;{0}&apos; is not supported..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIndex_ValueArgument_IncorrectType">
+            <summary>
+              Looks up a localized string similar to Only strings and valuetypes can be stored as indexes..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIndex_ValueArgument_IncorrectType1">
+            <summary>
+              Looks up a localized string similar to Only strings and valuetypes can be stored as indexes..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIndexesFactory_UniqueIndex_IsNull">
+            <summary>
+              Looks up a localized string similar to The Unique index &apos;{0}&apos;:&apos;{1}&apos; is evaluated to Null. This is not alowed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureIndexesFactory_UniqueIndex_IsNull1">
+            <summary>
+              Looks up a localized string similar to The Unique index &apos;{0}&apos;:&apos;{1}&apos; is evaluated to Null. This is not alowed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureProperty_Ctor_UniqueOnNonSimpleType">
+            <summary>
+              Looks up a localized string similar to You cant apply Unique on a member that is not of a simple type e.g. (int, string, bool) etc..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureProperty_Setter_IsReadOnly">
+            <summary>
+              Looks up a localized string similar to Property &apos;{0}&apos; is read-only..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureSetMigrator_MissmatchInIdTypes">
+            <summary>
+              Looks up a localized string similar to Can not migrate structure set when Id type has changed..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureSetMigrator_NewIdDoesNotExist">
+            <summary>
+              Looks up a localized string similar to Can not migrate structure set. No Id could be extracted from the new structure..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureSetMigrator_NewIdDoesNotMatchOldId">
+            <summary>
+              Looks up a localized string similar to The Id &apos;{0}&apos; of the new structure does not match the Id of the old structure &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.StructureSetMigrator_OldIdDoesNotExist">
+            <summary>
+              Looks up a localized string similar to No Id could be extracted from the old structure..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.TimeStampAccessor_Invalid_Type">
+            <summary>
+              Looks up a localized string similar to The type of the Time stamp member &apos;{0}&apos; should be a Date..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.TimeStampAccessor_InvalidLevel">
+            <summary>
+              Looks up a localized string similar to Time stamp member &apos;{0}&apos; must lie on the root object..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.TypeExtensions_ExtractGenericType">
+            <summary>
+              Looks up a localized string similar to Supported generic collections on model are: implementations of either IEnumerable&lt;T&gt; or IList&lt;T&gt;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.UniqueModesCantBeMapped">
+            <summary>
+              Looks up a localized string similar to The UniqueModes &apos;{0}&apos; is unknow and cant be mapped..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.UniqueModesCantBeMapped1">
+            <summary>
+              Looks up a localized string similar to The UniqueModes &apos;{0}&apos; is unknow and cant be mapped..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.WhereExpressionParser_NoMemberExpressions">
+            <summary>
+              Looks up a localized string similar to You can&apos;t only access a member in a query expression unless it&apos;s a bool. You need to compare it against something..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.WhereParser_QxEnumerables_OperatorNotSupported">
+            <summary>
+              Looks up a localized string similar to The operator &apos;{0}&apos; is not supported for Qx-methods on enumerables..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.WriteSession_NoItemExistsForUpdate">
+            <summary>
+              Looks up a localized string similar to There is no &apos;{0}&apos;-structure to update matching the sent Id &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:SisoDb.Resources.ExceptionMessages.WriteSession_UpdateMany_NewIdDoesNotMatchOldId">
+            <summary>
+              Looks up a localized string similar to The Id &apos;{0}&apos; of the new structure does not match the Id of the old structure &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.Active">
+            <summary>
+            Session is active and healthy.
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.Aborted">
+            <summary>
+            Session has been aborted but has not yet been disposed.
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.Failed">
+            <summary>
+            Session has failed but has not yet been disposed.
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.Disposed">
+            <summary>
+            Session without failures has been disposed.
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.DisposedAfterAbort">
+            <summary>
+            Aborted session has been disposed.
+            </summary>
+        </member>
+        <member name="F:SisoDb.SessionStatus.DisposedWithFailure">
+            <summary>
+            Failed session has been disposed.
+            </summary>
+        </member>
+        <member name="F:SisoDb.Maintenance.MigrationStatuses.Keep">
+            <summary>
+            Indicates that you want to keep the structure
+            and the new-structure will be persisted with
+            the same id as the old.
+            </summary>
+        </member>
+        <member name="F:SisoDb.Maintenance.MigrationStatuses.Trash">
+            <summary>
+            Indicates that your are no longer interested
+            in keeping the structure, hence it will be
+            deleted.
+            </summary>
+        </member>
+        <member name="F:SisoDb.Maintenance.MigrationStatuses.Abort">
+            <summary>
+            Abort and rollback the process.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Dac.IDbClient">
+            <summary>
+            Defines operations that Siso needs to perform on a db-level. For server-level
+            operations, see <see cref="T:SisoDb.Dac.IServerClient"/>.
+            </summary>
+        </member>
+        <member name="T:SisoDb.Dac.IServerClient">
+            <summary>
+            Defines operations that Siso needs to perform on a server-level. For db-level
+            operations, see <see cref="T:SisoDb.Dac.IDbClient"/>.
+            </summary>
+        </member>
+        <member name="T:SisoDb.ISession">
+            <summary>
+            A short lived sessioni used to interact with the database.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISession.Abort">
+            <summary>
+            Marks the session as aborted. When aborted, and transactions are supported,
+            commit will not be performed. Do not use it to fail a session. Then use
+            <see cref="M:SisoDb.ISession.MarkAsFailed"/> instead.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISession.MarkAsFailed">
+            <summary>
+            Marks the session as failed. When failed, and transactions are supported,
+            commit will not be performed. Do not use it to abort a session. Then use
+            <see cref="M:SisoDb.ISession.Abort"/> instead.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISession.GetStructureSchema``1">
+            <summary>
+            Lets you get a hold of the schema associated with a certain structure.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetStructureSchema(System.Type)">
+            <summary>
+            Lets you get a hold of the schema associated with a certain structure.
+            </summary>
+            <param name="structureType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Query``1">
+            <summary>
+            Lets you perform a Query defining things like
+            <see cref="M:SisoDb.ISisoQueryable`1.Take(System.Int32)"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.Where(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}}[])"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.OrderBy(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])"/>
+            <see cref="M:SisoDb.ISisoQueryable`1.Page(System.Int32,System.Int32)"/>
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns></returns>
+            <remarks>Does not consume any <see cref="T:SisoDb.ICacheProvider"/>.</remarks>
+        </member>
+        <member name="M:SisoDb.ISession.Any``1">
+            <summary>
+            Returns bool indicating if the specified structure <typeparamref name="T"/>,
+            has any items at all.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.Any(System.Type)">
+            <summary>
+            Returns bool indicating if the specified structure <paramref name="structureType" />,
+            has any items at all.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns>Number of structures.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.Count``1">
+            <summary>
+            Issues a simple count for how many structures there
+            are in the specified structure <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Count(System.Type)">
+            <summary>
+            Issues a simple count for how many structures there
+            are in the specified structure <paramref name="structureType"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Exists``1(System.Object)">
+            <summary>
+            Returns (true) if there is a structure matching the sent <paramref name="id"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Exists(System.Type,System.Object)">
+            <summary>
+            Returns (true) if there is a structure matching the sent <paramref name="id"/>.
+            </summary>
+            <param name="structureType"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.CheckoutById``1(System.Object)">
+            <summary>
+            Returns the structure or NULL representing the sent <paramref name="id"/>.
+            The item returned is fetched with exclusive row locks, hence keep the
+            scope of the session as small as possible.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetIds``2(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the StructureIds for <typeparamref name="T"/> as <typeparamref name="TId"/> withoout
+            having to deserialize the structure. Hence this is more effective then getting the structure
+            and then extracting the id.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TId"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetIds``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the StructureIds for <typeparamref name="T"/> as <see cref="T:System.Object"/> withoout
+            having to deserialize the structure. Hence this is more effective then getting the structure
+            and then extracting the id.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Used to find one single instance or NULL or <typeparamref name="T"/>. The benefits over <see cref="M:SisoDb.ISession.Query``1"/>,
+            is that <see cref="M:SisoDb.ISession.GetByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})"/> consumes any present <see cref="T:SisoDb.ICacheProvider"/>, which <see cref="M:SisoDb.ISession.Query``1"/> does not.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetById``1(System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+            <returns>Structure (<typeparamref name="T"/>) or Null</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetById(System.Type,System.Object)">
+            <summary>
+            Returns one single structure identified by an id.
+            </summary>
+            <param name="structureType"></param>
+            <param name="id"></param>
+            <returns>Structure for (<paramref name="structureType"/>) matching <paramref name="id"/> or NULL.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdAs``2(System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id. 
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="id"></param>
+            <returns>Structure (<typeparamref name="TOut"/>) or null.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdAs``1(System.Type,System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id. 
+            </summary>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="structureType"></param>
+            <param name="id"></param>
+            <returns>Structure for (<paramref name="structureType"/>) as (<typeparamref name="TOut"/>) or null.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdAsJson``1(System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id, as Json. This is the most
+            effective return type, since the Json
+            is stored in the database, no deserialization
+            will take place.  
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+            <returns>Json representation of (<typeparamref name="T"/>) or Null</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdAsJson(System.Type,System.Object)">
+            <summary>
+            Returns one single structure identified
+            by an id, as Json. This is the most
+            effective return type, since the Json
+            is stored in the database, no deserialization
+            will take place.  
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="id"></param>
+            <returns>Json representation of (<paramref name="structureType"/>) or Null</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIds``1(System.Object[])">
+            <summary>
+            Returns all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIds(System.Type,System.Object[])">
+            <summary>
+            Returns all structures for the defined structure type <paramref name="structureType"/>
+            that matches passed ids.
+            </summary>
+            <param name="structureType"></param>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdsAs``2(System.Object[])">
+            <summary>
+            Returns all structures for the defined structure <typeparamref name="TContract"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="TContract">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>Structures for (<typeparamref name="TContract"/>) as (Enumerable of <typeparamref name="TOut"/>).</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdsAs``1(System.Type,System.Object[])">
+            <summary>
+            Returns all structures for the defined structure <paramref name="structureType"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="TOut">
+            Determines the type you want your structure deserialized to and returned as.</typeparam>
+            <param name="structureType"></param>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>Structures for (<paramref name="structureType"/>) as (Enumerable of <typeparamref name="TOut"/>).</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdsAsJson``1(System.Object[])">
+            <summary>
+            Returns Json representation for all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable Json representation of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.GetByIdsAsJson(System.Type,System.Object[])">
+            <summary>
+            Returns Json representation for all structures for the defined structure <paramref name="structureType"/>
+            matching passed ids.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="ids">Ids used for matching the structures to return.</param>
+            <returns>IEnumerable Json representation of <paramref name="structureType"/>.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.Insert``1(``0)">
+            <summary>
+            Inserts a single structure using the <typeparamref name="T"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISession.Insert(System.Type,System.Object)">
+            <summary>
+            Inserts a single structure using the <paramref name="structureType" /> as
+            the contract for the structure being inserted.
+            </summary>
+            <param name="structureType"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.InsertAs``1(System.Object)">
+            <summary>
+            Inserts a single structure using the <typeparamref name="T"/> as
+            the contract for the structure being inserted. As item, you can pass
+            any type that has partial or full match of the contract, without extending it.
+            E.g An anonymous type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISession.InsertAs(System.Type,System.Object)">
+            <summary>
+            Inserts a single structure using the <paramref name="structureType"/> as
+            the contract for the structure being inserted. As item, you can pass
+            any type that has partial or full match of the contract, without extending it.
+            E.g An anonymous type.
+            </summary>
+            <param name="structureType"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.InsertJson``1(System.String)">
+            <summary>
+            Inserts Json strcutures using the <typeparamref name="T"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structure will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns>The Json for the item being inserted, but after insert so that the Id is included.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.InsertJson(System.Type,System.String)">
+            <summary>
+            Inserts Json strcutures using the <paramref name="structureType"/> as
+            the contract for the structure being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structure will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <param name="structureType"></param>
+            <param name="json"></param>
+            <returns>The Json for the item being inserted, but after insert so that the Id is included.</returns>
+        </member>
+        <member name="M:SisoDb.ISession.InsertMany``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Inserts multiple structures using the <typeparamref name="T"/> as
+            the contract for the structures being inserted. 
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="items"></param>
+        </member>
+        <member name="M:SisoDb.ISession.InsertMany(System.Type,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Inserts multiple structures using the <paramref name="structureType" /> as
+            the contract for the structures being inserted. 
+            </summary>
+            <param name="structureType"></param>
+            <param name="items"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.InsertManyJson``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Inserts multiple Json strcutures using the <typeparamref name="T"/> as
+            the contract for the structures being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structures will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+        </member>
+        <member name="M:SisoDb.ISession.InsertManyJson(System.Type,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Inserts multiple Json strcutures using the <paramref name="structureType" /> as
+            the contract for the structures being inserted.
+            </summary>
+            <remarks>Deserialization of the Json structures will take place, 
+            so If you do have the instace pass that instead using other overload!</remarks>
+            <param name="structureType"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:SisoDb.ISession.Update``1(``0)">
+            <summary>
+            Updates the sent structure. If it
+            does not exist, an <see cref="T:SisoDb.SisoDbException"/> will be
+            thrown.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISession.Update(System.Type,System.Object)">
+            <summary>
+            Updates the sent structure. If it
+            does not exist, an <see cref="T:SisoDb.SisoDbException"/> will be
+            thrown.
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="item"></param>
+        </member>
+        <member name="M:SisoDb.ISession.Update``1(System.Object,System.Action{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Uses sent id to locate a structure and then calls sent <paramref name="modifier"/>
+            to apply the changes. Will also place an rowlock, which makes it highly
+            useful in a concurrent environment like in an event denormalizer.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <param name="modifier"></param>
+            <param name="proceed">True to continue with update;False to abort</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Update``2(System.Object,System.Action{``1},System.Func{``1,System.Boolean})">
+            <summary>
+            Uses sent id to locate a structure and then calls sent <paramref name="modifier"/>
+            to apply the changes. Will also place an rowlock, which makes it highly
+            useful in a concurrent environment like in an event denormalizer.
+            </summary>
+            <typeparam name="TContract">Structure type, used as a contract defining the scheme.</typeparam>
+            <typeparam name="TImpl"></typeparam>
+            <param name="id"></param>
+            <param name="modifier"></param>
+            <param name="proceed">True to continue with update;False to abort</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.UpdateMany``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{``0})">
+            <summary>
+            Traverses every structure in the set and lets you apply changes to each yielded structure.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="predicate"></param>
+            <param name="modifier"></param>
+            <remarks>Does not support Concurrency tokens</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Clear``1">
+            <summary>
+            Clears all stored structures of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.Clear(System.Type)">
+            <summary>
+            Clears all stored structures of type specified by <paramref name="structureType"/>.
+            </summary>
+            <param name="structureType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteAllExceptIds``1(System.Object[])">
+            <summary>
+            Deletes all items except items having an id present in <paramref name="ids"/>.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids for the structures to keep.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteAllExceptIds(System.Type,System.Object[])">
+            <summary>
+            Deletes all items except items having an id present in <paramref name="ids"/>.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteById``1(System.Object)">
+            <summary>
+            Deletes structure by id.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="id"></param>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteById(System.Type,System.Object)">
+            <summary>
+            Deletes structure by id.
+            </summary>
+            <param name="structureType">Structure type, used as a contract defining the scheme.</param>
+            <param name="id"></param>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteByIds``1(System.Object[])">
+            <summary>
+            Deletes all structures for the defined structure <typeparamref name="T"/>
+            matching passed ids.
+            </summary>
+            <typeparam name="T">Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="ids">Ids used for matching the structures to delete.</param>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteByIds(System.Type,System.Object[])">
+            <summary>
+            Deletes all structures for the defined structure <paramref name="structureType"/>
+            matching passed ids.
+            </summary>
+            <param name="structureType">
+            Structure type, used as a contract defining the scheme.</param>
+            <param name="ids">Ids used for matching the structures to delete.</param>
+        </member>
+        <member name="M:SisoDb.ISession.DeleteByQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Deletes one or more structures matchings the sent
+            predicate.
+            </summary>
+            <typeparam name="T">
+            Structure type, used as a contract defining the scheme.</typeparam>
+            <param name="predicate"></param>
+        </member>
+        <member name="P:SisoDb.ISession.Id">
+            <summary>
+            Unique identifier for the Session.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.ExecutionContext">
+            <summary>
+            If you want to extend the <see cref="T:SisoDb.ISession"/> you should
+            wrap your code withing <see cref="M:SisoDb.ISessionExecutionContext.Try(System.Action)"/>
+            so that exceptions will set the session in failed state.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.Db">
+            <summary>
+            The database that this session is executed against.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.DbClient">
+            <summary>
+            Manages all raw querying, inserting etc. against the DB. Be careful.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.Status">
+            <summary>
+            Indicates the current status (<see cref="T:SisoDb.SessionStatus"/>) of the session.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.IsAborted">
+            <summary>
+            Indicates that the session has been aborted as a result of
+            an explicit call to <see cref="M:SisoDb.ISession.Abort"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.HasFailed">
+            <summary>
+            Indicates that the session has failed as a result of
+            an exception or call to <see cref="M:SisoDb.ISession.MarkAsFailed"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.Events">
+            <summary>
+            Provides some hoos like <see cref="P:SisoDb.ISessionEvents.OnInserted"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.QueryEngine">
+            <summary>
+            Low level API that executes queries as <see cref="T:SisoDb.IQuery"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.Advanced">
+            <summary>
+            Advances querying options.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISession.CacheConsumeMode">
+            <summary>
+            Indicates how the session will interact with an optional
+            cache.
+            </summary>
+        </member>
+        <member name="T:SisoDb.ISisoDbFactory">
+            <summary>
+            Factory used to create an <see cref="T:SisoDb.ISisoDatabase"/> which
+            is the starting point to consume SisoDb.
+            </summary>
+        </member>
+        <member name="T:SisoDb.ISisoDatabase">
+            <summary>
+            Represents a database. An instance of
+            a database is designed for being long lived, since
+            it contains cache for structure schemas etc.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.EnsureNewDatabase">
+            <summary>
+            Ensures that a new fresh database will exists. Drops any existing database.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.CreateIfNotExists">
+            <summary>
+            Creates and initializes a new database if one does not exist.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.InitializeExisting">
+            <summary>
+            Initializes an existing database by creating Siso-system tables. 
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.DeleteIfExists">
+            <summary>
+            Deletes the databse if it exists.
+            </summary>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.Exists">
+            <summary>
+            Checks if the database exists.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.DropStructureSet``1">
+            <summary>
+            Drops the structure set, meaning all tables associated with
+            the structure type.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.DropStructureSet(System.Type)">
+            <summary>
+            Drops the structure set, meaning all tables associated with
+            the structure type.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.DropStructureSets(System.Type[])">
+            <summary>
+            Drops ALL structure sets for sent <paramref name="types"/>.
+            </summary>
+            <param name="types"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.UpsertStructureSet``1">
+            <summary>
+            Manually upserts a structure set, meaning all tables for
+            the structure type <typeparamref name="T"/> will be created.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.UpsertStructureSet(System.Type)">
+            <summary>
+            Manually upserts a structure set, meaning all tables for
+            the structure type <paramref name="type"/> will be created.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.UpsertStructureSet(System.Type[])">
+            <summary>
+            Manually upserts structre sets, meaning all tables for
+            sent stucture types <paramref name="types"/> will be created.
+            </summary>
+            <param name="types"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.BeginSession">
+            <summary>
+            Creates an <see cref="T:SisoDb.ISession"/>, used for inserts, updates, deletes and searching.
+            The Session is designed for being short lived. Create, consume and dispose.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.WithSession(System.Action{SisoDb.ISession})">
+            <summary>
+            Opens a new Session using <see cref="M:SisoDb.ISisoDatabase.BeginSession"/> and passes that to your consuming closure.
+            </summary>
+            <param name="consumer"></param>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.WithSession``1(System.Func{SisoDb.ISession,``0})">
+            <summary>
+            Opens a new Session using <see cref="M:SisoDb.ISisoDatabase.BeginSession"/> and passes that to your consuming closure that
+            returns <typeparamref name="T"></typeparamref>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="consumer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.ISisoDatabase.UseOnceTo">
+            <summary>
+            Use when you want to execute a single search operation against the <see cref="T:SisoDb.ISisoDatabase"/>
+            via an <see cref="T:SisoDb.ISession"/>.
+            </summary>
+            <returns></returns>
+            <remarks>If you need to do multiple queries, inserts etc, then use <see cref="M:SisoDb.ISisoDatabase.BeginSession"/> instead.</remarks>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.LockObject">
+            <summary>
+            Lock object used to synchronize work against Db-operations.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.Name">
+            <summary>
+            The name of the database.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.ConnectionInfo">
+            <summary>
+            Connection info for the database.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.ProviderFactory">
+            <summary>
+            Provider factory.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.Settings">
+            <summary>
+            Runtime settings associated with the db.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.CacheProvider">
+            <summary>
+            By assigning a <see cref="T:SisoDb.ICacheProvider"/> you get
+            the possibility of preventing the query from
+            hitting the database for certain queries.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.CachingIsEnabled">
+            <summary>
+            Get a value indicating if the Database has a <see cref="P:SisoDb.ISisoDatabase.CacheProvider"/>
+            assigned.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.StructureSchemas">
+            <summary>
+            Cached Structure schemas, which holds information
+            about members to index etc.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.DbSchemas">
+            <summary>
+            Caches and controls state of Db-Schemas.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.Pipe">
+            <summary>
+            A pipe that intercepts data going into and out of the db.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.StructureBuilders">
+            <summary>
+            Structure builders collection used to resolve a Structure builder to use when building structures for insert and updates.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.Serializer">
+            <summary>
+            The serializer used to handle Json.
+            </summary>
+        </member>
+        <member name="P:SisoDb.ISisoDatabase.Maintenance">
+            <summary>
+            Used for maintenance tasks of the database.
+            E.g Regeneration of query indexes and Migrations.
+            </summary>
+        </member>
+        <member name="M:SisoDb.Structures.IStructureBuilders.ResolveBuilderForInsert(SisoDb.Structures.Schemas.IStructureSchema,SisoDb.Dac.IDbClient)">
+            <summary>
+            Uses <see cref="P:SisoDb.Structures.IStructureBuilders.ResolveBuilderForInsertsBy"/> to create an <see cref="T:SisoDb.Structures.IStructureBuilder"/>
+            used when inserting new structures.
+            </summary>
+            <param name="structureSchema"></param>
+            <param name="dbClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SisoDb.Structures.IStructureBuilders.ResolveBuilderForUpdate(SisoDb.Structures.Schemas.IStructureSchema)">
+            <summary>
+            Uses <see cref="P:SisoDb.Structures.IStructureBuilders.ResolveBuilderForUpdatesBy"/> to create an <see cref="T:SisoDb.Structures.IStructureBuilder"/>
+            used when updating existing structures.
+            </summary>
+            <param name="structureSchema"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilders.GuidStructureIdGeneratorFn">
+            <summary>
+            Resolves the <see cref="T:SisoDb.Structures.IStructureIdGenerator"/> responsible
+            for generating GUIDs. Defaults to <see cref="T:SisoDb.Structures.IdGenerators.SequentialGuidStructureIdGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilders.IdentityStructureIdGeneratorFn">
+            <summary>
+            Resolves the <see cref="T:SisoDb.Structures.IIdentityStructureIdGenerator"/> responsible
+            for generating identities. Defaults to <see cref="T:SisoDb.Structures.DbIdentityStructureIdGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilders.StructureSerializerFn">
+            <summary>
+            Resolves the <see cref="T:SisoDb.Serialization.IStructureSerializer"/> responsible for serializing a structure.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilders.ResolveBuilderForInsertsBy">
+            <summary>
+            Resolves the <see cref="T:SisoDb.Structures.IStructureBuilder"/> to use for the passed <see cref="T:SisoDb.Structures.Schemas.IStructureSchema"/>
+            when inserting new structures.
+            </summary>
+        </member>
+        <member name="P:SisoDb.Structures.IStructureBuilders.ResolveBuilderForUpdatesBy">
+            Resolves the <see cref="T:SisoDb.Structures.IStructureBuilder"/> to use for the passed <see cref="T:SisoDb.Structures.Schemas.IStructureSchema"/>
+            when updating existing structures.
+        </member>
+    </members>
+</doc>

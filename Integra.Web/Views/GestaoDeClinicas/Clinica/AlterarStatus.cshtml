@@ -1,0 +1,126 @@
+@using Integra.Dominio
+@using Integra.Dominio.Base
+@using Integra.Web.Helpers
+@model Clinica
+
+
+<div id="divAlterarStatusDaClinicaView">
+	<div class="modal">
+		<div class="modal-header">
+			<h4>Solicitação de Alteração</h4>
+		</div>
+		<div class="modal-body">
+			<div class="row-fluid">
+				<div class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label">Nome</label>
+						<div class="controls">
+							<div class="row-fluid">
+								@Html.ValueFor(it => it.Nome)
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Razão Social</label>
+						<div class="controls">
+							<div class="row-fluid">
+								@Html.ValueFor(it => it.RazaoSocial)
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">CNPJ</label>
+						<div class="controls">
+							<div class="row-fluid">
+								@Html.ValueFor(it => it.Cnpj)
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Inscrição Estatual</label>
+						<div class="controls">
+							<div class="row-fluid">
+								@Html.ValueFor(it => it.InscricaoEstadual)
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Status Atual</label>
+						<div class="controls">
+							<div class="row-fluid">
+								@Html.Label("Status", Model.Status.GetStringValue())
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Novo Status</label>
+						<div class="controls">
+							<div class="row-fluid">
+								<select data-bind="options: ListaDeStatus, value: NovoStatus, optionsText: 'Descricao', optionsvalue: 'Codigo'"></select>
+							</div>
+							<span class="error-inline" data-bind="validationMessage: NovoStatus"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Observação</label>
+						<div class="controls">
+							<div class="row-fluid">
+								<textarea data-bind="value: Observacao" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+			<button data-bind="click: Confirmar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Solicitar</button>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	function AltearaStatusClinica(parent) {
+		var self = this;
+		self.Parent = parent;
+		self.NovoStatus = ko.observable();
+		self.Observacao = ko.observable();
+		self.ListaDeStatus = ko.observableArray(@Html.Raw(Json.Encode(typeof(StatusDaClinica).ToViewModel())));
+		self.ObterNovStatus = function() {
+			var view = new Object();
+			view.NovoStatus = self.NovoStatus().Codigo;
+			view.Observacao = self.Observacao();
+			view.CodigoDaClinica = @Model.Codigo;
+			return JSON.stringify(view);
+		};
+
+		self.Retorno = function(resposta) {
+			if(resposta.Sucesso) {
+				self.Parent.FecharAlterarStatus();    
+			}else {
+				alert("Ocorreu um erro ao enviar sua requisição, tente novamente!");
+			}
+		};
+		
+		self.Confirmar = function () {
+			$.ajax({
+				url: '@Url.Action("AlterarStatus", null, "Clinica")',
+				type: 'POST',
+				data: self.ObterNovStatus(),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: self.Retorno
+			});
+		};
+		
+		self.Cancelar = function () {
+			self.Parent.FecharAlterarStatus();
+		};
+	}
+	
+	function AltearaStatusClinicaFactory(parent) {
+		var view = new AltearaStatusClinica(parent);
+		ko.applyBindings(view, $("#divAlterarStatusDaClinicaView").get(0));
+	}
+</script>

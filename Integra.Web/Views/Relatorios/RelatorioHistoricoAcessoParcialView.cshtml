@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Integra.Dominio.Relatorio>
+
+<script src="~/Content/globalize.culture.pt-BR.js"></script>
+
+<table id="demo">
+    <thead>
+        <tr>
+            <th>Desc. Situacao</th>
+            <th>Desc. Fase</th>
+            <th>Desc. Status Tratamento</th>
+            <th>Desc. Detalhe Status</th>
+            <th>Qtde Tratamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+           <tr>
+            <td>@item.Descsituacao</td>
+            <td>@item.Descfase</td>
+            <td>@item.Descstatustratamento</td>
+            <td>@item.Descdetalhestatus</td>
+            <td>@item.Qtdetratamentos</td>
+        </tr> 
+        }       
+    </tbody>
+</table>
+
+<script id="scriptInit" type="text/javascript">
+    $(document).ready(function () {
+        $("#demo").wijgrid({
+            culture: "pt-BR",
+            allowSorting: true,
+            showFooter: true,
+
+            columns: [
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+                },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" }
+            ]
+        });
+    });
+</script>

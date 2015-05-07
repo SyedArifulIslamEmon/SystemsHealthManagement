@@ -1,0 +1,119 @@
+﻿@model Integra.Web.Models.SolicitacaoViewModel
+<div id="DivVisualizarSolicitacaoProcessoViewModel">
+    <form data-bind="submit: Salvar, validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Processo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal">
+                        <!-- ko with: Processo  -->
+                        <div class="control-group">
+                            <label class="control-label">Data do Processo</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span>@Html.Label(DateTime.Now.ToString("dd/MMMM/yyyy"))</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Data de abertura</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span>@Model.DataDeAbertura.ToString("dd/MMMM/yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Protocolo</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span>@Model.Protocolo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Solução</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <textarea data-bind="value: Solucao" rows="3"></textarea>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Solucao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Observações</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <textarea data-bind="value: Observacao" rows="3"></textarea>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Observacao"></span>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function SolicitacaoProcesso() {
+        var self = this;
+        self.Solucao = ko.observable().extend({ required: true });
+        self.Observacao = ko.observable().extend({ required: true });
+        self.ToJson = function() {
+            var processo = new Object();
+            processo.Solucao = self.Solucao();
+            processo.Observacao = self.Observacao();
+            processo.Codigo = @Model.Codigo;
+            return JSON.stringify(processo);
+        };
+    }
+
+    function VisualizarSolicitacaoProcessoViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Processo = new SolicitacaoProcesso();
+        self.Processo = ko.validatedObservable(self.Processo);
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("SalvarProcessoDeSolicitacao", "PainelDeControle")',
+                type: 'POST',
+                data: self.Processo().ToJson(),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastro(resposta.Solicitacao);
+                    } else {
+                        alert("Algum erro ocorreu durante o cadastro desta fatura!");
+                    }
+                }
+            });
+        };
+
+        self.Salvar = function () {
+            if (self.Processo.isValid()) {
+                self.Enviar();
+            } else {
+                self.Processo.errors.showAllMessages(true);
+            }
+        };
+
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastro();
+        };
+    }
+
+    function VisualizarSolicitacaoFactory(parent) {
+        var view = VisualizarSolicitacaoProcessoViewModel(parent);
+        ko.applyBindings(view, $("#DivVisualizarSolicitacaoProcessoViewModel").get(0));
+    }
+</script>

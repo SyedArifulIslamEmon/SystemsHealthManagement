@@ -1,0 +1,326 @@
+﻿@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical : Relatórios Gerenciais :";
+    Layout = "~/Views/Shared/_LayoutMaster.module.cshtml";
+}
+
+<link href="~/Content/Style.css" rel="stylesheet" />
+
+<div class="container-fluid" id="main-container" style="padding-top: 10px;">
+    <div id="main-content" class="clearfix">
+        <div id="page-content" class="clearfix">
+            <div class="page-header position-relative">
+                <h3>Relatórios Gerenciais <small></small></h3>
+            </div>
+            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        @*Código aqui!!!!!*@
+                        <div id="tabs" style="width: 1300px">
+                            <ul>
+                                <li><a href="#tabs-1">Filtros</a></li>
+                                <li><a href="#tabs-2">Relatório</a></li>
+                                <li><a href="#tabs-3">Gráfico</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <div>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Tipo de Período</label>
+                                    </p>
+                                    <p class="campomaior">
+                                        <select class="input-select-medium">
+                                            <option>Inicio do ano até a data atual</option>
+                                            <option selected="selected">Últimos 12 meses</option>
+                                            <option>Período Selecionado</option>
+                                        </select>
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Data Inicial
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" id="datapicker1" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Data Final
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" id="datapicker2" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Medicamento
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img id="lupa" alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer"
+                                            onclick="ExibirModal('Medicamentos')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer;" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Doença
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Doença')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Situação
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Situação')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Fase
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Fase')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Estado
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Estado')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Cidade
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Cidade')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Especialidade
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Especialidade')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Médico
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Médico')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Gerente Consultor
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Gerente Consultor')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <p class="nomecampo">
+                                        <label>
+                                            Consultor
+                                        </label>
+                                    </p>
+                                    <p class="campo">
+                                        <input type="text" class="input-medium" />
+                                        <img alt="1" src="../../Content/Images/lupa.png" style="cursor: pointer" onclick="ExibirModal('Consultor')" />
+                                        <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer" />
+                                    </p>
+                                    <div style="cursor: pointer; position: absolute; margin-left: -150px; margin-top: 180px"
+                                        onclick="GerarGrafico();">
+                                        <img alt="1" src="../../Content/Images/Report-icon.png" />
+                                        <br />
+                                        <label style="font-size: 12px; margin-left: -15px">
+                                            Gerar Relatório</label>
+                                    </div>
+                                    <div style="position: absolute; margin-left: 860px; margin-top: 15px">
+                                        <table class="none">
+                                            <tr>
+                                                <td>
+                                                    <label style="font-size: 12px;">Limpar Filtros</label></td>
+
+                                                <td>
+                                                    <img alt="2" src="../../Content/Images/deletarlinha.png" style="cursor: pointer;" /></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tabs-2">
+                                <div id="divRelatorio">
+                                    <img id="Relatorio" alt="1" src="../../Content/Images/relatorio.png" />
+                                </div>
+                            </div>
+                            <div id="tabs-3">
+                                <div>
+                                    <img id="grafico" alt="1" src="../../Content/Images/Grafico.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dialog" title="Selecionar Filtros:">
+                    </div>
+
+                    @* Fim Código aqui!!!!! *@
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_LayoutFooter")
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#tabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+
+        $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+
+    });
+
+    $(function () {
+        $("#datapicker1").datepicker();
+        $("#datapicker2").datepicker();
+    });
+
+    function GerarGrafico() {
+        $("#tabs").tabs("option", "active", 1);
+    }
+
+    $(function () {
+        $("#dialog").dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 800
+            },
+            hide: {
+                effect: "explode",
+                duration: 800
+            },
+            height: 550,
+            width: 480
+        });
+    });
+
+    function ExibirModal(nome) {
+
+        var items = '<h1 class="tit">' + nome + '</h1>';
+        items += '<p class="nomecampo">';
+        items += '<label style="width:100px;">Perquisar:</label>';
+        items += '</p>';
+        items += '<p class="campomodal">';
+        items += '<input type="text" class=input-medium" style="margin-left:20px;" />';
+        items += '<img alt="1" src="../../Content/Images/lupa.png" style="margin-left:20px;cursor: pointer" />';
+        items += '<img alt="2" src="../../Content/Images/deletarlinha.png" style="margin-left:10px;cursor: pointer" />';
+        items += '</p>';
+        items += '<br /><br />';
+        items += '<table>';
+        items += '<tr><td style="border:none;">';
+        items += '<input type="checkbox" />';
+        items += '</td>';
+        items += '<td style="border:none;">';
+        items += '<label style="margin-left:10px;">Selecionar todos</label>';
+        items += '</td>';
+        items += '<h1 class="tit" />'
+        items += '<tr>';
+        items += '<td style="border:none;">';
+        items += '<input type="checkbox" />';
+        items += '</td>';
+        items += '<td style="border:none;">';
+        items += '<label style="margin-left:10px;">Não soube informar</label>';
+        items += '</td>';
+        items += '<tr>';
+        items += '<td style="border:none;">';
+        items += '<input type="checkbox" />';
+        items += '</td>';
+        items += '<td style="border:none;">';
+        items += '<label style="margin-left:10px;">Outros</label>';
+        items += '</td>';
+        items += '<tr>';
+        items += '<td style="border:none;">';
+        items += '<input type="checkbox" />';
+        items += '</td>';
+        items += '<td style="border:none;">';
+        items += '<label style="margin-left:10px;">Spiriva</label>';
+        items += '</td>';
+        items += '</table>';
+        items += '<h1 class="tit" />';
+        items += '<img alt="3" src="../../Content/Images/Deleket-Sleek-Xp-Basic-Ok.ico" style="position:absolute; margin-left:430px;;cursor: pointer;height:20px;width:20px;" />';
+
+
+        $('#dialog').html(items);
+        $("#dialog").dialog("open");
+
+    }
+
+</script>
+
+<style>
+    .ui-tabs-vertical
+    {
+        width: 10em;
+    }
+
+        .ui-tabs-vertical .ui-tabs-nav
+        {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 12em;
+        }
+
+            .ui-tabs-vertical .ui-tabs-nav li
+            {
+                clear: left;
+                width: 100%;
+                border-bottom-width: 1px !important;
+                border-right-width: 0 !important;
+                margin: 0 -1px .2em 0;
+            }
+
+                .ui-tabs-vertical .ui-tabs-nav li a
+                {
+                    display: block;
+                }
+
+                .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active
+                {
+                    padding-bottom: 0;
+                    padding-right: .1em;
+                    border-right-width: 1px;
+                }
+
+        .ui-tabs-vertical .ui-tabs-panel
+        {
+            padding: 1em;
+            float: right;
+            width: 100em;
+        }
+</style>

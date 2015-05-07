@@ -1,0 +1,363 @@
+﻿@using Integra.Web.Helpers
+@model Integra.Web.Models.AdicionarClinicaViewModel
+
+<div id="DivAddEditClinicaModel">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4><span id="TipoJanela"></span> Clínica</h4>
+            </div>
+            <div class="modal-body" id="modalBodyClinica">
+                <div class="row-fluid">
+                    <div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+                        <!-- ko with: Clinica -->
+                        <div class="control-group">
+                            <label class="control-label">Nome</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Nome" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Nome"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Razão Social</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: RazaoSocial" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: RazaoSocial"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">CNPJ</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input id="cnpjInput" data-bind="maskInput: Cnpj, maskConfig: '99.999.999/9999-99'" type="text" maxlength="18" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Cnpj"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Inscrição Estadual</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: InscricaoEstadual" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: InscricaoEstadual"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Endereço</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Endereco" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Endereco"></span>
+                            </div>
+                        </div>
+                        
+
+                        <div class="control-group">
+                            <label class="control-label">Bairro</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Bairro" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Bairro"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label">Cidade</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Cidade" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Cidade"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">UF</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: Ufs, value: Uf, optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Uf"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Telefone</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input id="telefone1Input" data-bind="maskInput: Telefone, maskConfig: '(99) 9999?9-9999'" type="text" maxlength="16" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Telefone"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Telefone 2</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input id="telefone2Input" data-bind="maskInput: Telefone2, maskConfig: '(99) 9999?9-9999'" type="text" maxlength="16" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Telefone 3</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input id="telefone3Input" data-bind="maskInput: Telefone3, maskConfig: '(99) 9999?9-9999'" type="text" maxlength="16" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Contato</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Contato" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Contato"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Representante</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: $parent.Representantes, value: Representante, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Representante Regional</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: $parent.RepresentantesRegionais, value: RepresentanteRegional, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Gerente</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: $parent.Gerentes, value: Gerente, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">E-mail Administrador</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Email" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Email"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Observações</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Observacoes" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Situação</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: $parent.ListaDeStatus, value: Status, optionsText: 'Descricao', optionsvalue: 'Codigo'"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Valor da Infusão</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="maskMoney: ValorInfusao" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: ValorInfusao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Indica Novos Pacientes</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="checkbox" data-bind="checked: IndicaNovosPacientes" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                {
+                    <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                    <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+                }
+                @if (!User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                {
+                    <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Fechar">Fechar</button>
+                }
+            </div>
+        </div>
+    </form>
+    @Html.Hidden("AddEditClinicaModel", Json.Encode(Model))
+</div>
+
+
+<script type="text/javascript">
+    function NovaClinicaFactory(parent) {
+        var view = new NovaClinicaViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditClinicaModel").get(0));
+        $("#TipoJanela").text("Adicionar");
+
+		@if (Model.Codigo > 0)
+  {
+			@Html.Raw("view.Editar();")
+  }
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    }
+
+    function NovaClinicaViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Model = jQuery.parseJSON($("#AddEditClinicaModel").val());
+        var clinica = new Clinica();
+        self.Clinica = ko.validatedObservable(clinica);
+
+        if (self.Parent.Visualizar == 1) {
+            $('#modalBodyClinica :input').attr('disabled', true);
+        }
+
+        self.ListaDeStatus = ko.observableArray(self.Model.ListaDeStatus);
+        self.Gerentes = ko.observableArray(self.Model.Gerentes);
+        self.Representantes = ko.observableArray(self.Model.Representantes);
+        self.RepresentantesRegionais = ko.observableArray(self.Model.RepresentantesRegionais);
+
+        self.Salvar = function () {
+            if (self.Clinica.isValid()) {
+                self.Enviar();
+            } else {
+                self.Clinica.errors.showAllMessages(true);
+            }
+        };
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AddEditClinica", null, "Clinica")',
+                type: 'POST',
+                data: JSON.stringify(self.Clinica().ObterClinica()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastroDeClinica(resposta.Clinica);
+                        //alert("Clínica cadastrada com sucesso!");
+                    } else {
+                        //alert("Algum erro ocorreu durante o cadastro!");
+                    }
+                }
+            });
+        };
+
+        self.Editar = function () {
+            self.Clinica().Codigo = self.Model.Codigo;
+            self.Clinica().Nome(self.Model.Nome);
+            self.Clinica().RazaoSocial(self.Model.RazaoSocial);
+            self.Clinica().Cnpj(self.Model.Cnpj);
+            self.Clinica().InscricaoEstadual(self.Model.InscricaoEstadual);
+            self.Clinica().Endereco(self.Model.Endereco);
+            self.Clinica().Bairro(self.Model.Bairro);
+            self.Clinica().Cidade(self.Model.Cidade);
+            self.Clinica().Uf(self.Model.Uf);
+            self.Clinica().Telefone(self.Model.Telefone);
+            self.Clinica().Contato(self.Model.Contato);
+            self.Clinica().ValorInfusao(self.Model.ValorInfusao);
+            var representante = ko.utils.arrayFirst(self.Representantes(), function (rep) {
+                return rep.Codigo == self.Model.CodigoDoRepresentante;
+            });
+            self.Clinica().Representante(representante);
+            var representanteRegional = ko.utils.arrayFirst(self.RepresentantesRegionais(), function (rep) {
+                return rep.Codigo == self.Model.CodigoDoRepresentanteRegional;
+            });
+            self.Clinica().RepresentanteRegional(representanteRegional);
+            var gerente = ko.utils.arrayFirst(self.Gerentes(), function (ger) {
+                return ger.Codigo == self.Model.CodigoDoGerente;
+            });
+            self.Clinica().Gerente(gerente);
+            self.Clinica().Observacoes(self.Model.Observacoes);
+            self.Clinica().Telefone2(self.Model.Telefone2);
+            self.Clinica().Telefone3(self.Model.Telefone3);
+            self.Clinica().IndicaNovosPacientes(self.Model.IndicaNovosPacientes);
+            var status = ko.utils.arrayFirst(self.ListaDeStatus(), function (statusItem) {
+                return statusItem.Codigo == self.Model.Status;
+            });
+            self.Clinica().Status(status);
+            self.Clinica().Email(self.Model.Email);
+
+            $("#TipoJanela").text("Editar");
+        };
+
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastroDeClinica();
+        };
+    }
+
+    function Clinica() {
+        var self = this;
+        self.Ufs = ko.observableArray(["DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE",
+			"PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", "AC", "AL", "AP", "AM", "BA", "CE"]);
+        self.Codigo = 0;
+        self.Nome = ko.observable().extend({ required: true });
+        self.RazaoSocial = ko.observable().extend({ required: true });
+        self.Cnpj = ko.observable().extend({ required: true });
+        self.InscricaoEstadual = ko.observable().extend({ required: true });
+        self.Endereco = ko.observable().extend({ required: true });
+        self.Bairro = ko.observable().extend({ required: true });
+        self.Cidade = ko.observable().extend({ required: true });
+        self.Uf = ko.observable().extend({ required: true });
+        self.Telefone = ko.observable().extend({ required: true });
+        self.Telefone2 = ko.observable();
+        self.Telefone3 = ko.observable();
+        self.IndicaNovosPacientes = ko.observable();
+        self.Contato = ko.observable().extend({ required: true });
+        self.Representante = ko.observable();
+        self.RepresentanteRegional = ko.observable();
+        self.Gerente = ko.observable();
+        self.Observacoes = ko.observable();
+        self.Status = ko.observable().extend({ required: true });
+        self.Email = ko.observable().extend({ required: true, email: true });
+        self.ValorInfusao = ko.observable().extend({ required: true });
+
+        self.ObterClinica = function () {
+            var clinica = new Object();
+            clinica.Codigo = self.Codigo;
+            clinica.Nome = self.Nome();
+            clinica.RazaoSocial = self.RazaoSocial();
+            clinica.Cnpj = self.Cnpj();
+            clinica.InscricaoEstadual = self.InscricaoEstadual();
+            clinica.Endereco = self.Endereco();
+            clinica.Bairro = self.Bairro();
+            clinica.Cidade = self.Cidade();
+            clinica.Uf = self.Uf();
+            clinica.Telefone = self.Telefone();
+            clinica.Contato = self.Contato();
+            clinica.CodigoDoRepresentante = self.Representante() != null ? self.Representante().Codigo : 0;
+            clinica.CodigoDoRepresentanteRegional = self.RepresentanteRegional() != null ? self.RepresentanteRegional().Codigo : 0;
+            clinica.CodigoDoGerente = self.Gerente() != null ? self.Gerente().Codigo : 0;
+            clinica.Observacoes = self.Observacoes();
+            clinica.Status = self.Status().Codigo;
+            clinica.Email = self.Email();
+            clinica.Telefone2 = self.Telefone2();
+            clinica.Telefone3 = self.Telefone3();
+            clinica.IndicaNovosPacientes = self.IndicaNovosPacientes();
+            clinica.ValorInfusao = self.ValorInfusao();
+            return clinica;
+        };
+    }
+</script>

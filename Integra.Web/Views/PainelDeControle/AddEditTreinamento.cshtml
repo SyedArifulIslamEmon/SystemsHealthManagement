@@ -1,0 +1,162 @@
+﻿@model Integra.Web.Models.AdicionarTreinamentoViewModel
+
+<div id="DivAddEditTreinamentoViewModel">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4><span id="TipoJanela"></span> Treinamento</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+                        <div class="control-group">
+                            <label class="control-label">Data da Realização</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input style="width: 100px;" data-bind="datepicker1: Treinamento().DataRealizacao, datepickerOptions: { showOn: 'button', buttonImage:'@Url.Content("~/Content/images/ico-calendar.png")', buttonImageOnly: true }" type="text" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Treinamento().DataRealizacao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Responsável</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: Funcionarios, value: Treinamento().Responsavel, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Treinamento().Responsavel"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Título</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Treinamento().Titulo" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Treinamento().Titulo"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Descrição</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Treinamento().Descricao" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Treinamento().Descricao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Local</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Treinamento().Local" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Treinamento().Local"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" type="submit" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" language="javascript">
+    function NovoTreinamentoFactory(parent) {
+        var validationOptions = { insertMessages: false, decorateElement: true, messagesOnModified: false };
+        ko.validation.init(validationOptions);
+        
+        var view = new NovoTreinamentoViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditTreinamentoViewModel").get(0));
+        
+        $("#TipoJanela").text("Adicionar");
+        if(view != undefined) {
+            if (view.Info.Codigo > 0) {
+                view.Editar();
+                $("#TipoJanela").text("Editar");
+            }
+            view.Treinamento.errors.showAllMessages(false);
+        }
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    }
+    
+    function Treinamento() {
+        var self = this;
+        self.Codigo = 0;
+        self.DataRealizacao = ko.observable().extend({ required: true });
+        self.Responsavel = ko.observable().extend({ required: true });
+        self.Local = ko.observable().extend({ required: true });
+        self.Titulo = ko.observable().extend({ required: true });
+        self.Descricao = ko.observable().extend({ required: true });
+        
+        self.ObterTreinamento = function () {
+            var treinamento = new Object();
+            treinamento.Codigo = self.Codigo;
+            treinamento.DataRealizacao = self.DataRealizacao();
+            treinamento.CodigoDoResponsavel = self.Responsavel().Codigo;
+            treinamento.Local = self.Local();
+            treinamento.Titulo = self.Titulo();
+            treinamento.Descricao = self.Descricao();
+            return treinamento;
+        };
+    }
+
+    function NovoTreinamentoViewModel(parent) {
+        var self = this;
+        self.Info = @Html.Raw(Json.Encode(Model));
+        self.Parent = parent;
+
+        var treinamento = new Treinamento();
+        self.Treinamento = ko.validatedObservable(treinamento);
+        self.Funcionarios = ko.observableArray(@Html.Raw(Json.Encode(Model.Funcionarios)));
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AddEditTreinamento", "PainelDeControle")',
+                type: 'POST',
+                data: JSON.stringify(self.Treinamento().ObterTreinamento()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastroDeTreinamento(resposta.Treinamento);
+                    } else {
+                        //alert("Algum erro ocorreu durante o cadastro deste Treinamento!");
+                    }
+                }
+            });
+        };
+        
+        self.Editar = function() {
+            self.Treinamento().Descricao(self.Info.Descricao);
+            
+            var a = ko.utils.arrayFirst(self.Funcionarios(), function(funcionario) {
+                return funcionario.Codigo == self.Info.CodigoDoResponsavel;
+            });
+            self.Treinamento().Responsavel(a);
+
+            self.Treinamento().Local(self.Info.Local);
+            self.Treinamento().Titulo(self.Info.Titulo);
+            self.Treinamento().DataRealizacao(ko.utils.ToDate(self.Info.DataRealizacao));
+            self.Treinamento().Codigo = self.Info.Codigo;
+        };
+        
+        self.Salvar = function () {
+            if (self.Treinamento.isValid()) {
+                self.Enviar();
+            } else {
+                self.Treinamento.errors.showAllMessages(true);
+            }
+        };
+        
+        self.Cancelar = function() {
+            self.Parent.FecharCadastroDeTreinamentoCancelar();
+        };
+    }
+</script>

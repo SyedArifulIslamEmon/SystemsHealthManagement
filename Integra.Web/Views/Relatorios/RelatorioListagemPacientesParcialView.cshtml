@@ -1,0 +1,255 @@
+﻿@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.RelatorioListagemPacientes>
+@{Layout = null;  }
+
+<div id="DivPageDadosRelatorioParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridServicosContratadosTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 25,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+                                                                        { 'name': 'codigoSequencial' },
+																		{ 'name': 'DtIniTratamento' },
+																		{ 'name': 'DtCadastroTratamento' },
+                                                                        { 'name': 'CodPAciente' },
+                                                                        { 'name': 'CodIniTratamento' },
+                                                                        { 'name': 'Doenca' },
+                                                                        { 'name': 'NumeroAmpolaInfusao' },
+                                                                        { 'name': 'MgPrescrita' },
+                                                                        { 'name': 'MedicoPrescritor' },
+                                                                        { 'name': 'CrmMedico' },
+                                                                        { 'name': 'Representante' },
+                                                                        { 'name': 'Especialidade' },
+                                                                        { 'name': 'ClinicaInfusao' },
+                                                                        { 'name': 'Cnpj' },
+                                                                        { 'name': 'Cidade' },
+                                                                        { 'name': 'Uf' },
+                                                                        { 'name': 'Dt1Infusao' },
+                                                                        { 'name': 'Dt2Infusao' },
+                                                                        { 'name': 'Dt3Infusao' },
+                                                                        { 'name': 'Dt4Infusao' },
+                                                                        { 'name': 'Dt5Infusao' },
+                                                                        { 'name': 'Status' },
+                                                                        { 'name': 'NumProtocoloSus' },
+                                                                        { 'name': 'MesAquisicaoViaSus' },
+                                                                        { 'name': 'CidadePoloDispensacao' },
+                                                                        { 'name': 'EstadoPoloDispensacao' },
+                                                                        { 'name': 'PoloDispensacao' }
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+                                                            }
+                                                        }
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align: left; width: 200px;"><b>Cod. Sequencial</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data de Cad. Inicio de Tratamento</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data de Cad. Programa</b></th>
+                <th style="text-align: left; width: 250px;"><b>Cód do Paciente</b></th>
+                <th style="text-align: left; width: 250px;"><b>Cód. Início Tratamento</b></th>
+                <th style="text-align: left; width: 250px;"><b>Doença</b></th>
+                <th style="text-align: left; width: 250px;"><b>Nº Ampola por Infusao</b></th>
+                <th style="text-align: left; width: 250px;"><b>Mg Prescrita</b></th>
+                <th style="text-align: left; width: 250px;"><b>Médico Prescritor</b></th>
+                <th style="text-align: left; width: 250px;"><b>Crm do Médico</b></th>
+                <th style="text-align: left; width: 250px;"><b>Representante</b></th>
+                <th style="text-align: left; width: 250px;"><b>Especialidade</b></th>
+                <th style="text-align: left; width: 250px;"><b>Clínica Infusão</b></th>
+                <th style="text-align: left; width: 250px;"><b>CNPJ</b></th>
+                <th style="text-align: left; width: 200px;"><b>Cidade</b></th>
+                <th style="text-align: left; width: 200px;"><b>UF</b></th>
+                <th style="text-align: left; width: 250px;"><b>Data 1a. Infusão</b></th>
+                <th style="text-align: left; width: 250px;"><b>Data 2a. Infusão</b></th>
+                <th style="text-align: left; width: 250px;"><b>Data 3a. Infusão</b></th>
+                <th style="text-align: left; width: 250px;"><b>Data 4a. Infusão</b></th>
+                <th style="text-align: left; width: 250px;"><b>Data 5a. Infusão</b></th>
+                <th style="text-align: left; width: 400px;"><b>Status</b></th>
+                <th style="text-align: left; width: 250px;"><b>Nº Protocolo SUS</b></th>
+                <th style="text-align: left; width: 250px;"><b>Mês de Aquisição Via SUS</b></th>
+                <th style="text-align: left; width: 200px;"><b>Cidade</b></th>
+                <th style="text-align: left; width: 200px;"><b>Estado</b></th>
+                <th style="text-align: left; width: 250px;"><b>Polo de Dispensação</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+    </div>
+</div>
+
+
+
+
+<script id="gridServicosContratadosTemplate" type="text/html">
+
+    <td data-bind="text: codigoSequencial" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: DtIniTratamento" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: DtCadastroTratamento" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: CodPAciente" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: CodIniTratamento" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Doenca" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: NumeroAmpolaInfusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: MgPrescrita" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: MedicoPrescritor" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: CrmMedico" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Representante" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Especialidade" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: ClinicaInfusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Cnpj" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Cidade" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Uf" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Dt1Infusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Dt2Infusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Dt3Infusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Dt4Infusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Dt5Infusao" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: Status" style="width: 400px; text-align: left;"></td>
+    <td data-bind="text: NumProtocoloSus" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: MesAquisicaoViaSus" style="width: 250px; text-align: left;"></td>
+    <td data-bind="text: CidadePoloDispensacao" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: EstadoPoloDispensacao" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: PoloDispensacao" style="width: 250px; text-align: left;"></td>
+
+</script>
+
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosRelatorioParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    });
+    
+    function relatorioViewModel() {
+        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		
+        arrumarLayout(self.DadosRelatorioParcialView().length);
+        
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+
+        self.DtIniTratamento = ko.observable(data.DtIniTratamento);
+        self.DtCadastroTratamento = ko.observable(data.DtCadastroTratamento);
+        self.CodPAciente = ko.observable(data.CodPAciente);
+        self.CodIniTratamento = ko.observable(data.CodIniTratamento);
+        self.Doenca = ko.observable(data.Doenca);
+        self.NumeroAmpolaInfusao = ko.observable(data.NumeroAmpolaInfusao);
+        self.MgPrescrita = ko.observable(data.MgPrescrita);
+        self.MedicoPrescritor = ko.observable(data.MedicoPrescritor);
+        self.CrmMedico = ko.observable(data.CrmMedico);
+        self.Representante = ko.observable(data.Representante);
+        self.Especialidade = ko.observable(data.Especialidade);
+        self.ClinicaInfusao = ko.observable(data.ClinicaInfusao);
+        self.Cnpj = ko.observable(data.Cnpj);
+        self.Cidade = ko.observable(data.Cidade);
+        self.Uf = ko.observable(data.Uf);
+        self.Dt1Infusao = ko.observable(data.Dt1Infusao);
+        self.Dt2Infusao = ko.observable(data.Dt2Infusao);
+        self.Dt3Infusao = ko.observable(data.Dt3Infusao);
+        self.Dt4Infusao = ko.observable(data.Dt4Infusao);
+        self.Dt5Infusao = ko.observable(data.Dt5Infusao);
+        self.Status = ko.observable(data.Status);
+        self.NumProtocoloSus = ko.observable(data.NumProtocoloSus);
+        self.MesAquisicaoViaSus = ko.observable(data.MesAquisicaoViaSus);
+        self.CidadePoloDispensacao = ko.observable(data.CidadePoloDispensacao);
+        self.EstadoPoloDispensacao = ko.observable(data.EstadoPoloDispensacao);
+        self.PoloDispensacao = ko.observable(data.PoloDispensacao);
+        self.codigoSequencial = ko.observable(data.codigoSequencial);
+        
+    };
+    
+    function arrumarLayout(indices) {
+        
+    }
+
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+        $('#'+tableid+' thead th').each(function(){html += "<th>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+            html+="<td>"+oTable[count].codigoSequencial.toString()+"</td>" ;
+            html+="<td>"+oTable[count].DtIniTratamento.toString()+"</td>";
+            html+="<td>"+oTable[count].DtCadastroTratamento.toString()+"</td>";
+            html+="<td>"+oTable[count].CodPAciente.toString()+"</td>";
+            html+="<td>"+oTable[count].CodIniTratamento.toString()+"</td>";
+            html+="<td>"+oTable[count].Doenca.toString()+"</td>";
+            html+="<td>"+oTable[count].NumeroAmpolaInfusao.toString()+"</td>";
+            html+="<td>"+oTable[count].MgPrescrita.toString()+"</td>";
+            html+="<td>"+oTable[count].MedicoPrescritor.toString()+"</td>";
+            html+="<td>"+oTable[count].CrmMedico.toString()+"</td>";
+            html+="<td>"+oTable[count].Representante.toString()+"</td>";
+            html+="<td>"+oTable[count].Especialidade.toString()+"</td>";
+            html+="<td>"+oTable[count].ClinicaInfusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Cnpj.toString()+"</td>";
+            html+="<td>"+oTable[count].Cidade.toString()+"</td>";
+            html+="<td>"+oTable[count].Uf.toString()+"</td>";
+            html+="<td>"+oTable[count].Dt1Infusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Dt2Infusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Dt3Infusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Dt4Infusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Dt5Infusao.toString()+"</td>";
+            html+="<td>"+oTable[count].Status.toString()+"</td>";
+            html+="<td>"+oTable[count].NumProtocoloSus.toString()+"</td>";
+            html+="<td>"+oTable[count].MesAquisicaoViaSus.toString()+"</td>";
+            html+="<td>"+oTable[count].CidadePoloDispensacao.toString()+"</td>";
+            html+="<td>"+oTable[count].EstadoPoloDispensacao.toString()+"</td>";
+            html+="<td>"+oTable[count].PoloDispensacao.toString()+"</td>";
+            html+="</tr>";
+        }
+        html+="</table></html>";
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+    
+</script>

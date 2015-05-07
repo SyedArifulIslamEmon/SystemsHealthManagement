@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Integra.Repositorio.EF</RootNamespace>
+    <AssemblyName>Integra.Repositorio.EF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\packages\Glimpse.AspNet.1.7.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.1.8.1\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Mvc4Futures.4.0.20710.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuracoes\AberturaDeSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\AnaliseDeSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\AprovacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\AprovacaoDeSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\ArquivoConfiguracao.cs" />
+    <Compile Include="Configuracoes\AtasConfiguracao.cs" />
+    <Compile Include="Configuracoes\CargoConfiguracao.cs" />
+    <Compile Include="Configuracoes\ClinicaConfiguracao.cs" />
+    <Compile Include="Configuracoes\ClinicaDocumentosConfiguracao.cs" />
+    <Compile Include="Configuracoes\CrmConfiguracao.cs" />
+    <Compile Include="Configuracoes\DepartamentoConfiguracao.cs" />
+    <Compile Include="Configuracoes\EntregaDaSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\EquipeConfiguracao.cs" />
+    <Compile Include="Configuracoes\FaturaConfiguracao.cs" />
+    <Compile Include="Configuracoes\GerenteConfiguracao.cs" />
+    <Compile Include="Configuracoes\GrupoConfiguracao.cs" />
+    <Compile Include="Configuracoes\InfusaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\ModuloConfiguracao.cs" />
+    <Compile Include="Configuracoes\NotasFiscaisConfiguracao.cs" />
+    <Compile Include="Configuracoes\PagamentoConfiguracao.cs" />
+    <Compile Include="Configuracoes\PerfilConfiguracao.cs" />
+    <Compile Include="Configuracoes\PessoaConfiguracao.cs" />
+    <Compile Include="Configuracoes\ProcessoDaSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\ProgramaConfiguracao.cs" />
+    <Compile Include="Configuracoes\RepresentanteConfiguracao.cs" />
+    <Compile Include="Configuracoes\RepresentanteRegionalConfiguracao.cs" />
+    <Compile Include="Configuracoes\ReuniaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\ServicosContratadosConfiguracao.cs" />
+    <Compile Include="Configuracoes\SolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\TipoDaSolicitacaoConfiguracao.cs" />
+    <Compile Include="Configuracoes\TipoDeCrmConfiguracao.cs" />
+    <Compile Include="Configuracoes\TratamentoConfiguracao.cs" />
+    <Compile Include="Configuracoes\TreinamentoConfiguracao.cs" />
+    <Compile Include="Configuracoes\UsuarioConfiguracao.cs" />
+    <Compile Include="ContextoRegistry.cs" />
+    <Compile Include="DaoBase.cs" />
+    <Compile Include="DataContextFactory.cs" />
+    <Compile Include="EFUnitOfWork.cs" />
+    <Compile Include="IntegraContexto.cs" />
+    <Compile Include="Migrations\201305271442281_Initial.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migrations\201305271442281_Initial.Designer.cs">
+      <DependentUpon>201305271442281_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305290039484_AdicionadoReuniao.cs" />
+    <Compile Include="Migrations\201305290039484_AdicionadoReuniao.Designer.cs">
+      <DependentUpon>201305290039484_AdicionadoReuniao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305290209166_AdicionadoDataNaFatura.cs" />
+    <Compile Include="Migrations\201305290209166_AdicionadoDataNaFatura.Designer.cs">
+      <DependentUpon>201305290209166_AdicionadoDataNaFatura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305292048372_AdicionadoFotoPessoa.cs" />
+    <Compile Include="Migrations\201305292048372_AdicionadoFotoPessoa.Designer.cs">
+      <DependentUpon>201305292048372_AdicionadoFotoPessoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305311603255_AdicionadoModServicosContratados.cs" />
+    <Compile Include="Migrations\201305311603255_AdicionadoModServicosContratados.Designer.cs">
+      <DependentUpon>201305311603255_AdicionadoModServicosContratados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306031349296_AdicionadoModTreinamentoComArquivos.cs" />
+    <Compile Include="Migrations\201306031349296_AdicionadoModTreinamentoComArquivos.Designer.cs">
+      <DependentUpon>201306031349296_AdicionadoModTreinamentoComArquivos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306041819500_AdicionadoAnexosNaReuniao.cs" />
+    <Compile Include="Migrations\201306041819500_AdicionadoAnexosNaReuniao.Designer.cs">
+      <DependentUpon>201306041819500_AdicionadoAnexosNaReuniao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306050120280_AdicionadoDataUploadNoArquivo.cs" />
+    <Compile Include="Migrations\201306050120280_AdicionadoDataUploadNoArquivo.Designer.cs">
+      <DependentUpon>201306050120280_AdicionadoDataUploadNoArquivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306060213542_AdicionadoAta.cs" />
+    <Compile Include="Migrations\201306060213542_AdicionadoAta.Designer.cs">
+      <DependentUpon>201306060213542_AdicionadoAta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306070121396_AdicionadoAnexosNaAta.cs" />
+    <Compile Include="Migrations\201306070121396_AdicionadoAnexosNaAta.Designer.cs">
+      <DependentUpon>201306070121396_AdicionadoAnexosNaAta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306082144551_AdicionadoAprovacao.cs" />
+    <Compile Include="Migrations\201306082144551_AdicionadoAprovacao.Designer.cs">
+      <DependentUpon>201306082144551_AdicionadoAprovacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306090029114_AlteradoPropriedadeDaAprovacao.cs" />
+    <Compile Include="Migrations\201306090029114_AlteradoPropriedadeDaAprovacao.Designer.cs">
+      <DependentUpon>201306090029114_AlteradoPropriedadeDaAprovacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306180419532_AdicionadoFotoAPessoa.cs" />
+    <Compile Include="Migrations\201306180419532_AdicionadoFotoAPessoa.Designer.cs">
+      <DependentUpon>201306180419532_AdicionadoFotoAPessoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306211213432_AdicionadoModGestaoTratamento.cs" />
+    <Compile Include="Migrations\201306211213432_AdicionadoModGestaoTratamento.Designer.cs">
+      <DependentUpon>201306211213432_AdicionadoModGestaoTratamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306212058494_AdicionadoSolicitacao.cs" />
+    <Compile Include="Migrations\201306212058494_AdicionadoSolicitacao.Designer.cs">
+      <DependentUpon>201306212058494_AdicionadoSolicitacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307121919110_AdicionadoModClinicas.cs" />
+    <Compile Include="Migrations\201307121919110_AdicionadoModClinicas.Designer.cs">
+      <DependentUpon>201307121919110_AdicionadoModClinicas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307151055205_AdicionadoEmailClinicas.cs" />
+    <Compile Include="Migrations\201307151055205_AdicionadoEmailClinicas.Designer.cs">
+      <DependentUpon>201307151055205_AdicionadoEmailClinicas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307250234153_AdicionadoTelefonesEIndicaNaClinica.cs" />
+    <Compile Include="Migrations\201307250234153_AdicionadoTelefonesEIndicaNaClinica.Designer.cs">
+      <DependentUpon>201307250234153_AdicionadoTelefonesEIndicaNaClinica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307252231314_AddVencimentoDoDocumentoDaClinica.cs" />
+    <Compile Include="Migrations\201307252231314_AddVencimentoDoDocumentoDaClinica.Designer.cs">
+      <DependentUpon>201307252231314_AddVencimentoDoDocumentoDaClinica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307260424484_AddGerenteRepresentantes.cs" />
+    <Compile Include="Migrations\201307260424484_AddGerenteRepresentantes.Designer.cs">
+      <DependentUpon>201307260424484_AddGerenteRepresentantes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307310210564_CorrecaoClinicaRemocaoRequeridoCampos.cs" />
+    <Compile Include="Migrations\201307310210564_CorrecaoClinicaRemocaoRequeridoCampos.Designer.cs">
+      <DependentUpon>201307310210564_CorrecaoClinicaRemocaoRequeridoCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308071421576_AddIdentificadorNoTratamento.cs" />
+    <Compile Include="Migrations\201308071421576_AddIdentificadorNoTratamento.Designer.cs">
+      <DependentUpon>201308071421576_AddIdentificadorNoTratamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308211404392_AdicionadoInfusao.cs" />
+    <Compile Include="Migrations\201308211404392_AdicionadoInfusao.Designer.cs">
+      <DependentUpon>201308211404392_AdicionadoInfusao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308221408491_AddNotaFiscal.cs" />
+    <Compile Include="Migrations\201308221408491_AddNotaFiscal.Designer.cs">
+      <DependentUpon>201308221408491_AddNotaFiscal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308221437297_AddEstornoDeNota.cs" />
+    <Compile Include="Migrations\201308221437297_AddEstornoDeNota.Designer.cs">
+      <DependentUpon>201308221437297_AddEstornoDeNota.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308221711416_AddValorInfusaoClinica.cs" />
+    <Compile Include="Migrations\201308221711416_AddValorInfusaoClinica.Designer.cs">
+      <DependentUpon>201308221711416_AddValorInfusaoClinica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308271938221_AddDevolucaoDaNota.cs" />
+    <Compile Include="Migrations\201308271938221_AddDevolucaoDaNota.Designer.cs">
+      <DependentUpon>201308271938221_AddDevolucaoDaNota.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201308281209488_AddMotivoETipoDeDevolucao.cs" />
+    <Compile Include="Migrations\201308281209488_AddMotivoETipoDeDevolucao.Designer.cs">
+      <DependentUpon>201308281209488_AddMotivoETipoDeDevolucao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309111921325_RC1.cs" />
+    <Compile Include="Migrations\201309111921325_RC1.Designer.cs">
+      <DependentUpon>201309111921325_RC1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401152318250_AdicionadoGestaoPrograma.cs" />
+    <Compile Include="Migrations\201401152318250_AdicionadoGestaoPrograma.Designer.cs">
+      <DependentUpon>201401152318250_AdicionadoGestaoPrograma.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402121854162_UpdateClinicaDocumentos_DocumentoStatus.cs" />
+    <Compile Include="Migrations\201402121854162_UpdateClinicaDocumentos_DocumentoStatus.Designer.cs">
+      <DependentUpon>201402121854162_UpdateClinicaDocumentos_DocumentoStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402261930149_NovosItensInfusao.cs" />
+    <Compile Include="Migrations\201402261930149_NovosItensInfusao.Designer.cs">
+      <DependentUpon>201402261930149_NovosItensInfusao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402281655329_coluna_flag.cs" />
+    <Compile Include="Migrations\201402281655329_coluna_flag.Designer.cs">
+      <DependentUpon>201402281655329_coluna_flag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403052020316_add_coluna_nome_CRM.cs" />
+    <Compile Include="Migrations\201403052020316_add_coluna_nome_CRM.Designer.cs">
+      <DependentUpon>201403052020316_add_coluna_nome_CRM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403211121432_Clinica_column_Bairro.cs" />
+    <Compile Include="Migrations\201403211121432_Clinica_column_Bairro.Designer.cs">
+      <DependentUpon>201403211121432_Clinica_column_Bairro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403271509038_Pagamento_Add_DataPagamento.cs" />
+    <Compile Include="Migrations\201403271509038_Pagamento_Add_DataPagamento.Designer.cs">
+      <DependentUpon>201403271509038_Pagamento_Add_DataPagamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403271518597_Pagamento_Add_DataPagamento_Alteracao.cs" />
+    <Compile Include="Migrations\201403271518597_Pagamento_Add_DataPagamento_Alteracao.Designer.cs">
+      <DependentUpon>201403271518597_Pagamento_Add_DataPagamento_Alteracao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\NonSystemTableSqlGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Repositorio.cs" />
+    <Compile Include="Repositorios\AprovacaoRepositorio.cs" />
+    <Compile Include="Repositorios\CargoRepositorio.cs" />
+    <Compile Include="Repositorios\ClienteRepositorio.cs" />
+    <Compile Include="Repositorios\ClinicaDocumentoRepositorio.cs" />
+    <Compile Include="Repositorios\ClinicaRepositorio.cs" />
+    <Compile Include="Repositorios\DepartamentoRepositorio.cs" />
+    <Compile Include="Repositorios\EquipeRepositorio.cs" />
+    <Compile Include="Repositorios\FaturaRepositorio.cs" />
+    <Compile Include="Repositorios\FuncionarioRepositorio.cs" />
+    <Compile Include="Repositorios\GerenteRepositorio.cs" />
+    <Compile Include="Repositorios\GrupoRepositorio.cs" />
+    <Compile Include="Repositorios\InfusaoRepositorio.cs" />
+    <Compile Include="Repositorios\ModuloRepositorio.cs" />
+    <Compile Include="Repositorios\NotaFiscalRepositorio.cs" />
+    <Compile Include="Repositorios\PerfilRepositorio.cs" />
+    <Compile Include="Repositorios\PessoaRepositorio.cs" />
+    <Compile Include="Repositorios\ProgramaRepositorio.cs" />
+    <Compile Include="Repositorios\RelatorioRepositorio.cs" />
+    <Compile Include="Repositorios\RepresentanteRegionalRepositorio.cs" />
+    <Compile Include="Repositorios\RepresentanteRepositorio.cs" />
+    <Compile Include="Repositorios\ReuniaoRepositorio.cs" />
+    <Compile Include="Repositorios\ServicosContratadosRepositorio.cs" />
+    <Compile Include="Repositorios\SolicitacaoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoDaSolicitacaoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoDeCrmRepositorio.cs" />
+    <Compile Include="Repositorios\TratamentoRepositorio.cs" />
+    <Compile Include="Repositorios\TreinamentoRepositorio.cs" />
+    <Compile Include="Repositorios\UsuarioRepositorio.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Integra.Dominio\Integra.Dominio.csproj">
+      <Project>{0d5f30bb-c43d-422b-8ae5-4b0b38a3b50b}</Project>
+      <Name>Integra.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Integra.Infra\Integra.Infra.csproj">
+      <Project>{c3a55370-ade6-481c-b5cd-a7e622787604}</Project>
+      <Name>Integra.Infra</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201305271442281_Initial.resx">
+      <DependentUpon>201305271442281_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305290039484_AdicionadoReuniao.resx">
+      <DependentUpon>201305290039484_AdicionadoReuniao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305290209166_AdicionadoDataNaFatura.resx">
+      <DependentUpon>201305290209166_AdicionadoDataNaFatura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305292048372_AdicionadoFotoPessoa.resx">
+      <DependentUpon>201305292048372_AdicionadoFotoPessoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305311603255_AdicionadoModServicosContratados.resx">
+      <DependentUpon>201305311603255_AdicionadoModServicosContratados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306031349296_AdicionadoModTreinamentoComArquivos.resx">
+      <DependentUpon>201306031349296_AdicionadoModTreinamentoComArquivos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306041819500_AdicionadoAnexosNaReuniao.resx">
+      <DependentUpon>201306041819500_AdicionadoAnexosNaReuniao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306050120280_AdicionadoDataUploadNoArquivo.resx">
+      <DependentUpon>201306050120280_AdicionadoDataUploadNoArquivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306060213542_AdicionadoAta.resx">
+      <DependentUpon>201306060213542_AdicionadoAta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306070121396_AdicionadoAnexosNaAta.resx">
+      <DependentUpon>201306070121396_AdicionadoAnexosNaAta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306082144551_AdicionadoAprovacao.resx">
+      <DependentUpon>201306082144551_AdicionadoAprovacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306090029114_AlteradoPropriedadeDaAprovacao.resx">
+      <DependentUpon>201306090029114_AlteradoPropriedadeDaAprovacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306180419532_AdicionadoFotoAPessoa.resx">
+      <DependentUpon>201306180419532_AdicionadoFotoAPessoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306211213432_AdicionadoModGestaoTratamento.resx">
+      <DependentUpon>201306211213432_AdicionadoModGestaoTratamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306212058494_AdicionadoSolicitacao.resx">
+      <DependentUpon>201306212058494_AdicionadoSolicitacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307121919110_AdicionadoModClinicas.resx">
+      <DependentUpon>201307121919110_AdicionadoModClinicas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307151055205_AdicionadoEmailClinicas.resx">
+      <DependentUpon>201307151055205_AdicionadoEmailClinicas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307250234153_AdicionadoTelefonesEIndicaNaClinica.resx">
+      <DependentUpon>201307250234153_AdicionadoTelefonesEIndicaNaClinica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307252231314_AddVencimentoDoDocumentoDaClinica.resx">
+      <DependentUpon>201307252231314_AddVencimentoDoDocumentoDaClinica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307260424484_AddGerenteRepresentantes.resx">
+      <DependentUpon>201307260424484_AddGerenteRepresentantes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307310210564_CorrecaoClinicaRemocaoRequeridoCampos.resx">
+      <DependentUpon>201307310210564_CorrecaoClinicaRemocaoRequeridoCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308071421576_AddIdentificadorNoTratamento.resx">
+      <DependentUpon>201308071421576_AddIdentificadorNoTratamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308211404392_AdicionadoInfusao.resx">
+      <DependentUpon>201308211404392_AdicionadoInfusao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308221408491_AddNotaFiscal.resx">
+      <DependentUpon>201308221408491_AddNotaFiscal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308221437297_AddEstornoDeNota.resx">
+      <DependentUpon>201308221437297_AddEstornoDeNota.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308221711416_AddValorInfusaoClinica.resx">
+      <DependentUpon>201308221711416_AddValorInfusaoClinica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308271938221_AddDevolucaoDaNota.resx">
+      <DependentUpon>201308271938221_AddDevolucaoDaNota.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308281209488_AddMotivoETipoDeDevolucao.resx">
+      <DependentUpon>201308281209488_AddMotivoETipoDeDevolucao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309111921325_RC1.resx">
+      <DependentUpon>201309111921325_RC1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401152318250_AdicionadoGestaoPrograma.resx">
+      <DependentUpon>201401152318250_AdicionadoGestaoPrograma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402121854162_UpdateClinicaDocumentos_DocumentoStatus.resx">
+      <DependentUpon>201402121854162_UpdateClinicaDocumentos_DocumentoStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402261930149_NovosItensInfusao.resx">
+      <DependentUpon>201402261930149_NovosItensInfusao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402281655329_coluna_flag.resx">
+      <DependentUpon>201402281655329_coluna_flag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403052020316_add_coluna_nome_CRM.resx">
+      <DependentUpon>201403052020316_add_coluna_nome_CRM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403211121432_Clinica_column_Bairro.resx">
+      <DependentUpon>201403211121432_Clinica_column_Bairro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403271509038_Pagamento_Add_DataPagamento.resx">
+      <DependentUpon>201403271509038_Pagamento_Add_DataPagamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403271518597_Pagamento_Add_DataPagamento_Alteracao.resx">
+      <DependentUpon>201403271518597_Pagamento_Add_DataPagamento_Alteracao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Initial.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AdicionandoSolicitacao.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\CorrecaoPrograma.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,218 @@
+﻿@model Integra.Web.Models.AdicionarAnexoTreinamentoViewModel
+@using Integra.Web.Helpers
+
+<div id="DivAddEditAnexoTreinamentoViewModel">
+	<div class="modal">
+		<div class="modal-header">
+			<h4>Gerenciar Anexos</h4>
+		</div>
+		<div class="modal-body">
+			@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+			{
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label">Descrição</label>
+								<div class="controls">
+									<div class="row-fluid">
+										<input type="text" data-bind="value: Descricao" />
+										<span class="error-inline" data-bind="validationMessage: Descricao"></span>
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Arquivo</label>
+								<div class="controls">
+									<div class="row-fluid">
+										<input type="file" data-bind="file: Arquivo" />
+										<span class="error-inline" data-bind="validationMessage: Arquivo"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions clearfix">
+							<div class="pull-right">
+								<button data-bind="click: $root.Salvar" type="submit" class="bbtnn bbtnn-success"><i class='icon-plus'></i>Adicionar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+			}
+			<div class="row-fluid">
+				<div class="span12">
+					<table id="gridAnexo" data-bind="dataTable:
+															{
+																dataSource: Anexos,
+																rowTemplate: 'gridAnexoTemplate',
+																sPaginationType: 'bootstrap',
+																iDisplayLength: 2,
+																gridId: 'gridAnexo',
+																sDom: 'fptr',
+																autoWidth: false,
+																columns:
+																	[
+																		{ 'name': 'Descricao' },
+																		{ 'name': 'DataDeUpload' }
+																	],
+																options: {
+																	oLanguage: {
+																		sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+															}
+														}
+														}"
+						   class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Descrição</th>
+								<th>Enviado em</th>
+								<th id="filterTableAnexoTreinamento"></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click: Fechar" class="bbtnn bbtnn-gray" value="Fechar">Fechar</button>
+		</div>
+	</div>
+</div>
+
+<script id="gridAnexoTemplate" type="text/html">
+	<td data-bind="text: Descricao"></td>
+	<td data-bind="date: DataDeUpload"></td>
+
+	<td id="resultTableAnexoTreinamento" style="text-align: center; width: 20px;">
+		<div class='hidden-phone visible-desktop btn-group'>
+			<button data-bind="click: Baixar" class='btn btn-mini btn-info tooltip-info' data-rel="tooltip" title="Baixar" data-placement="left"><i class='icon-download-alt'></i></button>
+				<button data-bind="click: Excluir" class='btn btn-mini btn-danger tooltip-info' data-rel="tooltip" title="Excluir" data-placement="left"><i class='icon-trash'></i></button>
+		</div>
+	</td>
+</script>
+
+<script type="text/javascript">
+	function AdicionarAnexoNoTreinamentoFactory(parent) {
+		var view = new AdicionarAnexoNoTreinamentoViewModel(parent);
+		arrumarLayout(0);
+		view.Carregar();
+		view.ClearLayout();
+		ko.applyBindings(view, $("#DivAddEditAnexoTreinamentoViewModel").get(0));
+	}
+
+	function AnexosTableView(data, parent) {
+		var self = this;
+		self.Parent = parent;
+		self.Codigo = data.Codigo;
+		self.Nome = ko.observable(data.Nome);
+		self.Descricao = ko.observable(data.Descricao);
+		self.DataDeUpload = ko.observable(data.DataDeUpload);
+
+		self.Baixar = function(anexo) {
+			self.Parent.Baixar(anexo);
+		};
+
+		self.Excluir = function(anexo) {
+			self.Parent.Excluir(anexo);
+		};
+	}
+
+	function AdicionarAnexoNoTreinamentoViewModel(parent) {
+		var self = this;
+		self.Arquivo = ko.observable();
+		self.Parent = parent;
+		self.CodigoDoTreinamento = @Model.CodigoDoTreinamento;
+		self.Descricao = ko.observable();
+
+		self.Carregar = function() {
+			var allData = @Html.Raw(Json.Encode(Model.Anexos));
+			var mappedData = jQuery.map(allData, function(item) { return new AnexosTableView(item, self); });
+			self.Anexos = ko.observableArray(mappedData);
+		    self.ClearLayout();
+		};
+
+		self.ClearLayout = function() {
+			arrumarLayout(self.Anexos().length);
+		};
+
+		self.Salvar = function () {
+			var formData = new window.FormData($(this)[0]);
+			formData.append('arquivo', self.Arquivo());
+			formData.append('descricao', self.Descricao());
+			formData.append('codigoDoTreinamento', self.CodigoDoTreinamento);
+
+			$.ajax({
+				url: '@Url.Action("AddEditAnexoTreinamento")',
+				type: 'POST',
+				data: formData,
+				async: false,
+				success: function (retorno) {
+					if(retorno.Sucesso) {
+						self.Anexos.push(new AnexosTableView(retorno.Anexo, self));
+						self.ClearLayout();
+						self.Descricao(null);
+						self.Arquivo(null);
+						//alert("Anexo adicionado com sucesso");
+					}else {
+						//alert("Algum erro ocorreu");                        
+					}
+				},
+				cache: false,
+				contentType: false,
+				processData: false
+			});
+		};        
+
+		self.Baixar = function(anexo) {
+			$.fileDownload('@Url.Action("BaixarArquivoTreinamento")', {
+				httpMethod: "POST",
+				data: { codigoDoTreinamento: self.CodigoDoTreinamento, codigoDoAnexo: anexo.Codigo }
+			}).fail(function () { alert('File download failed!'); });
+		};
+
+		self.Excluir = function(anexo) {
+			$.ajax({
+				url: '@Url.Action("ExcluirAnexoTreinamento")',
+				type: 'POST',
+				data: { codigoDoTreinamento: self.CodigoDoTreinamento, codigoDoAnexo: anexo.Codigo },
+				success: function (retorno) {
+					if(retorno.Sucesso) {
+						self.Anexos(ko.utils.arrayFilter(self.Anexos(), function(item) {
+							return item.Codigo != retorno.CodigoDoAnexo;
+						}));
+						self.ClearLayout();
+						//alert("Anexo excluido com sucesso!");
+					}else {
+						//alert("Algum erro ocorreu");                        
+					}
+				}
+			});
+		};
+
+		self.Fechar = function() {
+			arrumarLayout(self.Anexos().length);
+			self.Parent.FecharAdicionarAnexoParaTreinamento();
+		};
+		
+	}		
+
+	function arrumarLayout(indices) {
+		if(indices>0) {
+			$("#filterTableAnexoTreinamento").show();
+			$("#resultTableAnexoTreinamento").show();
+		}else {
+			$("#filterTableAnexoTreinamento").hide();
+			$("#resultTableAnexoTreinamento").hide();
+            /*
+		    $("#filterTableAnexoTreinamento").css('display', 'none');
+		    $("#resultTableAnexoTreinamento").css('display', 'none');
+		    
+		    $("#filterTableAnexoTreinamento").css('visibility', 'hidden');
+		    $("#resultTableAnexoTreinamento").css('visibility', 'hidden');
+            */
+		}
+	}
+</script>

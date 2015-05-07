@@ -1,0 +1,164 @@
+﻿@model Integra.Web.Models.EditarPerfilViewModel
+<div id="DivViewModelCadastroDePerfil">
+    <form data-bind="submit: SalvarPerfil">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Gerenciar Perfil</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">Descrição</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" disabled="disabled" data-bind="value: Nome" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Nome"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Grupo</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select disabled="disabled" data-bind="options: Grupos, selectedOptions: Grupo, optionsText: 'Descricao', value: Grupo, optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Grupo"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Módulos</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <div class="row-fluid">
+                                    </div>
+                                    <!-- ko foreach: Modulos -->
+                                    <div class="row-fluid">
+                                        <input data-bind="checked: Selecionado" type="checkbox" />
+                                        <span data-bind="text: Nome"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Modulos"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function ViewCadastroDePerfil(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Grupo = ko.observable(0).extend({ required: true });
+        self.Modulos = ko.observableArray();
+        self.Grupos = ko.observableArray(@Html.Raw(Json.Encode(Model.Grupos)));
+        self.Nome = ko.observable(decodeURI('@ViewBag.NomePerfil')).extend({ required: true });
+        self.ModulosSelected = ko.observableArray(@Html.Raw(Json.Encode(Model.CodigoDosModulosSelecionados)));
+
+        self.Grupo(ko.utils.arrayFirst(self.Grupos(), function (grupo) {
+            return grupo.Codigo == @ViewBag.CodigoGrupo;
+        }));
+
+        self.GetPerfil = function () {
+            var perfil = new Object();
+            perfil.Nome = self.Nome();
+            perfil.Grupo = @ViewBag.CodigoGrupo;
+            perfil.CodigoPerfil = @ViewBag.CodigoPerfil;
+            perfil.CodigoDosModulosSelecionados = self.ObterModulosSelecionados();
+
+            return perfil;
+        };
+
+        self.Submit = function () {
+            $.ajax({
+                url: '@Url.Action("EdicaoDePerfil")',
+                type: 'POST',
+                data: JSON.stringify(self.GetPerfil()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharEdicaoDePerfilCancelar();
+                        alert("Perfil Alterado com sucesso!");
+                    } else {
+                        alert("Algum erro ocorreu durante o cadastro!");
+                    }
+                }
+            });
+        };
+
+        self.Cancelar = function() {
+            self.Parent.FecharEdicaoDePerfilCancelar();
+        };
+
+        self.SalvarPerfil = function () {
+            if (self.isValid()) {
+                self.Submit();
+            }
+            else {
+                self.errors.showAllMessages(true);
+            }
+        };
+
+        self.CarregarModulos = function (modulos, Selecionados) {
+            
+            self.Modulos.removeAll();
+            ko.utils.arrayForEach(modulos, function (modulo) {
+                modulo.Selecionado = ko.observable(false);
+                
+                for (var cont = 0; cont < Selecionados.length; cont++) {
+                    if (Selecionados[cont] == modulo.Codigo) {
+                        modulo.Selecionado = ko.observable(true);
+                        break;
+                    }
+                }
+
+                if (modulo.Nome == "Relatorios")
+                    modulo.Nome = "Relatórios Gerenciais";
+                if (modulo.Nome == "GestaoDeClinicas")
+                    modulo.Nome = "Gestão de Clínicas";
+                if (modulo.Nome == "GestaoDeTratamentos")
+                    modulo.Nome = "Gestão de Ínicio de Tratamento";
+                if (modulo.Nome == "PainelDeControle")
+                    modulo.Nome = "Projeto";
+                if (modulo.Nome == "GestaoUsuario")
+                    modulo.Nome = "Usuários";
+                self.Modulos.push(modulo);
+            });
+        };
+        self.CarregarModulos(@Html.Raw(Json.Encode(Model.Modulos)),@Html.Raw(Json.Encode(Model.CodigoDosModulosSelecionados)));
+
+        self.ObterModulosSelecionados = function () {
+            var codigos = new Array();
+            ko.utils.arrayForEach(self.Modulos(), function (modulo) {
+                if (modulo.Selecionado())
+                    codigos.push(modulo.Codigo);
+            });
+            return codigos;
+        };
+
+        self.Modulos.extend({
+            validation: {
+                validator: function () {
+                    return (self.ObterModulosSelecionados() != undefined && self.ObterModulosSelecionados().length > 0);
+                },
+                message: "Por favor, selecione pelo menos um módulo."
+            }
+        });
+    }
+
+    function ViewPerfil(parent) {
+        var validationOptions = { insertMessages: false, decorateElement: true, messagesOnModified: false };
+        var view = new ViewCadastroDePerfil(parent);
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivViewModelCadastroDePerfil").get(0), validationOptions);
+        view.errors.showAllMessages(false);
+    }
+</script>

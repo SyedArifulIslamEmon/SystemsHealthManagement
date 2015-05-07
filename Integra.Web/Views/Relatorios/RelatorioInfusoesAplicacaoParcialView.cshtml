@@ -1,0 +1,149 @@
+﻿@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.RelatorioInfusoesAplicacao>
+@{Layout = null;  }
+
+<div id="DivPageDadosParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridServicosContratadosTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 50,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+																		{ 'name': 'Descricao' },
+                                                                        { 'name': 'Quantidade' }
+
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+                                                            }
+                                                        }
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align: left;"><b>Infusões Realizadas</b></th>
+                <th style="text-align: left;"><b>Quantidade</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_chart" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar Gráfico</button>
+    </div>
+</div>
+
+<script id="gridServicosContratadosTemplate" type="text/html">
+    <td data-bind="text: Descricao" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Quantidade" style="width: 100px; text-align: left;"></td>
+</script>
+
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    });
+    
+    function relatorioViewModel() {
+        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+        self.generate_chart = function() {
+            export_chart("div3");
+        };
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Descricao = ko.observable(data.Descricao);
+        self.Quantidade = ko.observable(data.Quantidade);
+    };
+    
+    function arrumarLayout(indices) {
+        
+    }
+
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr>";
+        $('#'+tableid+' thead th').each(function(){html += "<th style='text-align:left;vertical-align:middle;width:100%'>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Descricao.toString()+"</td>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Quantidade.toString()+"</td>";
+            html+="</tr>";
+        }
+        html+="</table></html>";
+        
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+    
+    function export_chart(chart) {
+        var canvas = document.createElement("canvas");
+        if (typeof canvas.getContext == "undefined" || !canvas.getContext) {
+            alert("Navegador não suporta essa ação.");
+            return false;
+        }
+
+        try {
+            document.body.appendChild(canvas);
+            canvg(canvas, $("#" + chart).html());
+            var context = canvas.getContext("2d");
+            var rawImageData = canvas.toDataURL("image/png;base64");
+            rawImageData = rawImageData.replace("image/png", "image/octet-stream");
+            document.location.href = rawImageData;
+            document.body.removeChild(canvas);
+        }
+        catch (err) {
+            document.body.removeChild(canvas);
+            alert("Navegador não suporta essa ação.");
+        }
+
+        return true;
+    }
+</script>

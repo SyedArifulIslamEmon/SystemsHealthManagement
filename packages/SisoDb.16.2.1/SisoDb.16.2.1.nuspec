@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SisoDb</id>
+    <version>16.2.1</version>
+    <title>SisoDb - Simple Structure Oriented Db (core)</title>
+    <authors>danielwertheim</authors>
+    <owners>danielwertheim</owners>
+    <licenseUrl>https://github.com/danielwertheim/SisoDb-Provider/blob/master/Source/License-SisoDb.txt</licenseUrl>
+    <projectUrl>http://www.sisodb.com/</projectUrl>
+    <iconUrl>http://sisodb.com/logos/sisodb-logo-100x100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SisoDb is a schemaless document-oriented provider for SQL-Server. Using JSON and key-value storage, it lets you persist object graphs without specifying any mappings or extending any base classes interfaces etc. It lets you perform queries against SQL-server, using lambda expressions. It syncs schemachanges on the fly and can assist you to handle more complex model updates. Basically, it is a simple data access tool.
+			This package is a Core package. Use specific package instead. E.g SisoDb.Sql2008, SisoDb.Sql2012, SisoDb.SqlCe4.</description>
+    <summary>SisoDb is the document-oriented provider for SQL-Server.</summary>
+    <releaseNotes>http://www.sisodb.com/wiki/release-notes</releaseNotes>
+    <copyright>Daniel Wertheim</copyright>
+    <tags>sisodb,document-database,db,structure,key-value,json,poco,blob,sql,sqlserver,sql-server,sql2005,sql2008,sql2012,sqlazure,azure,sqlce,sqlce4,nosql</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

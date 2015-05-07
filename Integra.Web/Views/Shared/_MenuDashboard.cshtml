@@ -1,0 +1,18 @@
+﻿@Html.ActionLink("Dashboard", "Index", "Dashboard", new {}, new {@class="brand"})
+@using Integra.Web.Helpers
+
+ @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                    {
+                        <div class="nav-collapse collapse">
+    <ul class="nav">
+
+    </ul>
+    <ul class="nav pull-right">
+        <li><a href="@Url.Action("Index", "Home", new { })" class="brand">
+                        <i class='icon-home'></i>Ínicio
+                    </a></li>
+    </ul>
+</div>
+ 
+ }
+

@@ -1,0 +1,211 @@
+﻿@font-face {
+	font-family: fontawesome-webfont;
+	src: url('font/fontawesome-webfont.eot'), url('font/fontawesome-webfont.ttf') format('truetype'), url('font/fontawesome-webfont.woff');
+}
+
+@font-face {
+	font-family: FontAwesome;
+	src: url('font/FontAwesome.otf') format('opentype');
+}
+
+body {
+	font-size: .85em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #232323;
+	background-color: #fff;
+	min-height: 100%;
+	width: auto;
+	height: 100%;
+	height: auto !important;
+	padding-bottom: 40px;
+}
+
+.LayoutPage {
+	padding: 0;
+	min-height: 100%;
+	width: auto;
+	height: 100%;
+	height: auto !important;
+	background-image: url("images/background_lines.fw.png");
+	background-repeat: repeat-x;
+}
+
+header, footer, nav, section {
+	display: block;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+	border: 1px solid #ddd;
+	padding: 0 1.4em 1.4em 1.4em;
+	margin: 0 0 1.5em 0;
+}
+
+legend {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+textarea {
+	min-height: 75px;
+}
+
+.editor-label {
+	margin: 1em 0 0 0;
+}
+
+.editor-field {
+	margin: 0.5em 0 0 0;
+}
+
+/* Basic Page Layout Container
+-----------------------------------------------------------*/
+#main-content {
+	margin-top: 0;
+	margin-right: 20px;
+	margin-left: 20px;
+	padding: 0;
+	min-height: 100%;
+}
+
+#page-content {
+	margin: 0;
+	padding: 8px 20px 24px;
+	background: #FFF;
+}
+
+	#page-content > .page-header:first-child {
+		margin: 0 0 12px;
+		border-bottom: 1px dotted #E2E2E2;
+	}
+
+		#page-content > .page-header:first-child > h1 {
+			margin: 0 8px;
+			padding: 0;
+			color: #2679B5;
+			font-weight: 300;
+			font-size: 24px;
+		}
+
+
+			#page-content > .page-header:first-child > h1 > small {
+				margin: 0 6px;
+				color: #8089A0;
+				font-weight: normal;
+				font-size: 14px;
+			}
+
+/* Footer Visual
+-----------------------------------------------------------*/
+#push,
+#footer {
+	width: 100%;
+	width: auto;
+	height: 63px;
+}
+
+#footer {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	min-width: 100%;
+	width: 100%;
+	width: auto;
+	border: none;
+	background-image: url("images/LayoutFooter_background.png");
+	background-repeat: repeat-x;
+	font-size: 11px;
+}
+
+	#footer .container {
+		min-width: 100%;
+		width: 100%;
+		width: auto;
+	}
+
+		#footer .container .credit {
+			padding-top: 15px;
+		}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+	#footer {
+		margin-right: -20px;
+		margin-left: -20px;
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+}
+
+/* Some Visual
+-----------------------------------------------------------*/
+.hidden {
+	display: none;
+}
+
+.center {
+	text-align: center;
+}
+
+.position-relative {
+	position: relative;
+}
+
+.position-absolute {
+	position: absolute;
+}
+
+.bigger-110 {
+	font-size: 110%;
+}
+
+.bigger-125 {
+	font-size: 125%;
+}
+
+.bigger-150 {
+	font-size: 150%;
+}
+
+.bigger-200 {
+	font-size: 200%;
+}
+
+.smaller-90 {
+	font-size: 90%;
+}
+
+.smaller-75 {
+	font-size: 75%;
+}
+
+.smaller-50 {
+	font-size: 50%;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+	color: #f00;
+}
+
+.field-validation-valid {
+	display: none;
+}
+
+.input-validation-error {
+	border: 1px solid #f00;
+	background-color: #fee;
+}
+
+.validation-summary-errors {
+	font-weight: bold;
+	color: #f00;
+}
+
+.validation-summary-valid {
+	display: none;
+}

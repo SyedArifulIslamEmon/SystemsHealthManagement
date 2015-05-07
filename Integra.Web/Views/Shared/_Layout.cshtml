@@ -1,0 +1,27 @@
+﻿@using Integra.Web.CustomMembership
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/Js")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/knockout")
+</head>
+    <body>
+        @if (User.Identity is UsuarioIdentity)
+        {
+            var usuarioIdentity = User.Identity as UsuarioIdentity;
+            if (User.Identity.IsAuthenticated)
+            {
+                @usuarioIdentity.Pessoa.Usuario.NomeDeUsuario
+                @Html.ActionLink("Logout", "Logout", "Conta")           
+            }
+        }
+        @RenderBody()
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

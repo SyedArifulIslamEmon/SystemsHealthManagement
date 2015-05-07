@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Integra.Dominio.FiltroRelatorio>
+
+@Scripts.Render("~/dataTables")
+
+<div id="DivViewModelSelecaoPerfil">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Selecionar Pessoa</h4>
+            </div>
+            <div class="modal-body">
+
+                <table id="TblSelecionarAcesso" data-bind="dataTable:
+															{
+															    dataSource: SelecionarAcessos,
+															    rowTemplate: 'gridSelecionarAcessoTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 200,
+															    //gridId: 'RelatorioFiltros',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+																		
+                                                                        { 'name': 'DescricaoFiltro'},
+																	    { 'name': 'CodigoFiltro'}
+
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+                                                            }
+                                                        }
+                                                        }" 
+                                   class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;"><b>Nome</b></th>
+                            <th style="text-align: left;"><b></b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+
+
+            </div>
+            <div class="modal-footer">
+                @*<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>*@
+                <input name="submit" data-bind="click: Cancelar" type="submit" id="cancelar" class="bbtnn bbtnn-gray" value="Cancelar" />
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    
+    //Load da função Chamada pela tela anterios
+    function SelecaoPerfilLoad(parent) {
+        var view = new CarregarAcessoNomes(parent); //Carrega todas as funções.
+        ko.applyBindings(view, $("#DivViewModelSelecaoPerfil").get(0));   
+    }
+    
+    function CarregarAcessoNomes(parent) {
+        var self = this;
+        self.Parent = parent;
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new SelecionarAcessoTableView(item, self); });
+        self.SelecionarAcessos = ko.observableArray(mappedData);
+        
+        self.Cancelar = function() {
+            self.Parent.FecharSelecionarAcessoCancelar();
+        };
+        
+        self.Salvar = function () {
+            self.Enviar(this);
+        };
+        
+        self.Enviar = function (obj) {
+            @*$.ajax({
+                url: '@Url.Action("Relatorio", "Relatorios")',
+                type: 'POST',
+                data: { submit: "Salvar", tipoFiltro: $('#tipoFiltro').val(), parametro:$('#parametro').val(), parametroFull: $('#parametroFull').val()},
+                dataType: 'html',
+                success: function (data) {
+                    $('#' + $('#tipoFiltro').val() + '_TXT').val(data);
+                    $('#' + $('#tipoFiltro').val() + '_TXT').prop('title', data);
+                    self.Parent.FecharSelecionarAcessoCancelar();
+                }
+            });*@
+            self.Parent.CRM(window.event.srcElement.parentElement.value);
+            self.Parent.FecharSelecionarAcessoCancelar();
+        };
+    }
+    
+    function SelecionarAcessoTableView(data, parent) {
+        var self = this;
+        var check = false;
+        self.Parent = parent;
+        self.CodigoFiltro = ko.observable(data.CodigoFiltro);
+        self.DescricaoFiltro = ko.observable(data.DescricaoFiltro);
+        
+        self.SelelecionarPessoa = function(data) {
+            self.Parent.Parent.CRM(data.DescricaoFiltro);
+            self.Parent.Parent.CRMCodigo(data.CodigoFiltro);
+            self.Parent.Parent.FecharSelecionarAcessoCancelar();
+        };
+    }
+     
+    
+</script>
+
+<script id="gridSelecionarAcessoTemplate" type="text/html">
+    <td data-bind="text: DescricaoFiltro" style="width: 200px; text-align: left;"></td>
+    <td id="resultTableServicosContratados" style="text-align: center!important; width: 10px;">
+        <button type="button" data-bind="value: CodigoFiltro, click: $root.SelelecionarPessoa" id="text: CodigoFiltro" class='btn btn-mini btn-info tooltip-info' data-rel="tooltip" title="Selecionar" data-placement="left"><i class='icon-hand-right'></i></button>
+    </td>
+</script>

@@ -1,0 +1,148 @@
+﻿/* LAYOUT PÁGINA PRINCIPAL */
+.home-pagina {
+    width: auto;
+    height: auto;
+}
+
+.home-linha {
+    display: table;
+    padding-bottom: 10px;
+    width: 480px;
+    height: auto;
+}
+
+.home-tile {
+    float: left;
+    margin: 0 5px 0 0;
+    padding: 0px;
+    width: 230px;
+    height: 88px;
+    color: #e1e1e1;
+    vertical-align: bottom;
+    text-align: center;
+    font-size: 0px;
+    text-decoration: none;
+}
+
+.home-modules {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    background-position: center;
+    background-repeat: no-repeat;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    *zoom: 1;
+}
+
+.menu-relatorios-gerenciais {
+    background-image: url("images/menu/menu-icon-relatorios-gerenciais.png");
+}
+
+.menu-relatorios-gerenciais-ativo {
+    border: 1px solid #e41f14;
+    background-color: #e41f14;
+    background-image: -moz-linear-gradient(top, #e41f14, #d51d12);
+    background-image: -o-linear-gradient(top, #e41f14, #d51d12);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e41f14), to(#d51d12));
+    background-image: -webkit-linear-gradient(top, #e41f14, #d51d12);
+    background-image: linear-gradient(to bottom, #e41f14, #d51d12);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e41f14', endColorstr='#d51d12', GradientType=0);
+    *zoom: 1;
+}
+
+.menu-gestao-tratamento {
+    background-image: url("images/menu/menu-icon-gestao-tratamento.png");
+}
+
+.menu-gestao-tratamento-ativo {
+    border: 1px solid #881ca2;
+    background-color: #881ca2;
+    background-image: -moz-linear-gradient(top, #881ca2, #7b1993);
+    background-image: -o-linear-gradient(top, #881ca2, #7b1993);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#881ca2), to(#7b1993));
+    background-image: -webkit-linear-gradient(top, #881ca2, #7b1993);
+    background-image: linear-gradient(to bottom, #881ca2, #7b1993);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#881ca2', endColorstr='#7b1993', GradientType=0);
+    *zoom: 1;
+}
+
+.menu-gestao-clinicas {
+    background-image: url("images/menu/menu-icon-gestao-clinicas.png");
+}
+
+.menu-gestao-clinicas-ativo {
+    border: 1px solid #1f9f9f;
+    background-color: #1f9f9f;
+    background-image: -moz-linear-gradient(top, #1f9f9f, #1c9191);
+    background-image: -o-linear-gradient(top, #1f9f9f, #1c9191);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1f9f9f), to(#1c9191));
+    background-image: -webkit-linear-gradient(top, #1f9f9f, #1c9191);
+    background-image: linear-gradient(to bottom, #1f9f9f, #1c9191);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1f9f9f', endColorstr='#1c9191', GradientType=0);
+    *zoom: 1;
+}
+
+.menu-dashboard {
+    background-image: url("images/menu/menu-icon-dashboard.png");
+}
+
+.menu-dashboard-ativo {
+    border: 1px solid #1f6ee1;
+    background-color: #1f6ee1;
+    background-image: -moz-linear-gradient(top, #1f6ee1, #1e68d4);
+    background-image: -o-linear-gradient(top, #1f6ee1, #1e68d4);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1f6ee1), to(#1e68d4));
+    background-image: -webkit-linear-gradient(top, #1f6ee1, #1e68d4);
+    background-image: linear-gradient(to bottom, #1f6ee1, #1e68d4);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1f6ee1', endColorstr='#1e68d4', GradientType=0);
+    *zoom: 1;
+}
+
+.menu-historico-projeto {
+    background-image: url("images/menu/menu-icon-historico-projeto.png");
+}
+
+.menu-dados-projeto {
+    background-image: url("images/menu/menu-icon-dados-projeto.png");
+}
+
+.menu-atendimento {
+    background-image: url("images/menu/menu-icon-atendimento.png");
+}
+
+.menu-usuario {
+    background-image: url("images/menu/menu-icon-usuario.png");
+}
+
+.menu-painel-ativo {
+    border: 1px solid #cf971f;
+    background-color: #cf971f;
+    background-image: -moz-linear-gradient(top, #cf971f, #c18d1e);
+    background-image: -o-linear-gradient(top, #cf971f, #c18d1e);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cf971f), to(#c18d1e));
+    background-image: -webkit-linear-gradient(top, #cf971f, #c18d1e);
+    background-image: linear-gradient(to bottom, #cf971f, #c18d1e);
+    background-repeat: repeat-x;
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.065);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf971f', endColorstr='#c18d1e', GradientType=0);
+    *zoom: 1;
+}

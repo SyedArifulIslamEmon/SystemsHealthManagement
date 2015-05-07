@@ -1,0 +1,238 @@
+﻿<script src="~/Content/globalize.culture.pt-BR.js"></script>
+
+@*@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.Relatorio>
+@{Layout = null;  }
+
+<div id="DivPageDadosRelatorioParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridServicosContratadosTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 50,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+																		{ 'name': 'Descsituacao' },
+																	    { 'name': 'Descfase' },
+                                                                        { 'name': 'Descstatustratamento' },
+                                                                        { 'name': 'Descdetalhestatus' },
+                                                                        { 'name': 'Qtdetratamentos' }
+
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '
+                                                            }
+                                                        }
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align: left;"><b>Desc. Situacao</b></th>
+                <th style="text-align: left;"><b>Desc. Fase</b></th>
+                <th style="text-align: left;"><b>Desc. Status Tratamento</b></th>
+                <th style="text-align: left;"><b>Desc. Detalhe Status</b></th>
+                <th style="text-align: left;"><b>Qtde Tratamento</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+    </div>
+</div>
+
+
+
+
+<script id="gridServicosContratadosTemplate" type="text/html">
+    <td data-bind="text: Descsituacao" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Descfase" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Descstatustratamento" style="width: 200px; text-align: left;"></td>
+    <td data-bind="text: Descdetalhestatus" style="width: 300px; text-align: left;"></td>
+    <td data-bind="text: Qtdetratamentos" style="width: 200px; text-align: left;"></td>
+</script>
+
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosRelatorioParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    });
+    
+    function relatorioViewModel() {
+        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		
+        arrumarLayout(self.DadosRelatorioParcialView().length);
+        
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+        //self.Codsituacao = ko.observable(data.Codsituacao);
+        //self.Codfase = ko.observable(data.Codfase);
+        //self.Codstatustratamento = ko.observable(data.Codstatustratamento);
+        //self.Coddetalhestatus = ko.observable(data.Coddetalhestatus);
+        self.Descsituacao = ko.observable(data.Descsituacao);
+        self.Descfase = ko.observable(data.Descfase);
+        self.Descstatustratamento = ko.observable(data.Descstatustratamento);
+        self.Descdetalhestatus = ko.observable(data.Descdetalhestatus);
+        self.Qtdetratamentos = ko.observable(data.Qtdetratamentos);
+    };
+    
+    function arrumarLayout(indices) {
+        
+    }
+
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr>";
+        $('#'+tableid+' thead th').each(function(){html += "<th style='text-align:left;vertical-align:middle;width:100%'>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Descsituacao.toString()+"</td>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Descfase.toString()+"</td>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Descstatustratamento.toString()+"</td>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Descdetalhestatus.toString()+"</td>";
+            html+="<td style='text-align:left;vertical-align:middle;width:100%'>"+oTable[count].Qtdetratamentos.toString()+"</td>";
+            html+="</tr>";
+        }
+        html+="</table></html>";
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+</script>
+*@
+
+
+@model IEnumerable<Integra.Dominio.Relatorio>
+
+<table id="demo">
+    <thead>
+        <tr>
+            <th>Desc. Situacao</th>
+            <th>Desc. Fase</th>
+            <th>Desc. Status Tratamento</th>
+            <th>Desc. Detalhe Status</th>
+            <th>Qtde Tratamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Descsituacao</td>
+                <td>@item.Descfase</td>
+                <td>@item.Descstatustratamento</td>
+                <td>@item.Descdetalhestatus</td>
+                <td>@item.Qtdetratamentos</td>
+            </tr> 
+        }
+    </tbody>
+</table>
+
+<script id="scriptInit" type="text/javascript">
+
+    $(document).ready(function () {
+        $("#demo").wijgrid({
+            culture: "pt-BR",
+            allowSorting: true,
+            showFooter: true,
+
+            columns: [
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    groupInfo: {
+                        position: "header",
+                        outlineMode: "startCollapsed",
+                        headerText: "{1}:{0}",
+                    }
+                },
+                {
+                    sortDirection: "ascending",
+                    rowMerge: "free",
+
+                    //groupInfo: {
+                    //    position: "header",
+                    //    outlineMode: "startCollapsed",
+                    //    headerText: "{1}:{0}",
+                    //}
+                },
+                {
+                    sortDirection: "ascending",
+                    //rowMerge: "free",
+
+                    //groupInfo: {
+                    //    position: "header",
+                    //    outlineMode: "startCollapsed",
+                    //    headerText: "{1}:{0}",
+                    //}
+                },
+                { dataType: "number", dataFormatString: "n0", aggregate: "sum" }
+            ]
+        });
+    });
+
+</script>
+
+<style>
+    #demo td
+    {
+        text-align: left!important;
+    }
+</style>

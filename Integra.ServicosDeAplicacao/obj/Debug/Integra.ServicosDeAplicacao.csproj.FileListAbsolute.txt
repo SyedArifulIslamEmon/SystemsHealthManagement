@@ -1,0 +1,11 @@
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.ServicosDeAplicacao.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.ServicosDeAplicacao.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.Dominio.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.Infra.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.Dominio.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\bin\Debug\Integra.Infra.pdb
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\obj\Debug\Integra.ServicosDeAplicacao.csprojResolveAssemblyReference.cache
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\obj\Debug\Integra.ServicosDeAplicacao.Properties.Resources.resources
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\obj\Debug\Integra.ServicosDeAplicacao.csproj.GenerateResource.Cache
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\obj\Debug\Integra.ServicosDeAplicacao.dll
+D:\Projects\IntegraMedical_CPanel\Integra\Integra.ServicosDeAplicacao\obj\Debug\Integra.ServicosDeAplicacao.pdb

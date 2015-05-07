@@ -1,0 +1,244 @@
+﻿@model Integra.Web.Models.AdicionarMembrosEquipeViewModel
+@Scripts.Render("~/dataTables")
+
+<div id="DivAddEditMembroViewModel">
+	<div class="modal">
+		<div class="modal-header">
+			<h4>Gerenciar Equipe</h4>
+		</div>
+		<div class="modal-body">
+			<div class="row-fluid">
+				<div class="span12">
+					<table id="gridFuncionarios" data-bind="dataTable: {
+	dataSource: Funcionarios,
+	sPaginationType: 'bootstrap',
+	rowTemplate: 'gridFuncionariosTemplate',
+	iDisplayLength: 2,
+	gridId: 'gridFuncionarios',
+	autoWidth: true,
+	sDom: 'fptr',
+	columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'Cargo' }
+	],
+	options: {
+		oLanguage: {
+			sUrl: '@Url.Content("~/Content/table-lang-br.txt")'
+		}
+	}
+}"
+						   class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Cargo</th>
+								<th id="filter1TableFuncionarios"></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<br/>
+			<div class="row-fluid">
+				<div class="span12">
+					<table id="gridMembros" data-bind="dataTable: {
+	dataSource: Membros,
+	sPaginationType: 'bootstrap',
+	rowTemplate: 'gridMembrosTemplate',
+	iDisplayLength: 2,
+	gridId: 'gridMembros',
+	autoWidth: true,
+	sDom: 'ptr',
+	columns:
+	[
+		{ 'name': 'Nome' },
+		{ 'name': 'Cargo' }
+	],
+	options: {
+		oLanguage: {
+			sUrl: '@Url.Content("~/Content/table-lang-br.txt")'
+		}
+	}
+}"
+						class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Cargo</th>
+								<th id="filter2TableMembros"></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+			<button data-bind="click: Salvar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+		</div>
+	</div>
+</div>
+
+<script id="gridFuncionariosTemplate" type="text/html">
+	<td data-bind="text: Nome"></td>
+	<td data-bind="text: Cargo"></td>
+	<td id="result1TableFuncionarios" style="text-align: center; width: 20px;">
+		<div class='hidden-phone visible-desktop btn-group'>
+			<button data-bind="click: Adicionar" class='btn btn-mini btn-success tooltip-info' data-rel="tooltip" title="Adicionar Membro" data-placement="left"><i class='icon-plus'></i></button>
+		</div>
+	</td>
+</script>
+
+<script id="gridMembrosTemplate" type="text/html">
+	<td data-bind="text: Nome"></td>
+	<td data-bind="text: Cargo"></td>
+	<td id="result2TableMembros" style="text-align: center; width: 20px;">
+		<div class='hidden-phone visible-desktop btn-group'>
+			<button data-bind="click: Remover" class='btn btn-mini btn-danger tooltip-info' data-rel="tooltip" title="Remover Membro" data-placement="left"><i class='icon-minus'></i></button>
+		</div>
+	</td>
+</script>
+
+<script>
+	function FuncionariosTableView(data, parent) {
+		var self = this;
+		self.Parent = parent;
+
+		self.Codigo = data.Codigo;
+		self.Nome = ko.observable(data.Nome);
+		self.Cargo = ko.observable(data.Cargo);
+
+		self.Adicionar = function(funcionario) {
+			self.Parent.Adicionar(funcionario);            
+		};	    
+		
+		self.Remover = function(membro) {
+			self.Parent.Remover(membro);            
+		};
+	}
+	
+	function AdicionarMembroNaEquipeViewModel(parent) {
+		var self = this;
+		self.Parent = parent;
+		
+		var allDataFuncionarios = @Html.Raw(Json.Encode(Model.Funcionarios));
+		var mappedDataFuncionarios = jQuery.map(allDataFuncionarios, function (item) { return new FuncionariosTableView(item, self); });
+		self.Funcionarios = ko.observableArray(mappedDataFuncionarios);
+
+		var allDataMembros = @Html.Raw(Json.Encode(Model.Membros));
+		var mappedDataMembros = jQuery.map(allDataMembros, function (item) { return new FuncionariosTableView(item, self); });
+		self.Membros = ko.observableArray(mappedDataMembros);
+		
+		if(self.Funcionarios().length>0) {
+			$("#filter1TableFuncionarios").show();
+			$("#result1TableFuncionarios").show();
+		}else {
+			$("#filter1TableFuncionarios").hide();
+			$("#result1TableFuncionarios").hide();
+		}
+		
+		if(self.Membros().length>0) {
+			$("#filter2TableMembros").show();
+			$("#result2TableMembros").show();
+		}else {
+			$("#filter2TableMembros").hide();
+			$("#result2TableMembros").hide();
+		}
+		
+		self.CodigoDaEquipe = @Html.Raw(Json.Encode(Model.CodigoDaEquipe));
+
+		self.ObterCodigosDosMembros = function () {
+			var membros = new Object();
+			membros.codigosDosMembros = new Array();
+			ko.utils.arrayForEach(self.Membros(), function (membro) {
+				membros.codigosDosMembros.push(membro.Codigo);
+			});
+			membros.codigoDaEquipe = self.CodigoDaEquipe;
+			return membros;
+		};
+
+		self.Salvar = function () {
+			$.ajax({
+				url: '@Url.Action("AddEditMembro")',
+				type: 'POST',
+				data: JSON.stringify(self.ObterCodigosDosMembros()),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (resposta) {
+					if (resposta.Sucesso) {
+						self.Parent.FecharAdicionarMembro(resposta.Equipe);
+						//alert("Equipe cadastrada com sucesso!");
+						
+					} else {
+						//alert("Algum erro ocorreu durante o cadastro!");
+					}
+				}
+			});
+		};
+
+		self.Adicionar = function (funcionario) {
+			self.Funcionarios(ko.utils.arrayFilter(self.Funcionarios(), function (funcionarioItem) {
+				return funcionarioItem.Codigo != funcionario.Codigo;
+			}));
+
+			self.Membros.push(funcionario);
+			
+			if(self.Funcionarios().length>0) {
+				$("#filter1TableFuncionarios").show();
+				$("#result1TableFuncionarios").show();
+			}else {
+				$("#filter1TableFuncionarios").hide();
+				$("#result1TableFuncionarios").hide();
+			}
+		
+			if(self.Membros().length>0) {
+				$("#filter2TableMembros").show();
+				$("#result2TableMembros").show();
+			}else {
+				$("#filter2TableMembros").hide();
+				$("#result2TableMembros").hide();
+			}
+		};
+
+		self.Remover = function (membro) {
+			self.Membros(ko.utils.arrayFilter(self.Membros(), function (membroItem) {
+				return membroItem.Codigo != membro.Codigo;
+			}));
+
+			self.Funcionarios.push(membro);
+			
+			if(self.Funcionarios().length>0) {
+				$("#filter1TableFuncionarios").show();
+				$("#result1TableFuncionarios").show();
+			}else {
+				$("#filter1TableFuncionarios").hide();
+				$("#result1TableFuncionarios").hide();
+			}
+		
+			if(self.Membros().length>0) {
+				$("#filter2TableMembros").show();
+				$("#result2TableMembros").show();
+			}else {
+				$("#filter2TableMembros").hide();
+				$("#result2TableMembros").hide();
+			}
+		};
+
+		self.Cancelar = function () {
+			self.Parent.FecharGerenciamentoEquipeCancelar();
+		};
+	}
+
+	function AdicionarMembroNaEquipeFactory(parent) {
+		var view = new AdicionarMembroNaEquipeViewModel(parent);
+		ko.applyBindings(view, $("#DivAddEditMembroViewModel").get(0));
+
+		$(".ui-dialog-titlebar").hide();
+		$(".ui-dialog-buttonpane").hide();
+	}
+</script>

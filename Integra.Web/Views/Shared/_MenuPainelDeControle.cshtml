@@ -1,0 +1,47 @@
+﻿@using Integra.Web.Helpers
+@Html.ActionLink("Projeto", "Index", "PainelDeControle", new { }, new { @class = "brand", onclick = "javascript:return false;", style = "cursor:default;" })
+<div class="nav-collapse collapse">
+    <ul class="nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Atendimento&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Abertura de Chamados", "ChamadosOnline", "PainelDeControle", new { }, new { })</li>
+                <li>@Html.ActionLink("Ouvidoria", "Ouvidoria", "PainelDeControle", new { }, new { })</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dados do Projeto&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Documentos do Projeto", "AprovacaoOnline", "PainelDeControle", new { }, new { })</li>
+                <li>@Html.ActionLink("Equipe", "Equipe", "PainelDeControle", new { }, new { })</li>
+                <li>@Html.ActionLink("Investimentos", "Faturamento", "PainelDeControle", new { }, new { })</li>
+                <li>@Html.ActionLink("Serviços Contratados", "ServicosContratados", "PainelDeControle", new { }, new { })</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Histórico do Projeto&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Reuniões", "Reunioes", "PainelDeControle", new { }, new { })</li>
+                <li>@Html.ActionLink("Treinamentos", "Treinamentos", "PainelDeControle", new { }, new { })</li>
+            </ul>
+        </li>
+        @*        @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+        { 
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gerenciamento&nbsp;<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Usuários", "Index", "Conta", new { }, new { })</li>
+                </ul>
+            </li>
+        }*@
+    </ul>
+    @*@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+    {
+        *@
+    <ul class="nav pull-right">
+        <li><a href="@Url.Action("Index", "Home", new { })" class="brand">
+            <i class='icon-home'></i>Ínicio
+        </a></li>
+    </ul>
+    @*}*@
+</div>

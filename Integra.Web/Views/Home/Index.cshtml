@@ -1,0 +1,118 @@
+﻿@using Integra.Web.CustomMembership
+@model  Integra.Web.Models.HomeIndexViewModel
+
+@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical :";
+    Layout = "~/Views/Shared/_LayoutMaster.basic.cshtml";
+}
+
+<center>
+<div class="home-pagina">
+
+    @{
+        var blnPainel = false;
+        var blnUsuario = false;
+
+        foreach (var modulo in Model.Modulos)
+        {
+            if(modulo.TemPermissao((User.Identity as UsuarioIdentity).Pessoa.Usuario))
+            {
+                if (modulo.Nome == "GestaoUsuario")
+                {
+                    blnUsuario = true;
+                }
+                if (modulo.Nome == "PainelDeControle")
+                {
+                    blnPainel = true;
+                }
+            }
+        }
+
+        var countLine = 0;
+        var countPainel = 0;
+        var countModelos = 0;
+        var modulosPorLinha = 2;
+        var linha = new HtmlString("<div class='home-linha'>");
+        var div_fim = new HtmlString("</div>");
+    }
+    @foreach (var modulo in Model.Modulos)
+    {
+        countModelos++;
+        if (countLine == 0)
+        { 
+        @(linha)
+        }
+        if (modulo.TemPermissao((User.Identity as UsuarioIdentity).Pessoa.Usuario))
+        {
+            if (modulo.Nome == "Dashboard")
+            { 
+        @Html.ActionLink(".", "Index", "Dashboard", new { }, new { @class = "home-tile home-modules menu-dashboard", onclick = "javascript:return false;", style = "cursor:default;" })
+            }
+
+            if (modulo.Nome == "Relatorios")
+            { 
+         @Html.ActionLink(".", "Index", "Relatorios", new { }, new { @class = "home-tile home-modules menu-relatorios-gerenciais" })
+            }
+
+            if (modulo.Nome == "GestaoDeClinicas")
+            { 
+                @Html.ActionLink(".", "Clinica", "GestaoDeClinicas", new { }, new { @class = "home-tile home-modules menu-gestao-clinicas" })
+            }
+
+            if (modulo.Nome == "GestaoDeTratamentos")
+            { 
+        @Html.ActionLink(".", "Index", "Tratamento", new { }, new { @class = "home-tile home-modules menu-gestao-tratamento" })
+            }
+
+            if (modulo.Nome == "GestaoUsuario" && blnPainel == false && blnUsuario == true)
+            {
+                @Html.ActionLink(".", "Index", "Conta", new { }, new { @class = "home-tile home-modules menu-usuario" })        
+            }
+
+            if (modulo.Nome == "PainelDeControle")
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (countLine == 0)
+                    { 
+                        @(linha)
+                    }
+                    switch (countPainel)
+                    {
+                        case 0:
+                            @Html.ActionLink(".", "ServicosContratados", "PainelDeControle", new { }, new { @class = "home-tile home-modules menu-dados-projeto" })
+                            break;
+                        case 1:
+                            @Html.ActionLink(".", "Reunioes", "PainelDeControle", new { }, new { @class = "home-tile home-modules menu-historico-projeto" })
+                            break;
+                        case 2:
+                            @Html.ActionLink(".", "ChamadosOnline", "PainelDeControle", new { }, new { @class = "home-tile home-modules menu-atendimento" })
+                            break;
+                        case 3:
+                            if (blnPainel == true && blnUsuario == true)
+                            {
+                            @Html.ActionLink(".", "Index", "Conta", new { }, new { @class = "home-tile home-modules menu-usuario" })        
+                            }
+                            break;
+                    }
+                    countPainel++;
+                    countLine++;
+                    if (countLine == modulosPorLinha)
+                    {
+                        countLine = 0;
+        @(div_fim)
+                    }
+                }
+
+            }
+        }
+
+        countLine++;
+        if (countLine == modulosPorLinha)
+        {
+            countLine = 0;
+        @(div_fim)
+        }
+    }
+</div>
+    </center>

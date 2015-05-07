@@ -1,0 +1,128 @@
+﻿@model Integra.Web.Models.NovaSolicitacaoViewModel
+
+<div id="DivAddEditSolicitacaoViewModel">
+    <form data-bind="submit: Salvar">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Nova Solicitação</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+                        <!-- ko with: NovaSolicitacao  -->
+                        <div class="control-group">
+                            <label class="control-label">Protocolo</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span data-bind="text: Protocolo"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Data</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span data-bind="date: DataDaSolicitacao"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Tipo da Solicitação</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <select data-bind="options: $parent.Tipos, value: Tipo, optionsText: 'Descricao', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Tipo"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Solicitação</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                     <textarea data-bind="value: Solicitacao" rows="6"></textarea>
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Solicitacao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Dias Úteis para Análise</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <span data-bind="text: DiasParaAnalise"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" type="submit" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function NovaSolicitacao(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Protocolo = ko.observable(@Html.Raw(Json.Encode(@Model.Protocolo)));
+        self.DataDaSolicitacao = ko.observable(@Html.Raw(Json.Encode(@Model.DataDaSolicitacao)));
+        self.Solicitacao = ko.observable();
+        self.Tipo = ko.observable();
+        self.DiasParaAnalise = ko.computed(function () {
+            if (self.Tipo() != undefined)
+                return self.Tipo().SLA;
+            return 0;
+        });
+        self.ToJson = function () {
+            var solicitacao = new Object();
+            solicitacao.Protocolo = self.Protocolo();
+            solicitacao.DataDaSolicitacao = self.DataDaSolicitacao();
+            solicitacao.Solicitacao = self.Solicitacao();
+            solicitacao.CodigoDoTipoDaSolicitacao = self.Tipo().Codigo;
+            return JSON.stringify(solicitacao);
+        };
+    }
+
+    function AddEditSolicitacaoViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.NovaSolicitacao = new NovaSolicitacao(self);
+        self.NovaSolicitacao = ko.validatedObservable(self.NovaSolicitacao);
+        self.Tipos = ko.observable(@Html.Raw(Json.Encode(@Model.Tipos)));
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AddSolicitacao")',
+                type: 'POST',
+                data: self.NovaSolicitacao().ToJson(),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastro(resposta.Solicitacao);
+                    } else {
+                        alert("Algum erro ocorreu durante o cadastro!");
+                    }
+                }
+            });
+        };
+        
+        self.Salvar = function () {
+            self.Enviar();
+
+        };
+        
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastro();
+        };
+    }
+
+    function AddEditSolicitacaoFactory(parent) {
+        var view = new AddEditSolicitacaoViewModel(parent);
+        ko.applyBindings(view, $("#DivAddEditSolicitacaoViewModel").get(0));
+        
+    }
+</script>

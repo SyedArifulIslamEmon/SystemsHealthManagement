@@ -1,0 +1,298 @@
+﻿@model Integra.Dominio.Solicitacao
+<div id="DivSolicitacaoAprovacaoResumo">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Visão Geral</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- conteudo aqui -->
+                        <div class="widget-box transparent">
+                            <div class="widget-header">
+                                <h5 class="lighter smaller"><i class="icon-rss orange"></i></h5>
+                                <div class="widget-toolbar no-border">
+                                    <ul class="nav nav-tabs" id="recent-tab">
+                                        <li class="active"><a data-toggle="tab" href="#abertura-tab">Abertura</a></li>
+                                        @if (Model.Analise != null)
+                                        {
+                                            <li><a data-toggle="tab" href="#analise-tab">Análise</a></li>
+                                        }
+                                        @if (Model.Aprovacao != null)
+                                        {
+                                            <li><a data-toggle="tab" href="#aprovacao-tab">Aprovação</a></li>
+                                        }
+                                        @if (Model.Processo != null)
+                                        {
+                                            <li><a data-toggle="tab" href="#processo-tab">Processo</a></li>
+                                        }
+                                        @if (Model.Entrega != null)
+                                        {
+                                            <li><a data-toggle="tab" href="#entrega-tab">Entrega</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-5">
+                                    <div class="tab-content padding-8">
+                                        <div id="abertura-tab" class="tab-pane active">
+                                            <div class="form-horizontal">
+                                                <div class="control-group">
+                                                    <label class="control-label">Data de abertura</label>
+                                                    <div class="controls">
+                                                        <div class="row-fluid">
+                                                            @Model.Abertura.DataDaAbertura.ToString("dd/MMMM/yyyy")
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">Protocolo</label>
+                                                    <div class="controls">
+                                                        <div class="row-fluid">
+                                                            @Model.Abertura.Protocolo
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">Responsável</label>
+                                                    <div class="controls">
+                                                        <div class="row-fluid">
+                                                            @Model.Abertura.Responsavel.Nome
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">Tipo da Solicitação</label>
+                                                    <div class="controls">
+                                                        <div class="row-fluid">
+                                                            @Model.Abertura.Tipo.Descricao
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">Solicitação</label>
+                                                    <div class="controls">
+                                                        <div class="row-fluid">
+                                                            @Model.Abertura.Solicitacao
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Model.Analise != null)
+                                        {
+                                            <div id="analise-tab" class="tab-pane">
+                                                <div class="form-horizontal">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Data da Análise</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.DataDaAnalise.ToString("dd/MMMM/yyyy")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Responsável</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.Responsavel.Nome
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Análise</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.Analise
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Atividade</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.Atividade
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Investimento</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.Custo.ToString("C")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Dias para a realização</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Analise.DiasParaEntrega
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Model.Aprovacao != null)
+                                        {
+                                            <div id="aprovacao-tab" class="tab-pane">
+                                                <div class="form-horizontal">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Data de Aprovação</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Aprovacao.DataDeAprovacao.ToString("dd/MMMM/yyyy")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Responsável</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Aprovacao.Responsavel.Nome
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Observações</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Aprovacao.Observacoes
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Situação</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @if (Model.Aprovacao.Aprovado)
+                                                                {
+                                                                    @Html.Raw("Aprovado")
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.Raw("Reprovado")
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Model.Processo != null)
+                                        {
+                                            <div id="processo-tab" class="tab-pane">
+                                                <div class="form-horizontal">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Data do Processo</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Processo.DataDoProcesso.ToString("dd/MMMM/yyyy")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Responsável</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Processo.Responsavel.Nome
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Solução</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Processo.Solucao
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Observações</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Processo.Observacoes
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Model.Entrega != null)
+                                        {
+                                            <div id="entrega-tab" class="tab-pane">
+                                                <div class="form-horizontal">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Data da Entrega</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Entrega.DataDoAceite.ToString("dd/MMMM/yyyy") @Model.Processo.DataDoProcesso.ToString("dd/MMMM/yyyy")
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Responsável</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Entrega.Responsavel.Nome
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Observações</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @Model.Entrega.Observacoes
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Situação</label>
+                                                        <div class="controls">
+                                                            <div class="row-fluid">
+                                                                @if (Model.Entrega.Aceita)
+                                                                {
+                                                                    @Html.Raw("Foi aceita")
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.Raw("Não foi aceita")
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: Fechar" type="submit" class="bbtnn bbtnn-gray" value="Cancelar">Fechar</button>
+        </div>
+    </div>
+</div>
+<script>
+    function ResumoDeSolicitacaoView(parent) {
+        var self = this;
+        self.parent = parent;
+        self.Fechar = function() {
+            parent.FecharResumoDeSolicitacao();
+        };
+    }    
+
+    function ResumoSolicitacaoFactory(parent) {
+        var view = new ResumoDeSolicitacaoView(parent);
+        ko.applyBindings(view, $("#DivSolicitacaoAprovacaoResumo").get(0));
+    }
+
+</script>

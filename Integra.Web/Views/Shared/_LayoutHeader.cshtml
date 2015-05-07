@@ -1,0 +1,258 @@
+﻿@using Integra.Web.CustomMembership
+@using Integra.Web.Helpers
+<div class="LayoutHeader">
+    <div class="LayoutHeader-inner">
+        <div class="container" id="HeaderPrincipal">
+            <div class="LayoutHeader-logo">
+                <!-- Tamanho máximo para logo: 240x60 -->
+                <!-- Logo deverá mudar se caso o usuário for do Grupo Cliente e tiver o Gestor de Clínicas ativo -->
+                <a href="@Url.Action("Index", "Home", new { })">
+                    @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                    {
+                        <img src='@Url.Content("~/Content/images/LogoIntegra.png")' alt="Íntegra Medical" />
+                    }
+                    else
+                    {
+
+                        switch (Session.ProgramaAtivo().Codigo)
+                        {
+                            case 1:
+                        <img src='@Url.Content("~/Content/images/LogoEssencial.fw.png")' alt="Programa Essencial" />;
+                                                                                                                    break;
+                            case 2:
+                        <img src='@Url.Content("~/Content/images/LogoJuntosElivres.png")' alt="Programa Juntos e Livres" />;
+                                                                                                                           break;
+                            case 3:
+                        <img src='@Url.Content("~/Content/images/LogoBemEstar.png")' alt="Programa Bem Estar" />   
+                                                                                                                           break;
+                            case 4:
+                        <img src='@Url.Content("~/Content/images/LogoProMemoria.png")' alt="Programa Pró Memória" />   
+                                                                                                                           break;
+                            case 5:
+                        <img src='@Url.Content("~/Content/images/LogoFazBem.png")' alt="Programa Faz Bem" />   
+                                                                                                                           break;
+                            case 6:
+                        <img src='@Url.Content("~/Content/images/LogoCoaguchek.png")' alt="Programa Coaguchek" />   
+                                                                                                                           break;
+                            case 7:
+                        <img src='@Url.Content("~/Content/images/LogoProCaps.png")' alt="Programa ProCaps" />   
+                                                                                                                           break;
+                            case 8:
+                        <img src='@Url.Content("~/Content/images/LogoEnzimais.png")' alt="Programa Enzimais" />   
+                                                                                                                           break;
+                            case 9:
+                        <img src='@Url.Content("~/Content/images/LogoInclusao.png")' alt="Programa Inclusão" />   
+                                                                                                                           break;
+                            case 10:
+                        <img src='@Url.Content("~/Content/images/LogoInspiracao.png")' alt="Programa Inspiração" />   
+                                                                                                                           break;
+                            case 11:
+                        <img src='@Url.Content("~/Content/images/LogoOmnitrope.png")' alt="Programa Omnitrope" />   
+                                                                                                                           break;
+                            case 12:
+                        <img src='@Url.Content("~/Content/images/LogoPorqueVerEViver.png")' alt="Programa Porque ver é viver" />   
+                                                                                                                           break;
+                            case 13:
+                        <img src='@Url.Content("~/Content/images/LogoForever.png")' alt="Programa Porque ver é viver" />   
+                                                                                                                           break;
+                            default:
+                        <img src='@Url.Content("~/Content/images/LogoEssencial.fw.png")' alt="Programa Essencial" />;
+                                                                                                                    break;
+                        }
+
+
+                        //  <img src='@Url.Content("~/Content/images/LogoEssencial.fw.png")' alt="Programa Essencial" />
+                    }
+                </a>
+            </div>
+
+            <div id="DivFoto" class="LayoutHeader-photo" style="vertical-align: middle;">
+                <!-- Tamanho máximo para foto: 100x101 -->
+                <a data-bind="click: AlterarFoto" style="cursor: pointer;">
+                    <img width="100" height="101" src='@Url.Action("Foto", "Home")' alt="Foto" />
+                </a>
+                <div style="display: none;" data-bind="dialog: { isOpen: TrocarFotoDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                    <div data-bind="html: TrocarFotoHtml"></div>
+                </div>
+            </div>
+
+            @if (User.ToPessoa() != null)
+            {
+                var pessoa = User.ToPessoa(); 
+                @Html.Raw("<div class='LayoutHeader-lastAccess'> Último acesso <i>")
+                @pessoa.Usuario.PenultimoAcesso.ToString("dd/MM/yyyy 'as' HH:mm")
+                @Html.Raw(@"</i></div><div class='LayoutHeader-information'>")
+                <b>Bem vindo(a), @pessoa.Nome</b>
+                <br />
+                <i>@pessoa.Usuario.NomeDeUsuario   </i>
+
+                @Html.Raw("</div>")
+            }
+            <div class="LayoutHeader-Logout">
+                <table>
+                    <tr>
+                        @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                        {
+                            <td style="display: none;">
+                                <div class="LayoutHeader-Logout AlteraSenha-link">
+                                    @Html.ActionLink("Central de Desenvolvimento", "Desenvolvimento", "Home", new { }, new { })
+                                </div>
+                            </td>
+                        }
+                        <td>
+                            <div id="DivAlterarSenha">
+                                <div class="LayoutHeader-Logout Ajuda-link">
+                                    <a data-bind="click: AlterarSenha" style="cursor: pointer;">Alterar Senha
+                                    </a>
+                                </div>
+
+                                <div style="display: none;" data-bind="dialog: { isOpen: AlterarSenhaDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                    <div data-bind="html: AlterarSenhaHtml"></div>
+                                </div>
+                            </div>
+                        </td>
+                        @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                        {
+                            <td>
+                                <div class="LayoutHeader-Logout Ajuda-link">
+                                    @Html.ActionLink("Ajuda", "Ajuda", "Home", new { }, new { })
+                                </div>
+                            </td>
+                        }
+                        <td>
+                            <div class="LayoutHeader-Logout Sair-link">
+                                @if (User.Identity is UsuarioIdentity)
+                                {
+                                    var usuarioIdentity = User.Identity as UsuarioIdentity;
+                                    if (usuarioIdentity != null)
+                                    {
+                                    @Html.ActionLink("Sair", "Logout", "Conta")           
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="LayoutHeader-line">
+            </div>
+
+
+            <div class="LayoutHeader-barra">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <div class="LayoutHeader-barra canto">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="LayoutHeader-barra barra" id="#InformacoesDoPrograma">
+                                <b>Programa:</b> <i>@Session.ProgramaAtivo().Descricao</i>
+                                <button class="btn-link" data-bind="click: TrocarDePrograma, visible: ProgramasPermitidos().length > 0" title="Alternar Programa"><i class="icon-refresh icon-white"></i></button>
+                                <div style="display: none;" data-bind="dialog: { isOpen: AlterarProgramaDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                    <div class="modal">
+                                        <div class="modal-header">
+                                            <h4>Alternar Programa</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- ko foreach: ProgramasPermitidos -->
+                                            <label>
+                                                <input type="radio" name="programaPermitido" data-bind="value: Codigo, checked: $root.ProgramaSelecionado" /><span data-bind="    text: Nome"></span></label>
+                                            <!-- /ko -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-bind="click: CancelarTrocaPrograma" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                                            <button data-bind="click: ConfirmarTrocaPrograma" class="bbtnn bbtnn-success" value="Alternar Programa">Alternar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="ProgramasPermitidos" value="@Json.Encode(User.ToPessoa().ProgramasPermitidos.Select(it => new { it.Codigo, it.Nome, Cheked = false }))"/>
+<script>
+    function AlterarFotoView() {
+        var self = this;
+
+        self.TrocarFotoDialog = ko.observable(false);
+        self.TrocarFotoHtml = ko.observable();
+        self.ProgramaSelecionado = ko.observable(@Session.ProgramaAtivo().Codigo);
+        self.ProgramasPermitidos = ko.observableArray(jQuery.parseJSON($("#ProgramasPermitidos").val()));
+
+        // --------------------------------------------------
+        // ---- Alterar Imagem
+        self.AlterarFoto = function () {
+            self.TrocarFotoHtml(null);
+            $.get('@Url.Action("AlterarFoto", "Home")', null, function (html) {
+                self.TrocarFotoHtml(html);
+                new window.AlterarFotoFactory(self);
+                self.TrocarFotoDialog(true);
+            });
+        };
+
+        self.CancelarNovaFoto = function () {
+            self.TrocarFotoDialog(false);
+            self.TrocarFotoHtml(null);
+        };
+
+        self.FecharNovaFoto = function (foto) {
+            self.TrocarFotoDialog(false);
+            self.TrocarFotoHtml(null);
+        };
+
+        self.AlterarSenhaDialog = ko.observable(false);
+        self.AlterarSenhaHtml = ko.observable();
+
+        // --------------------------------------------------
+        // ---- Alterar Senha
+        self.AlterarSenha = function () {
+            self.AlterarSenhaHtml(null);
+            $.get('@Url.Action("AlterarSenha", "Conta")', null, function (html) {
+                self.AlterarSenhaHtml(html);
+                new window.AlterarSenhaFactory(self);
+                self.AlterarSenhaDialog(true);
+            });
+        };
+
+        self.EfetuarAlterarSenha = function () {
+            self.AlterarSenhaHtml(null);
+            self.AlterarSenhaDialog(false);
+        };
+
+        self.CancelarAlterarSenha = function () {
+            self.AlterarSenhaHtml(null);
+            self.AlterarSenhaDialog(false);
+        };
+
+        self.AlterarProgramaDialog = ko.observable(false);
+        self.TrocarDePrograma = function () {
+            self.AlterarProgramaDialog(true);
+        };
+
+        self.CancelarTrocaPrograma = function () {
+            self.AlterarProgramaDialog(false);
+        };
+
+        self.ConfirmarTrocaPrograma = function () {
+            $.post('@Url.Action("TrocarProgramaAtivo", "Home")', { codigo: parseInt(self.ProgramaSelecionado()) }, function (retorno) {
+                if (retorno)
+                    document.location.reload();
+            });
+            self.AlterarProgramaDialog(false);
+        };
+    }
+
+    $(document).ready(function () {
+        var alterarFotoView = new AlterarFotoView();
+        ko.applyBindings(alterarFotoView, $("#HeaderPrincipal").get(0));
+
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();
+    });
+</script>

@@ -1,0 +1,105 @@
+﻿<div id="DivAlterarSenhaViewModel">
+    <form data-bind="submit: Salvar, validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Alterar Senha</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label">Senha Atual</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <input data-bind="value: senha" type="password" />
+                                    </div>
+                                    <span class="error-inline" data-bind="validationMessage: senha"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Nova Senha</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <input data-bind="value: novaSenha" type="password" />
+                                    </div>
+                                    <span class="error-inline" data-bind="validationMessage: novaSenha"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">Confirmar Senha</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <input data-bind="value: novaSenhaRepetir" type="password" />
+                                    </div>
+                                    <span class="error-inline" data-bind="validationMessage: novaSenhaRepetir"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function AlterarSenhaViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.senha = ko.observable().extend({ required: true });
+        self.novaSenha = ko.observable().extend({ required: true });
+        self.novaSenhaRepetir = ko.observable().extend({
+            required: true,
+            validation: {
+                validator: function (val) {
+                    return val === self.novaSenha();
+                },
+                message: 'A senha está incorreta.'
+            }
+        });
+
+        self.Enviar = function () {
+            $.ajax({
+                url: '@Url.Action("AlterarSenha", "Conta")',
+                type: 'POST',
+                data: JSON.stringify({ Senha: self.senha(), NovaSenha: self.novaSenha() }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        alert("Senha alterada com sucesso!");
+                        self.Parent.EfetuarAlterarSenha();
+                        
+                    } else {
+                        alert("Algum erro ocorreu durante a alteração da senha!");
+                    }
+                }
+            });
+        };
+
+        self.Salvar = function () {
+            if (self.isValid()) {
+                self.Enviar();
+            } else {
+                self.errors.showAllMessages(true);
+            }
+        };
+
+        self.Cancelar = function () {
+            self.Parent.CancelarAlterarSenha();
+        };
+    };
+
+    function AlterarSenhaFactory(parent) {
+        var view = new AlterarSenhaViewModel(parent);
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivAlterarSenhaViewModel").get(0));
+        view.errors.showAllMessages(false);
+    }
+</script>

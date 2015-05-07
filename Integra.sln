@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.Dominio", "Integra.Dominio\Integra.Dominio.csproj", "{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.Dominio.Teste", "Integra.Dominio.Teste\Integra.Dominio.Teste.csproj", "{DA9F476B-5BE3-46D9-86CE-1F81B0AC7E48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.Infra", "Integra.Infra\Integra.Infra.csproj", "{C3A55370-ADE6-481C-B5CD-A7E622787604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.Repositorio.EF", "Integra.Repositorio.EF\Integra.Repositorio.EF.csproj", "{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.Web", "Integra.Web\Integra.Web.csproj", "{7E060382-71EC-4B06-A130-59715D731DA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.ServicosDeAplicacao", "Integra.ServicosDeAplicacao\Integra.ServicosDeAplicacao.csproj", "{9EB0C946-924C-41FC-9CEF-54EE98B43E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integra.WebService", "Integra.WebService\Integra.WebService.csproj", "{2C533926-B69D-4630-A706-2617FB8D9E6C}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://buenocode.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Integra.Dominio.Teste\\Integra.Dominio.Teste.csproj
+		SccProjectName1 = Integra.Dominio.Teste
+		SccLocalPath1 = Integra.Dominio.Teste
+		SccProjectUniqueName2 = Integra.Dominio\\Integra.Dominio.csproj
+		SccProjectName2 = Integra.Dominio
+		SccLocalPath2 = Integra.Dominio
+		SccProjectUniqueName3 = Integra.Infra\\Integra.Infra.csproj
+		SccProjectName3 = Integra.Infra
+		SccLocalPath3 = Integra.Infra
+		SccProjectUniqueName4 = Integra.Repositorio.EF\\Integra.Repositorio.EF.csproj
+		SccProjectName4 = Integra.Repositorio.EF
+		SccLocalPath4 = Integra.Repositorio.EF
+		SccProjectUniqueName5 = Integra.Web\\Integra.Web.csproj
+		SccProjectName5 = Integra.Web
+		SccLocalPath5 = Integra.Web
+		SccProjectUniqueName6 = Integra.ServicosDeAplicacao\\Integra.ServicosDeAplicacao.csproj
+		SccProjectName6 = Integra.ServicosDeAplicacao
+		SccLocalPath6 = Integra.ServicosDeAplicacao
+		SccProjectUniqueName7 = Integra.WebService\\Integra.WebService.csproj
+		SccProjectName7 = Integra.WebService
+		SccLocalPath7 = Integra.WebService
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5F30BB-C43D-422B-8AE5-4B0B38A3B50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9F476B-5BE3-46D9-86CE-1F81B0AC7E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9F476B-5BE3-46D9-86CE-1F81B0AC7E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9F476B-5BE3-46D9-86CE-1F81B0AC7E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9F476B-5BE3-46D9-86CE-1F81B0AC7E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A55370-ADE6-481C-B5CD-A7E622787604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A55370-ADE6-481C-B5CD-A7E622787604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A55370-ADE6-481C-B5CD-A7E622787604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A55370-ADE6-481C-B5CD-A7E622787604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0DE25E-B247-4CDE-B3AE-5F18EA76696F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E060382-71EC-4B06-A130-59715D731DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E060382-71EC-4B06-A130-59715D731DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E060382-71EC-4B06-A130-59715D731DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E060382-71EC-4B06-A130-59715D731DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB0C946-924C-41FC-9CEF-54EE98B43E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB0C946-924C-41FC-9CEF-54EE98B43E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB0C946-924C-41FC-9CEF-54EE98B43E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB0C946-924C-41FC-9CEF-54EE98B43E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C533926-B69D-4630-A706-2617FB8D9E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C533926-B69D-4630-A706-2617FB8D9E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C533926-B69D-4630-A706-2617FB8D9E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C533926-B69D-4630-A706-2617FB8D9E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

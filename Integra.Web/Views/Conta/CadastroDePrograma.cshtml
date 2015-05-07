@@ -1,0 +1,115 @@
+﻿@model Integra.Web.Models.AdicionarProgramaViewModel
+<div id="DivViewModelCadastroDePrograma">
+    <form data-bind="submit: SalvarPrograma">
+        <div class="modal">
+            <div class="modal-header">
+                <h4>Gerenciar Programa</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">Nome</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Nome" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Nome"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Descrição</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Descricao" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Descricao"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Identificador</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: Identificador" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: Identificador"></span>
+                            </div>
+                        </div>
+                         <div class="control-group">
+                            <label class="control-label">Código</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" data-bind="value: CodigoAuxiliar" />
+                                </div>
+                                <span class="error-inline" data-bind="validationMessage: CodigoAuxiliar"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+                <button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function ViewCadastroDePrograma(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Nome = ko.observable().extend({ required: true });
+        self.Descricao = ko.observable().extend({ required: true });
+        self.Identificador = ko.observable().extend({ required: true });
+        self.CodigoAuxiliar = ko.observable().extend({ required: true });
+        
+        self.SalvarPrograma = function () {
+            if (self.isValid()) {
+                self.Submit();
+            }
+            else {
+                self.errors.showAllMessages(true);
+            }
+        };
+
+        self.Cancelar = function () {
+            self.Parent.FecharCadastroDeProgramaCancelar();
+        };
+        
+        self.GetPrograma = function () {
+            var programa = new Object();
+            programa.Nome = self.Nome();
+            programa.Descricao = self.Descricao();
+            programa.Identificador = self.Identificador();
+            programa.CodigoAuxiliar = self.CodigoAuxiliar();
+
+            return programa;
+        };
+
+        self.Submit = function () {
+            $.ajax({
+                url: '@Url.Action("NovoPrograma")',
+                type: 'POST',
+                data: JSON.stringify(self.GetPrograma()),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastroDePrograma(resposta.Programa);
+                        alert("Programa cadastrado com sucesso!");
+                    } else {
+                        alert("Algum erro ocorreu durante o cadastro!");
+                    }
+                }
+            });
+        };
+    }
+
+    function ViewPrograma(parent) {
+        var validationOptions = { insertMessages: false, decorateElement: true, messagesOnModified: false };
+        var view = new ViewCadastroDePrograma(parent);
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivViewModelCadastroDePrograma").get(0), validationOptions);
+        view.errors.showAllMessages(false);
+    }
+</script>

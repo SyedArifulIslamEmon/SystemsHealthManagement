@@ -1,0 +1,352 @@
+﻿@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical : Relatórios Gerenciais :";
+    Layout = "~/Views/Shared/_LayoutMaster.module.cshtml";
+}
+
+<link href="~/Content/Style.css" rel="stylesheet" />
+<script src="~/Scripts/GraficoRelatorio.js"></script>
+<script src="~/Scripts/jquery.wijmo.open.min.js"></script>
+<script src="~/Scripts/jquery.wijmo.pro.all.min.js"></script>
+<link href="~/Content/jquery.wijmo.pro.all.min.css" rel="stylesheet" />
+@Scripts.Render("~/canvg")
+@Scripts.Render("~/dataTables")
+@Scripts.Render("~/BlockUI")
+@Styles.Render("~/BlockUIcss")
+
+<div class="container-fluid" id="main-container" style="padding-top: 10px;">
+    <div id="main-content" class="clearfix">
+        <div id="page-content" class="clearfix">
+            <div class="page-header position-relative">
+                <h3>Especialidade Médica</h3>
+            </div>
+            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        @*Código aqui!!!!!*@
+                        <div id="DivRelatorioTratamentoViewModel">
+                            <div id="accordion">
+                                <h5>Filtros</h5>
+                                <div id="div1" class="control-group">
+                                    <div style="width: 100%; display: table">
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Tipo de Período</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <select class="input-large" onchange="MudarPeriodo(this)">
+                                                    <option value="0">Inicio do ano até a data atual</option>
+                                                    <option value="3">Inicio do Programa até a data atual</option>
+                                                    <option value="1" selected="selected">Últimos 12 meses</option>
+                                                    <option value="2">Período Selecionado</option>
+                                                </select>
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                            </div>
+                                        </div>
+
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Data Inicial</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" id="datapicker1" name="dataInicio" value="@SetTime()" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Data Final</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" id="datapicker2" name="dataFim" value="@DateTime.Now.ToShortDateString()"/>
+                                            </div>
+                                        </div>
+
+
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Medicamento</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P4_TXT" />
+                                                <img id="P4" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P4_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer;" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Doença</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P5_TXT" />
+                                                <img id="P5" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P5_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                        </div>
+
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Situação</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P6_TXT" />
+                                                <img id="P6" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P6_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Fase</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P7_TXT" />
+                                                <img id="P7" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P7_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Estado</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P8_TXT" />
+                                                <img id="P8" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P8_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Cidade</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P9_TXT" />
+                                                <img id="P9" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P9_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Especialidade</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P10_TXT" />
+                                                <img id="P10" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P10_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Médico</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P11_TXT" />
+                                                <img id="P11" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P11_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Gerente Consultor</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P12_TXT" />
+                                                <img id="P12" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P12_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Consultor</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <input type="text" class="input-large" readonly="readonly" style="cursor: default" id="P13_TXT" />
+                                                <img id="P13" alt="1" src="~/Content/images/lupa.png" title="Aplicar Filtro" style="cursor: pointer" data-bind="click: AdicionarFiltros" />
+                                                <img id="P13_REMOVE" alt="2" src="~/Content/images/deletarlinha.png" title="Remover Filtro" style="cursor: pointer" data-bind="click: RemoverFiltros" />
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%; height: 35px; display: table-row">
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                                <label>Agrupar</label>
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                                <select id="P14" class="input-large" onchange="MudarAgrupamento(this)">
+                                                    <option value="1" selected="selected">Representante</option>
+                                                    <option value="2">Gerente</option>
+                                                    <option value="3">Médico</option>
+                                                    <option value="4">Cidade</option>
+                                                    <option value="5">Estado</option>
+                                                    <option value="6">Medicamento</option>
+                                                    <option value="7">Doença</option>
+                                                    <option value="8">Especialidade</option>
+                                                </select>
+                                            </div>
+                                            <div style="width: 13%; min-width: 103px; text-align: right; padding-right: 5px; display: table-cell">
+                                            </div>
+                                            <div style="width: 40%; min-width: 268px; display: table-cell">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <input name="submit" type="submit" id="Pesquisar" class="bbtnn bbtnn-info" value="Pesquisar" style="margin-left: 30px; margin-top: 20px;" onclick="GerarGrafico();" />
+                                    <input name="submit" type="submit" id="PT_REMOVE" class="bbtnn bbtnn-default" value="Limpar Filtros" style="margin-top: 20px;" data-bind="click: RemoverFiltros" />
+
+
+                                </div>
+                                <h5>Relatório Tratamento</h5>
+                                <div id="div2">
+                                    <div id="divRelatorio">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display: none;" data-bind="dialog: { isOpen: NovoFiltroDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                <div data-bind="html: NovoFiltroHtml"></div>
+                            </div>
+                            @* Fim Código aqui!!!!! *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_LayoutFooter")
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var view = new CarregarFiltros();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivRelatorioTratamentoViewModel").get(0));
+    });
+
+    function CarregarFiltros() {
+        var self = this;
+        self.NovoFiltroDialog = ko.observable(false);
+        self.NovoFiltroHtml = ko.observable();
+
+        self.AdicionarFiltros = function () {
+            self.NovoFiltroHtml(null);
+            $.get('@Url.Action("FiltrosRelatorio", "Relatorios")', { pstrTipoCaixa: event.srcElement.id }, function (html) {
+                self.NovoFiltroHtml(html);
+                new window.NovoFiltroFactory(self);
+                self.NovoFiltroDialog(true);
+            });
+        };
+
+        self.FecharRelatorioFiltroCancelar = function () {
+            self.NovoFiltroDialog(false);
+        };
+    }
+
+    self.RemoverFiltros = function () {
+        var strCaixa = event.srcElement.id.replace('_REMOVE', '');
+        $.get('@Url.Action("RemoverFiltro", "Relatorios")', { tipoFiltro: event.srcElement.id.replace('_REMOVE', '') }, function (html) {
+            if (strCaixa == "PT") {
+                $('#P4_TXT').val(""); $('#P5_TXT').val(""); $('#P6_TXT').val("");
+                $('#P7_TXT').val(""); $('#P8_TXT').val(""); $('#P9_TXT').val("");
+                $('#P10_TXT').val(""); $('#P11_TXT').val(""); $('#P12_TXT').val(""); $('#P13_TXT').val("");
+
+                $('#P4_TXT').prop('title', ""); $('#P5_TXT').prop('title', ""); $('#P6_TXT').prop('title', "");
+                $('#P7_TXT').prop('title', ""); $('#P8_TXT').prop('title', ""); $('#P9_TXT').prop('title', "");
+                $('#P10_TXT').prop('title', ""); $('#P11_TXT').prop('title', ""); $('#P12_TXT').prop('title', ""); $('#P13_TXT').prop('title', "");
+            } else {
+                $('#' + strCaixa + '_TXT').val("");
+                $('#' + strCaixa + '_TXT').prop('title', "");
+            }
+
+
+        });
+    };
+
+    $(function () {
+        $("#accordion").accordion({
+            heightStyle: "content"
+        });
+    });
+
+    $(function () {
+        $('#datapicker1').datepicker().datepicker('disable');
+        $('#datapicker2').datepicker().datepicker('disable');
+    });
+
+    function GerarGrafico() {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("RelatorioEspecialidadeMedicaParcialView", "Relatorios")',
+            data: { dataInicio: $('#datapicker1').val(), dataFim: $('#datapicker2').val() },
+            type: 'GET',
+            datatype: 'html',
+            success: function (data) {
+                //Renderiza a ParcialView dentro da div.
+                $('div#divRelatorio').html(data);
+
+                $("#accordion").accordion("option", "active", 1);
+            },
+            error: function () { alert('Ocorreu um erro durante o processo de Renderização da View(). Action = /Relatorios/DadosRelatorioRkCadastroParcialView'); }
+        });
+    }
+
+    function MudarPeriodo(obj) {
+        switch (obj.value) {
+            case "0":
+                $('#datapicker1').datepicker().datepicker('disable');
+                $('#datapicker2').datepicker().datepicker('disable');
+                $.ajax({
+                    url: '@Url.Action("arrumaPeriodo", "Relatorios")',
+                    type: 'POST',
+                    data: { tipoPeriodo: "0" },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#datapicker1').val(data.split('|')[0]);
+                        $('#datapicker2').val(data.split('|')[1]);
+                    }
+                });
+                break;
+            case "1":
+                $('#datapicker1').datepicker().datepicker('disable');
+                $('#datapicker2').datepicker().datepicker('disable');
+                $.ajax({
+                    url: '@Url.Action("arrumaPeriodo", "Relatorios")',
+                    type: 'POST',
+                    data: { tipoPeriodo: "1" },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#datapicker1').val(data.split('|')[0]);
+                        $('#datapicker2').val(data.split('|')[1]);
+                    }
+                });
+                break;
+            case "2":
+                $('#datapicker1').datepicker().datepicker('enable');
+                $('#datapicker2').datepicker().datepicker('enable');
+                break;
+            case "3":
+                $('#datapicker1').datepicker().datepicker('disable');
+                $('#datapicker2').datepicker().datepicker('disable');
+                $.ajax({
+                    url: '@Url.Action("arrumaPeriodo", "Relatorios")',
+                    type: 'POST',
+                    data: { tipoPeriodo: "3" },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#datapicker1').val(data.split('|')[0]);
+                        $('#datapicker2').val(data.split('|')[1]);
+                    }
+                });
+                break;
+        }
+    }
+
+    function MudarAgrupamento(obj) {
+        $.ajax({
+            url: '@Url.Action("MudarAgrupamento", "Relatorios")',
+            type: 'POST',
+            data: { parametro: obj.value },
+            dataType: 'html',
+            success: function () {
+                return;
+            }
+        });
+    }
+</script>
+
+
+@functions{
+    public string SetTime()
+    {
+        return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddMonths(-12).ToShortDateString();
+    }
+}

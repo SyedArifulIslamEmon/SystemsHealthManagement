@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SisoDb.MsMemoryCache</id>
+    <version>16.2.1</version>
+    <title>SisoDb.MsMemoryCache - Simple Structure Oriented Db</title>
+    <authors>danielwertheim</authors>
+    <owners>danielwertheim</owners>
+    <licenseUrl>https://github.com/danielwertheim/SisoDb-Provider/blob/master/Source/License-SisoDb.txt</licenseUrl>
+    <projectUrl>http://www.sisodb.com/</projectUrl>
+    <iconUrl>http://sisodb.com/logos/sisodb-logo-100x100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Cache provider over the MS Memory Cache for SisoDb. Can be used both in ASP.Net as well as standalone.
+			SisoDb is a schemaless document-oriented provider for SQL-Server. Using JSON and key-value storage, it lets you persist object graphs without specifying any mappings or extending any base classes interfaces etc. It lets you perform queries against SQL-server, using lambda expressions. It syncs schemachanges on the fly and can assist you to handle more complex model updates. Basically, it is a simple data access tool.</description>
+    <summary>Cache provider over the MS Memory Cache for SisoDb, the document-oriented db provider for SQL-Server.</summary>
+    <releaseNotes>http://www.sisodb.com/wiki/release-notes</releaseNotes>
+    <copyright>Daniel Wertheim</copyright>
+    <tags>cache,objectcache,sisodb,document-database,db,structure,key-value,json,poco,blob,sql,sqlserver,sql-server,sql2005,sql2008,sql2012,sqlazure,azure,sqlce,sqlce4,nosql</tags>
+    <dependencies>
+      <dependency id="SisoDb" version="[16.2.1]" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Runtime.Caching" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

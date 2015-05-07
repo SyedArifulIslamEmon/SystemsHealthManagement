@@ -1,0 +1,92 @@
+﻿@model Integra.Web.Models.SolicitacaoViewModel
+
+<div id="DivVisualizarSolicitacaoAprovacaoViewModel" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Aprovação</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">Data da Aprovação</label>
+                        <div class="controls">
+                            <div class="row-fluid">
+                                <span>@Html.Label(DateTime.Now.ToString("dd/MMMM/yyyy"))</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Observações</label>
+                        <div class="controls">
+                            <div class="row-fluid">
+                                <textarea data-bind="value: Aprovacao().Observacao" rows="6"></textarea>
+                            </div>
+                            <span class="error-inline" data-bind="validationMessage:  Aprovacao().Observacao"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+            <button data-bind="click: Reprovar" class="bbtnn bbtnn-danger" value="Reprovar">Reprovar</button>
+            <button data-bind="click: Aprovar" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Aprovar</button>
+        </div>
+    </div>
+</div>
+<script>
+    function VisualizarSolicitacao() {
+        var self = this;
+        self.Observacao = ko.observable().extend({ required: true });;
+    }
+
+    function VisualizarSolicitacaoViewModel(parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Aprovacao = new VisualizarSolicitacao();
+        self.Aprovacao = ko.validatedObservable(self.Aprovacao);
+
+        self.Enviar = function(aprovado) {
+            $.ajax({
+                url: '@Url.Action("SalvarAprovacaoDeSolicitacao", "PainelDeControle")',
+                type: 'POST',
+                data: JSON.stringify({ Observacao: self.Aprovacao().Observacao(), Aprovado: aprovado, Codigo: @Model.Codigo }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (resposta) {
+                    if (resposta.Sucesso) {
+                        self.Parent.FecharCadastro(resposta.Solicitacao);
+                    } else {
+                        alert("Ocorreu um erro no procedimento de aprovação!");
+                    }
+                }
+            });
+        };
+
+        self.Aprovar = function () {
+            if(self.Aprovacao.isValid()) {
+                self.Enviar(true);
+            }else {
+                self.Aprovacao.errors.showAllMessages(true);
+            }
+        };
+
+        self.Reprovar = function () {
+            if(self.Aprovacao.isValid()) {
+                self.Enviar(false);
+            }else {
+                self.Aprovacao.errors.showAllMessages(true);
+            }
+        };
+
+        self.Cancelar = function () {
+            self.Parent.CancelarCadastro();
+        };
+    }
+
+    function VisualizarSolicitacaoFactory(parent) {
+        var view = new VisualizarSolicitacaoViewModel(parent);
+        ko.applyBindings(view, $("#DivVisualizarSolicitacaoAprovacaoViewModel").get(0));
+    }
+</script>

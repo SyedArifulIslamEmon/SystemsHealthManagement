@@ -1,0 +1,140 @@
+﻿@model Integra.Web.Models.AdicionarTratamentoViewModel
+
+<div id="DivAddEditTratamentoModel">
+	<form data-bind="submit: Salvar">
+		<div class="modal">
+			<div class="modal-header">
+				<h4><span id="TipoJanela"></span> Ínicio de Tratamento</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row-fluid">
+					<div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+						<!-- ko with: Tratamento -->
+						<div class="control-group">
+							<label class="control-label">Data Solicitação</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input style="width: 100px;" data-bind="datepicker1: DataSolicitacao, datepickerOptions: { showOn: 'button', buttonImage:'@Url.Content("~/Content/images/ico-calendar.png")    ', buttonImageOnly: true }" type="text" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: DataSolicitacao"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">IFX</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Ifx" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Ifx"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Médico</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Medico" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Medico"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Representante</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Representante" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Representante"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Motivo Solicitação</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: MotivoSolicitacao" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: MotivoSolicitacao"></span>
+							</div>
+						</div>
+						<!-- /ko -->
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+				<button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<input type="hidden" value="@Html.Raw(Json.Encode(Model))" id="AddEditTratamentoModel"/>
+
+<script type="text/javascript">
+	function NovoTratamentoFactory(parent) {
+		var view = new NovoTratamentoViewModel(parent);
+		ko.applyBindings(view, $("#DivAddEditTratamentoModel").get(0));
+		$("#TipoJanela").text("Adicionar");
+
+		$(".ui-dialog-titlebar").hide();
+		$(".ui-dialog-buttonpane").hide();
+	}
+
+	function NovoTratamentoViewModel(parent) {
+		var self = this;
+		self.Parent = parent;
+		self.Model = jQuery.parseJSON($("#AddEditTratamentoModel").val());
+		var tratamento = new Tratamento();
+		self.Tratamento = ko.validatedObservable(tratamento);
+		
+		self.Salvar = function () {
+			if (self.Tratamento.isValid()) {
+				self.Enviar();
+			} else {
+				self.Tratamento.errors.showAllMessages(true);
+			}
+		};
+		
+		self.Enviar = function () {
+			$.ajax({
+				url: '@Url.Action("AddEditTratamento")',
+				type: 'POST',
+				data: JSON.stringify(self.Tratamento().ObterTratamento()),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (resposta) {
+					if (resposta.Sucesso) {
+						self.Parent.FecharCadastroDeTratamento(resposta.Tratamento);
+						//alert("Tratamento cadastrada com sucesso!");
+					} else {
+						//alert("Algum erro ocorreu durante o cadastro!");
+					}
+				}
+			});
+		};
+
+		self.Cancelar = function () {
+			self.Parent.CancelarCadastroDeTratamento();
+		};
+	}
+	
+	function Tratamento() {
+		var self = this;
+		self.Codigo = 0;
+		self.DataSolicitacao = ko.observable().extend({ required: true });
+		self.Ifx = ko.observable().extend({ required: true });
+		self.Medico = ko.observable().extend({ required: true });
+		self.Representante = ko.observable().extend({ required: true });
+		self.MotivoSolicitacao = ko.observable().extend({ required: true });
+
+		self.ObterTratamento = function () {
+			var tratamento = new Object();
+			tratamento.Codigo = self.Codigo;
+			tratamento.DataSolicitacao = self.DataSolicitacao();
+			tratamento.Ifx = self.Ifx();
+			tratamento.Medico = self.Medico();
+			tratamento.Representante = self.Representante();
+			tratamento.MotivoSolicitacao = self.MotivoSolicitacao();
+			return tratamento;
+		};
+	}
+</script>

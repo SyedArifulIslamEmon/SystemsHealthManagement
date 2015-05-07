@@ -1,0 +1,232 @@
+﻿@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.RelatorioOmnitropeGeral>
+@{Layout = null;  }
+
+<div id="DivPageDadosRelatorioParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridOrigemCadastroTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 25,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+                                                                        //{ 'name': 'Paciente' },
+                                                                        { 'name': 'Status' },
+                                                                        { 'name': 'Mes_Contato' },
+                                                                        { 'name': 'Data_Contato' },
+                                                                        { 'name': 'TicketNumber' },
+                                                                        { 'name': 'Medico' },
+                                                                        { 'name': 'Especialidade' },
+                                                                        { 'name': 'Representante' },
+                                                                        { 'name': 'Especialidade_Tipo_Paciente' },
+                                                                        { 'name': 'Crm' },
+                                                                        { 'name': 'Crm_Padrao' },
+                                                                        { 'name': 'UF_Crm' },
+                                                                        { 'name': 'Cidade_Compra' },
+                                                                        { 'name': 'Estado_Compra' },
+                                                                        { 'name': 'Data_Transacao' },
+                                                                        { 'name': 'Frequencia_Compra' },
+                                                                        { 'name': 'Qtd_Compra' },
+                                                                        { 'name': 'Apresentacao' },
+                                                                        { 'name': 'Frequencia' },
+                                                                        { 'name': 'Tem_Visita' },
+                                                                        { 'name': 'Primeira_Visita' },
+                                                                        { 'name': 'Obs_Visita' },
+                                                                        { 'name': 'Utiliza_Outro_GH' },
+                                                                        { 'name': 'Qual' },
+                                                                        { 'name': 'Distribuidora' }
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '   
+                                                            }
+                                                        }                                                        
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                @*<th style="text-align: left; width: 320px;"><b>Paciente</b></th>*@
+                <th style="text-align: left; width: 320px;"><b>Status</b></th>
+                <th style="text-align: left; width: 320px;"><b>Mês que Entrou</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data que Entrou</b></th>
+                <th style="text-align: left; width: 320px;"><b>Id do Paciente</b></th>
+                <th style="text-align: left; width: 320px;"><b>Médico</b></th>
+                <th style="text-align: left; width: 320px;"><b>Especialidade</b></th>
+                <th style="text-align: left; width: 320px;"><b>Representante</b></th>
+                <th style="text-align: left; width: 320px;"><b>Tipo de Paciente</b></th>
+                <th style="text-align: left; width: 320px;"><b>CRM</b></th>
+                <th style="text-align: left; width: 320px;"><b>CRM Padrão</b></th>
+                <th style="text-align: left; width: 320px;"><b>UF CRM</b></th>
+                <th style="text-align: left; width: 320px;"><b>Cidade da Compra</b></th>
+                <th style="text-align: left; width: 320px;"><b>UF da Compra</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data da Compra</b></th>
+                <th style="text-align: left; width: 320px;"><b>Frequencia da Compra</b></th>
+                <th style="text-align: left; width: 320px;"><b>Quantidade Adquirida (Ampolas)</b></th>
+                <th style="text-align: left; width: 320px;"><b>Apresentação</b></th>
+                <th style="text-align: left; width: 320px;"><b>Dosagem</b></th>
+                <th style="text-align: left; width: 320px;"><b>Visita Enfermeira</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data Primeira Visita</b></th>
+                <th style="text-align: left; width: 320px;"><b>Obs. Visita</b></th>
+                <th style="text-align: left; width: 320px;"><b>Foi usuário de outra marca de hormônio de crescimento?</b></th>
+                <th style="text-align: left; width: 320px;"><b>Qual?</b></th>
+                <th style="text-align: left; width: 320px;"><b>Distribuidora</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+    </div>
+</div>
+
+<script id="gridOrigemCadastroTemplate" type="text/html">
+    @*<td data-bind="text: Paciente" style="width: 320px; text-align: left;"></td>*@
+    <td data-bind="text: Status" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Mes_Contato" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Data_Contato" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: TicketNumber" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Medico" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Especialidade" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Representante" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Especialidade_Tipo_Paciente" style="width: 320px; text-align: left;"></td>
+
+    <td data-bind="text: Crm" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Crm_Padrao" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: UF_Crm" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Cidade_Compra" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Estado_Compra" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Data_Transacao" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Frequencia_Compra" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Qtd_Compra" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Apresentacao" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Frequencia" style="width: 320px; text-align: left;"></td>
+
+    <td data-bind="text: Tem_Visita" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Primeira_Visita" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Obs_Visita" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Utiliza_Outro_GH" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Qual" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Distribuidora" style="width: 320px; text-align: left;"></td>
+
+</script>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosRelatorioParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();        
+    });
+    
+    function relatorioViewModel() {        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		               
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+        self.Paciente = ko.observable(data.Paciente);        
+        self.Status = ko.observable(data.Status);         
+        self.Mes_Contato = ko.observable(data.Mes_Contato);
+        self.Data_Contato = ko.observable(data.Data_Contato);        
+        self.TicketNumber = ko.observable(data.TicketNumber);
+        self.Medico = ko.observable(data.Medico);            
+        self.Especialidade = ko.observable(data.Especialidade);   
+        self.Representante = ko.observable(data.Representante);
+        self.Especialidade_Tipo_Paciente = ko.observable(data.Especialidade_Tipo_Paciente);
+        self.Crm = ko.observable(data.Crm);        
+        self.Crm_Padrao = ko.observable(data.Crm_Padrao);
+        self.UF_Crm = ko.observable(data.UF_Crm);
+        self.Cidade_Compra = ko.observable(data.Cidade_Compra);        
+        self.Estado_Compra = ko.observable(data.Estado_Compra);
+        self.Data_Transacao = ko.observable(data.Data_Transacao);          
+        self.Frequencia_Compra = ko.observable(data.Frequencia_Compra);  
+        self.Qtd_Compra = ko.observable(data.Qtd_Compra);  
+        self.Apresentacao = ko.observable(data.Apresentacao); 
+        self.Frequencia = ko.observable(data.Frequencia);
+        self.Tem_Visita = ko.observable(data.Tem_Visita);
+        self.Primeira_Visita = ko.observable(data.Primeira_Visita);        
+        self.Obs_Visita = ko.observable(data.Obs_Visita);
+        self.Utiliza_Outro_GH = ko.observable(data.Utiliza_Outro_GH);        
+        self.Qual = ko.observable(data.Qual);
+        self.Distribuidora = ko.observable(data.Distribuidora);
+    };  
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+        $('#'+tableid+' thead th').each(function(){html += "<th>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+            //html+="<td>"+oTable[count].Paciente.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Status.toString()+"</td>";
+            html+="<td>"+oTable[count].Mes_Contato.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Data_Contato.toString()+"</td>" ;
+            html+="<td>"+oTable[count].TicketNumber.toString()+"</td>";
+            html+="<td>"+oTable[count].Medico.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Especialidade.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Representante.toString()+"</td>";
+            html+="<td>"+oTable[count].Especialidade_Tipo_Paciente.toString()+"</td>";
+            html+="<td>"+oTable[count].Crm.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Crm_Padrao.toString()+"</td>" ;
+            html+="<td>"+oTable[count].UF_Crm.toString()+"</td>";
+            html+="<td>"+oTable[count].Cidade_Compra.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Estado_Compra.toString()+"</td>";
+            html+="<td>"+oTable[count].Data_Transacao.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Frequencia_Compra.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Qtd_Compra.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Apresentacao.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Frequencia.toString()+"</td>";
+            html+="<td>"+oTable[count].Tem_Visita.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Primeira_Visita.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Obs_Visita.toString()+"</td>";
+            html+="<td>"+oTable[count].Utiliza_Outro_GH.toString()+"</td>";
+            html+="<td>"+oTable[count].Qual.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Distribuidora.toString()+"</td>";
+            html+="</tr>";
+        }
+        html+="</table></html>"; 
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+    
+</script>

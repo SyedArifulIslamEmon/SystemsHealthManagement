@@ -1,0 +1,161 @@
+﻿@model Integra.Web.Models.AdicionarReuniaoViewModel
+
+<div id="DivAddEditReuniaoViewModel">
+	<form data-bind="submit: Salvar">
+		<div class="modal">
+			<div class="modal-header">
+				<h4><span id="TipoJanela"></span> Reunião</h4>
+			</div>
+			<!-- ko with: Reuniao -->
+			<div class="modal-body">
+				<div class="row-fluid">
+					<div class="form-horizontal" data-bind="validationOptions: { insertMessages: false, decorateElement: true, messagesOnModified: false }">
+						<div class="control-group">
+							<label class="control-label">Data</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input style="width: 100px;" data-bind="datepicker1: Data, datepickerOptions: { showOn: 'button', buttonImage: '@Url.Content("~/Content/images/ico-calendar.png")', buttonImageOnly: true }" type="text" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Data"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Título</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Assunto" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Assunto"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Local</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<input type="text" data-bind="value: Local" />
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Local"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Responsável</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.Funcionarios, value: Responsavel, optionsText: 'Nome', optionsvalue: 'Codigo', optionsCaption: 'Selecione...'"></select>
+								</div>
+								<span class="error-inline" data-bind="validationMessage: Responsavel"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Situação</label>
+							<div class="controls">
+								<div class="row-fluid">
+									<select data-bind="options: $parent.ListaDeStatus, value: Status, optionsText: 'Descricao', optionsvalue: 'Codigo'"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /ko -->
+			<div class="modal-footer">
+				<button data-bind="click: Cancelar" class="bbtnn bbtnn-gray" value="Cancelar">Cancelar</button>
+				<button type="submit" class="bbtnn bbtnn-success" value="Salvar"><i class="icon-ok"></i>Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<input type="hidden" value="@Html.Raw(Json.Encode(Model))" id="AddEditReuniaoModel"/>
+<script>
+	function Reuniao() {
+		var self = this;
+		self.Codigo = 0;
+		self.Data = ko.observable().extend({ required: true });
+		self.Assunto = ko.observable().extend({ required: true });
+		self.Local = ko.observable().extend({ required: true });
+		self.Responsavel = ko.observable().extend({ required: true });
+		self.Status = ko.observable().extend({ required: true });
+	  
+		self.ObterReuniao = function () {
+			var reuniao = new Object();
+			reuniao.Codigo = self.Codigo;
+			reuniao.CodigoDoResponsavel = self.Responsavel().Codigo;
+			reuniao.Local = self.Local();
+			reuniao.Realizacao = self.Data();
+			reuniao.Assunto = self.Assunto();
+			reuniao.Status = self.Status().Codigo;
+			return reuniao;
+		};
+	}
+
+	function NovaReuniaoViewModel(parent) {
+		var self = this;
+		self.Parent = parent;
+		self.Model = jQuery.parseJSON($("#AddEditReuniaoModel").val());
+		var reuniao = new Reuniao();
+		self.Reuniao = ko.validatedObservable(reuniao);
+		self.ListaDeStatus = ko.observableArray(self.Model.ListaDeStatus);
+		self.Funcionarios = ko.observableArray(self.Model.Funcionarios);
+
+		self.Salvar = function () {
+			if (self.Reuniao.isValid()) {
+				self.Enviar();
+			} else {
+				self.Reuniao.errors.showAllMessages(true);
+			}
+		};
+
+		self.Enviar = function () {
+			$.ajax({
+				url: '@Url.Action("AddEditReuniao")',
+				type: 'POST',
+				data: JSON.stringify(self.Reuniao().ObterReuniao()),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (resposta) {
+					if (resposta.Sucesso) {
+						self.Parent.FecharCadastroDeReuniao(resposta.Reuniao);
+						//alert("Equipe cadastrada com sucesso!");
+					} else {
+						//alert("Algum erro ocorreu durante o cadastro!");
+					}
+				}
+			});
+		};
+		
+		self.Editar = function() {
+			self.Reuniao().Codigo = self.Model.Codigo;
+			self.Reuniao().Data(ko.utils.ToDate(self.Model.Realizacao));
+			self.Reuniao().Assunto(self.Model.Assunto);
+			self.Reuniao().Local(self.Model.Local);
+			var responsavel = ko.utils.arrayFirst(self.Funcionarios(), function(funcionario) {
+				return funcionario.Codigo == self.Model.CodigoDoResponsavel;
+			});
+			self.Reuniao().Responsavel(responsavel);
+			var status = ko.utils.arrayFirst(self.ListaDeStatus(), function(statusItem) {
+				return statusItem.Codigo == self.Model.Status;
+			});
+			self.Reuniao().Status(status);
+			
+			$("#TipoJanela").text("Editar");
+		};
+		
+		self.Cancelar = function () {
+			self.Parent.FecharCadastroDeReuniaoCancelar();
+		};
+	}
+
+	function NovaReuniaoFactory(parent) {
+		var view = new NovaReuniaoViewModel(parent);
+		ko.applyBindings(view, $("#DivAddEditReuniaoViewModel").get(0));
+		$("#TipoJanela").text("Adicionar");
+		@if(Model.Codigo > 0)
+		{
+			@Html.Raw("view.Editar();");
+		}
+		
+		$(".ui-dialog-titlebar").hide();
+		$(".ui-dialog-buttonpane").hide();
+	}
+</script>

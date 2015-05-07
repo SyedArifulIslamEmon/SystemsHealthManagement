@@ -1,0 +1,178 @@
+﻿@using System.Configuration;
+
+@using Integra.Web.Helpers
+
+@Html.ActionLink("Relatórios Gerenciais", "Index", "Relatorios", new { }, new { @class = "brand" })
+<div class="nav-collapse collapse">
+    <ul class="nav">
+        <!-- se for  programa inclusao ou programa pro memoria nao vai aparecer os itens de menu Desempenho de Acesso
+e o Efetividade de Acesso-->
+        @if ((Session.ProgramaAtivo().CodPrograma != 4) && (Session.ProgramaAtivo().CodPrograma != 9) && (Session.ProgramaAtivo().CodPrograma != 2) && (Session.ProgramaAtivo().CodPrograma != 999))
+        {
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acesso&nbsp;<b class="caret"></b></a>
+
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Desempenho de Acesso", "DesempenhodeAcesso", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Efetividade de Acesso", "RelatorioEfetividadeAcesso", "Relatorios", new { }, new { })</li>
+                    @*  <li>@Html.ActionLink("Histórico de Acesso", "RelatorioHistoricoAcesso", "Relatorios", new { }, new { })</li>*@
+                </ul>
+            </li>
+            
+        }
+          
+@*        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adesão&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Tempo de tratamento", "TempoTratamento", "Relatorios", new {}, new {})</li>
+            </ul>
+        </li>*@
+        @if ((Session.ProgramaAtivo().CodPrograma != 999))
+        {
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro&nbsp;<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Relatório de Cadastros", "Relatorio", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Ranking de Cadastros", "RelatorioRkCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Ranking de Cadastros - Evolução Mensal", "RelatorioRkCadastro2", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Evolução de Pacientes Cadastrados", "RelatorioEvoPacienteCadastro", "Relatorios", new { }, new { })</li>
+                </ul>
+            </li>
+        }
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customizados&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                @*8 ---	73B6D257-2067-E211-98C9-D4BED9ECD6BF -----	Essencial Remicade*@
+                @*Session.ProgramaAtivo().IdentPrograma*@
+                @*Session.ProgramaAtivo().CodPrograma*@
+                @if (Session.ProgramaAtivo().CodPrograma == 8)
+                { 
+                    <li>@Html.ActionLink("Evolução de Pacientes por Doença", "RelatorioEvoPacienteDoenca", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Infusões por Aplicação", "RelatorioInfusoesAplicacao", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Evolução de Cadastros Por Semana", "RelatorioEvoCadastroSemana", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Listagem de Pacientes", "RelatorioListagemPacientes", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Quantidade de Infusões por Paciente Ativo", "RelatorioPacientesAtivos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Quantidade de Pacientes Inativados", "RelatorioPacientesInativados", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Quantidade Contatos por Paciente Ativo", "RelatorioQuantidadePacientesAtivos", "Relatorios", new { }, new { })</li>
+                }
+@*22 ------	3605EB17-FEE4-E211-A7EB-D4BED9ECD6BF ------	Juntos e Livres*@
+                else if (Session.ProgramaAtivo().CodPrograma == 22)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Source of Business", "RelatorioSourceOfBusiness", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Medicamentos por Linha de Tratamento", "RelatorioMedicamentoLinhaTratamento", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Gilenya por Linha de Tratamento", "RelatorioGilenyaLinhaTratamento", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Acompanhamento do Tratamento", "RelatorioAcompanhamentoTratamento", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Especialidade Médica", "RelatorioEspecialidadeMedica", "Relatorios", new { }, new { })</li>
+                }
+
+@*4 ------	6BB6D257-2067-E211-98C9-D4BED9ECD6BF ------	Bem Estar *@
+                else if (Session.ProgramaAtivo().CodPrograma == 4)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                   
+                }
+@*14 ------	7FB6D257-2067-E211-98C9-D4BED9ECD6BF ------	Inclusao *@
+                else if (Session.ProgramaAtivo().CodPrograma == 14)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório Ritalina por Fase de Vida", "RelatorioRitalinaPorFase", "Relatorios", new { }, new { })</li>                  
+                   
+                }
+                
+@*15 ------	81B6D257-2067-E211-98C9-D4BED9ECD6BF ------	Inspiracao *@
+                else if (Session.ProgramaAtivo().CodPrograma == 15)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório de Amostras - Zoteon Pó", "RelatorioAmostrasZoteonPo", "Relatorios", new { }, new { })</li>
+                   
+                }
+                
+@*19 ------	89B6D257-2067-E211-98C9-D4BED9ECD6BF ------	Porque Ver é Viver *@
+                else if (Session.ProgramaAtivo().CodPrograma == 19)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+@*<li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>*@
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem dos Cadastros", "RelatorioOrigemVerEViver", "Relatorios", new { }, new { })</li>
+                }
+                
+@*2 ------	BAA424D6-44AF-E211-834E-D4BED9ECD6BF ------	Omnitrope *@
+                else if (Session.ProgramaAtivo().CodPrograma == 2)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+@*<li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>*@
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório Omnitrope - Geral", "RelatorioOmnitropeGeral", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório Omnitrope - Fichas", "RelatorioOmnitropeFicha", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório Omnitrope - Visitas", "RelatorioOmnitropeVisita", "Relatorios", new { }, new { })</li>                   
+                }
+@*1 ------	B6BFB069-ACA3-E211-819F-D4BED9ECD6BF ------	Pro Memoria *@
+                else if (Session.ProgramaAtivo().CodPrograma == 1)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Pacientes com Cuidador", "RelatorioCuidardorProMemoria", "Relatorios", new { }, new { })</li>
+                   
+                }
+
+@*23 ------	1F244681-7BF0-E211-A7EB-D4BED9ECD6BF ------	Pro Caps *@
+                else if (Session.ProgramaAtivo().CodPrograma == 23)
+                { 
+                    <li>@Html.ActionLink("Visão Geral do Projeto", "RelatorioVisaoGeralProjeto", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Origem de Cadastro", "RelatorioOrigemCadastro", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Dados Demograficos", "RelatorioDadosDemograficos", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relação Paciente x Médico", "RelatorioRelacaoPacienteMedico", "Relatorios", new { }, new { })</li>
+                   
+                }
+@*999 ------ 1DA3D25D-F1D6-435E-915E-7E60C25EF64F ------	MyFortic *@
+                else if (Session.ProgramaAtivo().CodPrograma == 999)
+                { 
+                    <li>@Html.ActionLink("Relatório de Cadastros", "ReltorioCadastrosMyFortic", "Relatorios", new { }, new { })</li>
+                    <li>@Html.ActionLink("Relatório Nível de Adesão", "RelatorioNivelAdesaoMyFortic", "Relatorios", new { }, new { })</li>                    
+                    <li>@Html.ActionLink("Relatório de Evolução de Adesão", "ReltorioEvolucaoMyFortic", "Relatorios", new { }, new { })</li>                
+                }
+
+            </ul>
+        </li>
+        @*        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropout&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Detalhe de Dropout", "DetalheDropout", "Relatorios", new {}, new {})</li>
+                <li>@Html.ActionLink("Motivo de Dropout", "MotivoDropout", "Relatorios", new {}, new {})</li>
+            </ul>
+        </li>*@
+        @*        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Visitas&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Quantidade de Visitas", "QuantidadeVisitas", "Relatorios", new {}, new {})</li>
+            </ul>
+        </li>*@
+    </ul>
+    @*@if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+    {
+        *@
+    <ul class="nav pull-right">
+        <li><a href="@Url.Action("Index", "Home", new { })" class="brand">
+            <i class='icon-home'></i>Ínicio
+        </a></li>
+    </ul>
+    @*}*@
+
+</div>

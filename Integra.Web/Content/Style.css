@@ -1,0 +1,348 @@
+﻿*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 100.01%;
+}
+
+body
+{
+    color: #333;
+    font-size: 62.5%;
+    background: #ccc;
+}
+
+img
+{
+    border: none;
+}
+
+small
+{
+    font-size: 0.9em;
+}
+
+#logo
+{
+    margin-top: 0px;
+    margin-left: 0px;
+    display: block;
+    float: left;
+    width: 1200px;
+    height: 105px;
+    text-indent: -999em;
+    background: url('Imagens/logo.jpg') no-repeat;
+}
+
+#global
+{
+    background-color: #FFF; /*margin: 0 auto;*/
+    margin: 0 auto;
+    margin-top: 0px;
+    width: 1350px;
+}
+
+#content
+{
+    font-size: 1.4em;
+    color: #666;
+    margin-left: 250px;
+    margin-bottom: 500px;
+}
+
+#content #intro p
+{
+    font-size: 1.4em;
+    color: #666;
+    margin-top: -130px;
+    line-height: 24px;
+}
+
+
+
+#teste
+{
+    width: 100px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 30px;
+}
+
+/***********************
+Titulos
+***********************/
+h1.tit
+{
+    color: rgb(152, 191, 9);
+    font-size: 2em;
+    border-bottom: 1px solid rgb(152, 191, 9);
+    margin-bottom: 20px;
+}
+
+h2.tit
+{
+    color: rgb(152, 191, 9);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+}
+
+/***********************
+Cabecalho com Dados do usuario
+***********************/
+#user
+{
+    width: 400px;
+    float: right;
+    margin-right: 10px;
+}
+
+#user .foto_user
+{
+    border: 1px solid #CCC;
+    width: 50px;
+    height: 50px;
+    display: block;
+    float: right;
+}
+
+#user h1
+{
+    display: block;
+    font-size: 1.4em;
+    color: #459ad6;
+    float: left;
+    width: 335px;
+    text-align: right;
+    margin-bottom: 9px;
+}
+
+#user ul
+{
+    list-style-type: none;
+    text-align: right;
+    display: block;
+    width: 335px;
+}
+
+#user ul li
+{
+    display: inline;
+}
+
+#user ul li a
+{
+    margin-right: 10px;
+    color: #666;
+    font-weight: bold;
+}
+
+#user ul li.last a
+{
+    margin-right: 0;
+}
+
+ul#toolbox
+{
+    font-size: 14px;
+    height: 16px;
+    text-align: right;
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+ul#toolbox span
+{
+    font-size: 11px;
+    float: left;
+    padding: 1px 0 0 5px;
+}
+
+ul#toolbox li
+{
+    display: inline;
+    float: left;
+}
+
+ul#toolbox li a
+{
+    color: #666;
+    font-weight: normal;
+    padding-left: 20px;
+    float: left;
+    text-decoration: none;
+}
+
+ul#toolbox li a.increase, ul#toolbox li a.contraste
+{
+    padding-left: 3px;
+}
+
+
+.nomecampo
+{
+    width: 10%;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+    min-width: 110px;
+    display: block;
+}
+
+.nomecheck
+{
+    width: 3%;
+    float: left;
+    text-align: left;
+    margin-right: 3px;
+    vertical-align:top;
+}
+
+.campo
+{
+    width: 39%;
+    float: left;
+    min-width: 428px;
+    
+    
+}
+
+.campomodal
+{
+    width: 78%;
+    float: left;
+    vertical-align:central;
+}
+
+.campomaior
+{
+    width: 88%;
+    float: left;
+    min-width: 966px;
+    display: inline-block;
+}
+
+
+label
+{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+input[type="text"], input[type="text"], textarea
+{
+    font-size: 14px !important;
+    padding: 4px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    color: #555555;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+
+.input-mini
+{
+    width: 60px;
+}
+
+.input-small
+{
+    width: 90px;
+}
+
+.input-medium
+{
+    width: 150px;
+}
+
+.input-select-medium
+{
+    width: 160px;
+}
+
+.input-large
+{
+    width: 210px;
+}
+
+.input-xlarge
+{
+    width: 370px;
+}
+
+.input-xxlarge
+{
+    width: 540px;
+}
+
+
+select
+{
+    font-size: 14px !important;
+    font-weight: normal;
+    color: #555555;
+    display: inline-block;
+    height: 32px;
+    line-height: 20px;
+    padding: 4px 6px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+}
+
+
+
+
+
+
+    div#dialog { width: 350px; margin: 20px 0; }
+    div#dialog table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#dialog table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

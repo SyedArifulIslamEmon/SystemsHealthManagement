@@ -1,0 +1,218 @@
+﻿@using Integra.Web.Helpers
+@model IEnumerable<Integra.Dominio.RelatorioOmnitropeVisita>
+@{Layout = null;  }
+
+<div id="DivPageDadosRelatorioParcialView">
+    <table id="RelatorioDados" data-bind="dataTable:
+															{
+															    dataSource: DadosRelatorioParcialView,
+															    rowTemplate: 'gridOrigemCadastroTemplate',
+															    sPaginationType: 'bootstrap',
+															    iDisplayLength: 25,
+															    gridId: 'RelatorioDados',
+															    sDom: 'fptr',
+															    autoWidth: false,
+															    columns:
+																	[
+                                                                        { 'name': 'Programa' },
+                                                                        { 'name': 'Data_Solicitacao' },
+                                                                        { 'name': 'Data_Contato_Enf' },
+                                                                        { 'name': 'Tipo_Visita' },
+                                                                        //{ 'name': 'Paciente' },
+                                                                        { 'name': 'Data_Entrada_Programa' },
+                                                                        { 'name': 'Bairro_Paciente' },
+                                                                        { 'name': 'Cidade_Paciente' },
+                                                                        { 'name': 'UF_Paciente' },
+                                                                        { 'name': 'Medico' },
+                                                                        { 'name': 'Enfermeira' },
+                                                                        { 'name': 'Bairro_Enfermeira' },
+                                                                        { 'name': 'Cidade_Enfermeira' },
+                                                                        { 'name': 'UF_Enfermeira' },
+                                                                        { 'name': 'KM_Visita' },
+                                                                        { 'name': 'Data_Agendamento' },
+                                                                        { 'name': 'Status_Visita' },
+                                                                        { 'name': 'Nota_Visita' },
+                                                                        { 'name': 'Obs_Agendamento' },
+                                                                        { 'name': 'Obs_Pesquisa' }
+																	],
+															    options: {
+															        oLanguage: {
+															            sUrl: '@Url.Content("~/Content/table-lang-br.txt")    '   
+                                                            }
+                                                        }                                                        
+                                                        }" 
+           class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align: left; width: 320px;"><b>Programa</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data da Solicitação</b></th>
+                <th style="text-align: left; width: 320px;"><b>Data de Contato com Enfermeiro</b></th>
+                <th style="text-align: left; width: 320px;"><b>Tipo de Visita</b></th>
+                @*<th style="text-align: left; width: 320px;"><b>Paciente</b></th>*@
+
+                <th style="text-align: left; width: 320px;"><b>Data de Entrada no Programa</b></th>
+                <th style="text-align: left; width: 320px;"><b>Bairro do Paciente</b></th>
+                <th style="text-align: left; width: 320px;"><b>Cidade do Paciente</b></th>
+                <th style="text-align: left; width: 320px;"><b>UF do Paciente</b></th>
+                <th style="text-align: left; width: 320px;"><b>Médico</b></th>
+
+                <th style="text-align: left; width: 320px;"><b>Enfermeiro</b></th>
+                <th style="text-align: left; width: 320px;"><b>Bairro Enfermeiro</b></th>
+                <th style="text-align: left; width: 320px;"><b>Cidade Enfermeiro</b></th>
+                <th style="text-align: left; width: 320px;"><b>UF Enfermeiro</b></th>
+                <th style="text-align: left; width: 320px;"><b>Km</b></th>
+
+                <th style="text-align: left; width: 320px;"><b>Data do Agendamento</b></th>
+                <th style="text-align: left; width: 320px;"><b>Situação</b></th>
+                <th style="text-align: left; width: 320px;"><b>Nota da Visita</b></th>
+                <th style="text-align: left; width: 320px;"><b>Observações do Agendamento</b></th>
+                <th style="text-align: left; width: 320px;"><b>Observações da Pesquisa</b></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button data-bind="visible: DadosRelatorioParcialView().length, click: generate_excel" class="bbtnn bbtnn-gray"><i class="icon-file"></i>Exportar</button>
+    </div>
+</div>
+
+<script id="gridOrigemCadastroTemplate" type="text/html">
+    <td data-bind="text: Programa" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Data_Solicitacao" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Data_Contato_Enf" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Tipo_Visita" style="width: 320px; text-align: left;"></td>
+    @*<td data-bind="text: Paciente" style="width: 320px; text-align: left;"></td>*@
+
+    <td data-bind="text: Data_Entrada_Programa" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Bairro_Paciente" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Cidade_Paciente" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: UF_Paciente" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Medico" style="width: 320px; text-align: left;"></td>
+
+    <td data-bind="text: Enfermeira" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Bairro_Enfermeira" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Cidade_Enfermeira" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: UF_Enfermeira" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: KM_Visita" style="width: 320px; text-align: left;"></td>
+
+    <td data-bind="text: Data_Agendamento" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Status_Visita" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Nota_Visita" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Obs_Agendamento" style="width: 320px; text-align: left;"></td>
+    <td data-bind="text: Obs_Pesquisa" style="width: 320px; text-align: left;"></td>
+</script>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var view = new relatorioViewModel();
+        ko.applyBindingsWithValidation(ko.validatedObservable(view), $("#DivPageDadosRelatorioParcialView").get(0));
+		
+        $(".ui-dialog-titlebar").hide();
+        $(".ui-dialog-buttonpane").hide();        
+    });
+    
+    function relatorioViewModel() {        
+        var allData = @Html.Raw(Json.Encode(Model));
+        var mappedData = jQuery.map(allData, function (item) { return new ServicosContratadosTableView(item, self); });
+        self.DadosRelatorioParcialView = ko.observableArray(mappedData);
+		               
+        self.generate_excel = function () {
+            export_excel("RelatorioDados");
+        };  
+    }
+    
+    function ServicosContratadosTableView(data, parent) {
+        var self = this;
+        self.Parent = parent;
+
+        self.Programa = ko.observable(data.Programa);        
+        self.Data_Solicitacao = ko.observable(data.Data_Solicitacao);   
+        self.Data_Contato_Enf = ko.observable(data.Data_Contato_Enf);        
+        self.Tipo_Visita = ko.observable(data.Tipo_Visita);
+        self.Paciente = ko.observable(data.Paciente);     
+        
+        self.Data_Entrada_Programa = ko.observable(data.Data_Entrada_Programa);
+        self.Bairro_Paciente = ko.observable(data.Bairro_Paciente);        
+        self.Cidade_Paciente = ko.observable(data.Cidade_Paciente);
+        self.UF_Paciente = ko.observable(data.UF_Paciente);        
+        self.Medico = ko.observable(data.Medico);
+
+        self.Enfermeira = ko.observable(data.Enfermeira);        
+        self.Bairro_Enfermeira = ko.observable(data.Bairro_Enfermeira);
+        self.Cidade_Enfermeira = ko.observable(data.Cidade_Enfermeira);        
+        self.UF_Enfermeira = ko.observable(data.UF_Enfermeira);
+        self.KM_Visita = ko.observable(data.KM_Visita);     
+        
+        self.Data_Agendamento = ko.observable(data.Data_Agendamento);
+        self.Status_Visita = ko.observable(data.Status_Visita);
+        self.Nota_Visita = ko.observable(data.Nota_Visita);
+        self.Obs_Agendamento = ko.observable(data.Obs_Agendamento);
+        self.Obs_Pesquisa = ko.observable(data.Obs_Pesquisa);
+    };  
+    function export_excel(tableid) {
+        var html = '';
+        var oTable = $('#'+tableid).dataTable().fnGetData();
+
+        html+="<html><table>";
+        html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+        $('#'+tableid+' thead th').each(function(){html += "<th>" +this.textContent + "</th>"});
+        html+="</tr>";
+        for (var count = 0; count <= oTable.length - 1; count++) {
+            html+="<tr style='text-align:left;vertical-align:middle;width:100%'>";
+
+            html+="<td>"+oTable[count].Programa.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Data_Solicitacao.toString()+"</td>";
+            html+="<td>"+oTable[count].Data_Contato_Enf.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Tipo_Visita.toString()+"</td>";
+            //html+="<td>"+oTable[count].Paciente.toString()+"</td>" ;
+
+            html+="<td>"+oTable[count].Data_Entrada_Programa.toString()+"</td>";
+            html+="<td>"+oTable[count].Bairro_Paciente.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Cidade_Paciente.toString()+"</td>";
+            html+="<td>"+oTable[count].UF_Paciente.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Medico.toString()+"</td>";
+
+            html+="<td>"+oTable[count].Enfermeira.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Bairro_Enfermeira.toString()+"</td>";
+            html+="<td>"+oTable[count].Cidade_Enfermeira.toString()+"</td>" ;
+            html+="<td>"+oTable[count].UF_Enfermeira.toString()+"</td>";       
+            html+="<td>"+oTable[count].KM_Visita.toString()+"</td>";
+
+            html+="<td>"+oTable[count].Data_Agendamento.toString()+"</td>" ;
+            html+="<td>"+oTable[count].Status_Visita.toString()+"</td>";
+            html+="<td>"+oTable[count].Nota_Visita.toString()+"</td>";
+            html+="<td>"+oTable[count].Obs_Agendamento.toString()+"</td>";
+            html+="<td>"+oTable[count].Obs_Pesquisa.toString()+"</td>";
+            html+="</tr>";
+        }
+        html+="</table></html>"; 
+
+        window.open('data:application/vnd.ms-excel;base64,' + base64_encode(html));
+    }
+    
+    function base64_encode (data) {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0, ac = 0, enc = "", tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do {
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+            bits = o1 << 16 | o2 << 8 | o3;
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+        enc = tmp_arr.join('');
+        var r = data.length % 3;
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
+    
+</script>

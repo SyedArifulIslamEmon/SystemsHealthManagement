@@ -1,0 +1,135 @@
+﻿@model Integra.Web.Models.EquipeViewModel
+@using Integra.Web.Helpers
+
+@{
+    ViewBag.Title = ": Painel de Controle Íntegra Medical : Dados do Projeto : Equipe :";
+    Layout = "~/Views/Shared/_LayoutMaster.module.cshtml";
+}
+
+<div class="container-fluid" id="main-container" style="padding-top: 10px;">
+    <div id="main-content" class="clearfix">
+        <div id="page-content" class="clearfix">
+            <div class="page-header position-relative">
+                <h3>Equipe <small></small></h3>
+            </div>
+            <div class="row-fluid">
+                <!-- PAGE CONTENT BEGINS HERE -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div id="DivPageEquipeViewModel">
+                            <div class="page-equipe clearfix" data-bind="visible: $root.lines().length > 0">
+                                <div class="main-equipe">
+                                    <div class="tile-container-equipe" data-bind='foreach: $root.lines'>
+                                        <div class="tile-area-equipe">
+                                            <div class="tile-elem-equipe" data-bind="style: { 'background-image': urlDaFoto }">
+                                                <p class="tile-description-equipe" data-bind="text: description">
+                                                </p>
+                                            </div>
+                                            <span data-bind="text: codigo, visible: false"></span>
+                                            <span class="tile-title-equipe" data-bind="text: title" style=""></span>
+                                            <div class="clear-equipe">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (User.ToPessoa().Usuario.PertenceAoGrupo(ViewBag.GrupoIntegra))
+                            {
+                                <div class="form-actions clearfix">
+                                    <button data-bind="click: AdicionarMembro" class="bbtnn bbtnn-info">Gerenciar</button>
+                                    <div style="display: none;" data-bind="dialog: { isOpen: AdicionarMembrosDialog, modal: true, title: '', width: '0px', height: '0px' }">
+                                        <div data-bind="html: AdicionarMembrosHtml"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_LayoutFooter")
+
+<script type="text/javascript">
+    var colorCount = -1;
+    $(document).ready(function () {
+        BindViewModel();
+    });
+
+    function BindViewModel(parent) {
+        var tile = function (codigo, title, description, color) {
+            var self = this;
+            self.Parent = parent;
+            self.codigo = ko.observable(codigo);
+            self.title = ko.observable(title);
+            self.description = ko.observable(description);
+            self.urlDaFoto = ko.observable('url(@Url.Action("Foto", "PainelDeControle")/' + codigo+')');
+            self.tileColor = ko.observable(color);
+            self.editPanel = ko.observable(false);
+        };
+
+        var tileModel = function () {
+            var self = this;
+            self.AdicionarMembrosDialog = ko.observable(false);
+            self.AdicionarMembrosHtml = ko.observable();
+            self.Membros = ko.observableArray(@Html.Raw(Json.Encode(Model.Membros)));
+            self.lines = ko.observableArray();
+
+            self.AdicionarMembro = function () {
+                self.AdicionarMembrosHtml(null);
+                $.get('@Url.Action("AddEditMembro", "PainelDeControle")', null, function (html) {
+                    self.AdicionarMembrosHtml(html);
+                    new window.AdicionarMembroNaEquipeFactory(self);
+                    self.AdicionarMembrosDialog(true);
+                });
+            };
+
+            self.FecharAdicionarMembro = function (equipe) {
+                self.Membros.removeAll();
+                self.Membros(equipe.Membros);
+                self.lines.removeAll();
+                ko.utils.arrayForEach(self.Membros(), function (sitem) {
+                    self.lines.push(new tile(sitem.Codigo, sitem.Nome, sitem.Cargo, RandomColor()));
+                });
+                self.AdicionarMembrosDialog(false);
+            };
+
+            self.addTile = function () {
+                self.lines.push(new tile(0, "Title", "Description", RandomColor()));
+            };
+
+            self.removeTile = function (line) { self.lines.remove(line); };
+
+            ko.utils.arrayForEach(self.Membros(), function (sitem) {
+                self.lines.push(new tile(sitem.Codigo, sitem.Nome, sitem.Cargo, RandomColor()));
+            });
+
+            self.FecharGerenciamentoEquipeCancelar = function () {
+                self.AdicionarMembrosDialog(false);
+            };
+        };
+
+        ko.applyBindings(new tileModel(), $("#DivPageEquipeViewModel").get(0));
+    }
+
+    function RandomColor() {
+        /*colorCount++;
+        if (colorCount == 0)
+            return "#00A300";
+        else if (colorCount == 1)
+            return "#603CBA";
+        else if (colorCount == 2)
+            return "#B91D47";
+        else if (colorCount == 3)
+            return "#FFC40D";
+        else if (colorCount == 4)
+            return "#2B5797";
+        else {
+            colorCount = -1;
+            return "#99B433";
+        }*/
+        return "#DDDDDD";
+    }
+</script>
